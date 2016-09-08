@@ -5,11 +5,13 @@
  */
 package nl.dtl.fairmetadata.io;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.xml.datatype.DatatypeConfigurationException;
 import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
@@ -41,8 +43,11 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
         return new CatalogMetadata();
     }
     @Override
-    public CatalogMetadata parse(List<Statement> statements, 
-            URI catalogURI) throws MetadataExeception {        
+    public CatalogMetadata parse(@Nonnull List<Statement> statements, 
+            @Nonnull URI catalogURI) throws MetadataExeception {       
+        Preconditions.checkNotNull(catalogURI, "catalog URI must not be null.");
+        Preconditions.checkNotNull(statements, 
+                "catalog statements must not be null.");
         LOGGER.info("Parsing catalog metadata");
         CatalogMetadata metadata = (CatalogMetadata) super.parse(statements, 
                 catalogURI);
@@ -66,16 +71,29 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
         return metadata;
     }
     
-    public CatalogMetadata parse (String catalogMetadata, String catalogID,
-            URI catalogURI, URI fdpURI, RDFFormat format) 
+    public CatalogMetadata parse (@Nonnull String catalogMetadata, 
+            @Nonnull String catalogID, @Nonnull URI catalogURI, URI fdpURI, 
+            @Nonnull RDFFormat format) 
             throws MetadataExeception, 
             DatatypeConfigurationException {
-        if (catalogMetadata == null || catalogMetadata.isEmpty()) {
+        Preconditions.checkNotNull(catalogMetadata, 
+                "catalog metadata string must not be null."); 
+        Preconditions.checkNotNull(catalogID, "catalog ID must not be null.");
+        Preconditions.checkNotNull(catalogURI, "catalog URI must not be null.");
+        Preconditions.checkNotNull(format, "RDF format must not be null.");
+        if (catalogMetadata.isEmpty()) {
             String errorMsg = "The catalog metadata content "
-                    + "can't be NULL or EMPTY";
+                    + "can't be EMPTY";
             LOGGER.error(errorMsg);
             throw (new IllegalArgumentException(errorMsg));
         }
+        
+        if (catalogID.isEmpty()) {
+            String errorMsg = "The catalog id content "
+                    + "can't be EMPTY";
+            LOGGER.error(errorMsg);
+            throw (new IllegalArgumentException(errorMsg));
+        }        
         StringReader reader = new StringReader(catalogMetadata);
         org.openrdf.model.Model modelCatalog;
         CatalogMetadata metadata;

@@ -22,22 +22,20 @@ import org.openrdf.model.vocabulary.RDFS;
 
 /**
  *
- * @author rajaram
+ * @author Rajaram Kaliyaperumal
+ * @since 2016-09-08
+ * @version 0.1
  */
 //@Ignore
 public class CatalogMetadataParserTest {
-
-    /**
-     * Test of parse method, of class CatalogMetadataParser.
-     * @throws java.lang.Exception
-     */
+    
     private final CatalogMetadataParser parser = new CatalogMetadataParser();
     
     /**
      * Test null RDF string, this test is expected to throw exception
      * @throws Exception 
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testParseNullRDFString() throws Exception {
         System.out.println("parse invalid catalog content");
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
@@ -58,6 +56,50 @@ public class CatalogMetadataParserTest {
         URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
         parser.parse("", ExampleFilesUtils.CATALOG_ID, cURI, fURI, 
                 ExampleFilesUtils.FILE_FORMAT);
+        fail("This test is execpeted to throw an error");
+    }
+    
+    /**
+     * Test null catalog ID, this test is expected to throw exception
+     * @throws Exception 
+     */
+    @Test(expected = NullPointerException.class)
+    public void testParseNullCatalogID() throws Exception {
+        System.out.println("parse invalid catalog content");
+        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+        parser.parse(ExampleFilesUtils.getFileContentAsString(
+                ExampleFilesUtils.CATALOG_METADATA_FILE), null, cURI, fURI, 
+                ExampleFilesUtils.FILE_FORMAT);
+        fail("This test is execpeted to throw an error");
+    }
+    
+    /**
+     * Test empty catalog ID, this test is expected to throw exception
+     * @throws Exception 
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testParseEmptyCatalogID() throws Exception {
+        System.out.println("parse invalid catalog content");
+        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+        parser.parse(ExampleFilesUtils.getFileContentAsString(
+                ExampleFilesUtils.CATALOG_METADATA_FILE), "", cURI, fURI, 
+                ExampleFilesUtils.FILE_FORMAT);
+        fail("This test is execpeted to throw an error");
+    }    
+    /**
+     * Test null RDFFormat, this test is expected to throw exception
+     * @throws Exception 
+     */
+    @Test(expected = NullPointerException.class)
+    public void testParseNullRDFFormat() throws Exception {
+        System.out.println("parse invalid catalog content");
+        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+        parser.parse(ExampleFilesUtils.getFileContentAsString(
+                ExampleFilesUtils.CATALOG_METADATA_FILE), 
+                ExampleFilesUtils.CATALOG_ID, cURI, fURI, null);
         fail("This test is execpeted to throw an error");
     }
     /**
@@ -148,6 +190,34 @@ public class CatalogMetadataParserTest {
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         parser.parse(in , cURI);
        fail("This test is execpeted to throw an error");
+    }
+    
+    /**
+     * Test null catalog URI, this test is excepted to throw 
+     * an exception
+     * @throws Exception 
+     */
+    @Test(expected = NullPointerException.class)
+    public void testNullCatalogURI() throws Exception {
+        System.out.println("Missing catalog URL");
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.CATALOG_METADATA_FILE, 
+                        ExampleFilesUtils.CATALOG_URI);
+        parser.parse(stmts , null);
+       fail("This test is execpeted to throw an error");
+    }
+    
+    /**
+     * Test null statements, this test is excepted to throw 
+     * an exception
+     * @throws Exception 
+     */
+    @Test(expected = NullPointerException.class)
+    public void testNullStatements() throws Exception {
+        System.out.println("parse valid catalog content");
+        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        parser.parse(null, cURI);
+        fail("This test is execpeted to throw an error");
     }
     
     /**

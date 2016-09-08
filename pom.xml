@@ -66,6 +66,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>${mockit-core.version}</version>
-        </dependency>        
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>2.0.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>
