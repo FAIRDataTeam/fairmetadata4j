@@ -7,6 +7,7 @@ package nl.dtl.fairmetadata.utils;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringReader;
@@ -71,10 +72,10 @@ public class ExampleFilesUtils {
      * Method to read the content of a turtle file
      * 
      * @param fileName Turtle file name
-     * @param baseURI
+     * @param baseURI RDF content's base uri
      * @return File content as a string
      */
-    public static List<Statement>  getFileContentAsStatements(String fileName, 
+    public static List<Statement> getFileContentAsStatements(String fileName, 
             String baseURI)  {        
         List<Statement> statements = null;  
         try {
@@ -83,7 +84,7 @@ public class ExampleFilesUtils {
             org.openrdf.model.Model model;
             model = Rio.parse(reader, baseURI, FILE_FORMAT);
             Iterator<Statement> it = model.iterator();
-            statements = ImmutableList.copyOf(it);
+            statements =  Lists.newArrayList(it);
         } catch (IOException | RDFParseException | 
                 UnsupportedRDFormatException ex) {
             LOGGER.error("Error getting turle file",ex);          
