@@ -7,7 +7,6 @@ package nl.dtl.fairmetadata.io;
 
 import java.util.Iterator;
 import java.util.List;
-import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.model.FDPMetadata;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
