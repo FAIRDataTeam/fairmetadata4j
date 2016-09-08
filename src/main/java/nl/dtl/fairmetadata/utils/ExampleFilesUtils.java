@@ -45,8 +45,7 @@ public class ExampleFilesUtils {
     public final static String DATASET_URI = 
             "http://localhost/fdp/textmining/gene-disease-association_lumc";
     public final static String DISTRIBUTION_URI = 
-            "http://localhost/fdp/textmining/gene-disease-association_lumc/sparql";
-    public final static String BASE_URI = "http://localhost/";   
+            "http://localhost/fdp/textmining/gene-disease-association_lumc/sparql";   
     public final static String TEST_SUB_URI = "http://www.dtls.nl/test";  
     public static final String VALID_TEST_FILE = "valid-test-file.ttl";
     public static final RDFFormat FILE_FORMAT = RDFFormat.TURTLE;
@@ -72,15 +71,17 @@ public class ExampleFilesUtils {
      * Method to read the content of a turtle file
      * 
      * @param fileName Turtle file name
+     * @param baseURI
      * @return File content as a string
      */
-    public static List<Statement>  getFileContentAsStatements(String fileName)  {        
+    public static List<Statement>  getFileContentAsStatements(String fileName, 
+            String baseURI)  {        
         List<Statement> statements = null;  
         try {
             String content = getFileContentAsString(fileName);
             StringReader reader = new StringReader(content);
             org.openrdf.model.Model model;
-            model = Rio.parse(reader, BASE_URI, FILE_FORMAT);
+            model = Rio.parse(reader, baseURI, FILE_FORMAT);
             Iterator<Statement> it = model.iterator();
             statements = ImmutableList.copyOf(it);
         } catch (IOException | RDFParseException | 
