@@ -9,7 +9,6 @@ import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.utils.ExampleFilesUtils;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 
@@ -17,7 +16,6 @@ import org.openrdf.model.impl.URIImpl;
  *
  * @author rajaram
  */
-//@Ignore
 public class CatalogMetadataParserTest {
 
     /**
