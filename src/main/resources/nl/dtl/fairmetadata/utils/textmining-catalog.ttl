@@ -1,0 +1,12 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix lang: <http://id.loc.gov/vocabulary/iso639-1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<> dct:title "Catalog for textmining datasets" ;
+    rdfs:label "Catalog for textmining datasets" ;
+    a dcat:Catalog ; 
+    dct:language lang:en  ;
+    dct:hasVersion "1.0" ;
+    dcat:themeTaxonomy <http://dbpedia.org/resource/Text_mining>, <http://edamontology.org/topic_0218> .
