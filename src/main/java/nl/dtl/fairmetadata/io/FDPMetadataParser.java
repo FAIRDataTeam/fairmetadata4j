@@ -7,6 +7,7 @@ package nl.dtl.fairmetadata.io;
 
 import java.util.Iterator;
 import java.util.List;
+import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.model.FDPMetadata;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -20,6 +21,11 @@ import org.openrdf.model.vocabulary.RDFS;
  * @version 0.1
  */
 public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
+    
+    @Override
+    protected FDPMetadata createMetadata() {
+        return new FDPMetadata();
+    }
     
     @Override
     public FDPMetadata parse(List<Statement> statements, 

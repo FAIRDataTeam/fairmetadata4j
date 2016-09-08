@@ -29,9 +29,11 @@ public abstract class MetadataParser<T extends Metadata>  {
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataParser.class);
     
+    protected abstract T createMetadata();
+    
     protected T parse(List<Statement> statements, 
             URI metadataUri) throws MetadataExeception {
-        Metadata metadata = new Metadata();
+        Metadata metadata = createMetadata();
         Iterator<Statement> it = statements.iterator();
         metadata.setUri(metadataUri);
         while (it.hasNext()) {

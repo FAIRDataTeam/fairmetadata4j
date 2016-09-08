@@ -7,6 +7,7 @@ package nl.dtl.fairmetadata.io;
 
 import java.util.Iterator;
 import java.util.List;
+import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +27,11 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
     
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(DatasetMetadataParser.class);
+    
+    @Override
+    protected DatasetMetadata createMetadata() {
+        return new DatasetMetadata();
+    }
     
     @Override
     public DatasetMetadata parse(List<Statement> statements, 
@@ -57,13 +63,6 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
             LOGGER.error(errMsg);
             throw (new MetadataExeception(errMsg));
         }
-        return metadata;
-    }
-    
-    public DatasetMetadata parse(List<Statement> statements, 
-            URI datasetURI, URI catalogURI) throws MetadataExeception {
-        DatasetMetadata metadata = this.parse(statements, datasetURI);
-        metadata.setCatalogURI(catalogURI);
         return metadata;
     }
     
