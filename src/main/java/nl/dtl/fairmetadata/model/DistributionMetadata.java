@@ -18,20 +18,12 @@ import org.openrdf.model.URI;
  */
 public class DistributionMetadata extends Metadata {
     
-    private URI datasetURI;
     private URI accessURL;
     private URI downloadURL;
     private Literal mediaType;
     private Literal format;
     private Literal byteSize;
     
-    /**
-     * @param datasetURI the datasetURI to set
-     */
-    public void setDatasetURI(URI datasetURI) {
-        this.datasetURI = datasetURI;
-    }
-
     /**
      * @param accessURL the accessURL to set
      */
@@ -65,13 +57,6 @@ public class DistributionMetadata extends Metadata {
      */
     public void setByteSize(Literal byteSize) {
         this.byteSize = byteSize;
-    }
-
-    /**
-     * @return the datasetURI
-     */
-    public URI getDatasetURI() {
-        return datasetURI;
     }
 
     /**

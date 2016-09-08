@@ -29,6 +29,7 @@ public class Metadata {
     private URI license;
     private URI rights;
     private URI uri;
+    private URI parentURI;
     private List<URI> publisher = new ArrayList();
     private URI language;
 
@@ -176,5 +177,19 @@ public class Metadata {
      */
     public void setLanguage(URI language) {
         this.language = language;
+    }
+
+    /**
+     * @return the parentURI
+     */
+    public URI getParentURI() {
+        return parentURI;
+    }
+
+    /**
+     * @param parentURI the parentURI to set
+     */
+    public void setParentURI(URI parentURI) {
+        this.parentURI = parentURI;
     }
 }

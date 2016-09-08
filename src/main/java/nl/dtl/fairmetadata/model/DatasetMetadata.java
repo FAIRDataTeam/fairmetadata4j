@@ -24,8 +24,7 @@ public final class DatasetMetadata extends Metadata {
     private List<URI> themes = new ArrayList();
     private URI contactPoint;
     private List<Literal> keywords = new ArrayList();
-    private URI landingPage;
-    private URI catalogURI;    
+    private URI landingPage;   
 
     /**
      * @param distribution the distribution to set
@@ -96,19 +95,4 @@ public final class DatasetMetadata extends Metadata {
     public URI getLandingPage() {
         return landingPage;
     }
-
-    /**
-     * @return the catalogURI
-     */
-    public URI getCatalogURI() {
-        return catalogURI;
-    }
-
-    /**
-     * @param catalogURI the catalogURI to set
-     */
-    public void setCatalogURI(URI catalogURI) {
-        this.catalogURI = catalogURI;
-    }
-
 }

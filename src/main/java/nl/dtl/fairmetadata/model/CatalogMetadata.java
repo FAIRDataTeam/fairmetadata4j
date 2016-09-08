@@ -22,7 +22,6 @@ public final class CatalogMetadata extends Metadata {
     private URI homepage;
     private List<URI> datasets = new ArrayList();
     private List<URI> themeTaxonomy = new ArrayList();
-    private URI fdpUri;
     /**
      * @param homepage the homepage to set
      */
@@ -42,15 +41,7 @@ public final class CatalogMetadata extends Metadata {
      */
     public void setThemeTaxonomy(List<URI> themeTaxonomy) {
         this.themeTaxonomy = themeTaxonomy;
-    }
-
-    /**
-     * @param fdpUri the fdpUri to set
-     */
-    public void setFdpUri(URI fdpUri) {
-        this.fdpUri = fdpUri;
-    }
-    
+    }    
 
     /**
      * @return the homepage
@@ -71,13 +62,6 @@ public final class CatalogMetadata extends Metadata {
      */
     public List<URI> getThemeTaxonomy() {
         return themeTaxonomy;
-    }
-
-    /**
-     * @return the fdpUri
-     */
-    public URI getFdpUri() {
-        return fdpUri;
     }
 
 }
