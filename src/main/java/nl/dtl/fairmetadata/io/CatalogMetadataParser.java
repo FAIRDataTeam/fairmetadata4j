@@ -42,7 +42,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
     }
     @Override
     public CatalogMetadata parse(List<Statement> statements, 
-            URI catalogURI) throws MetadataExeception {
+            URI catalogURI) throws MetadataExeception {        
         LOGGER.info("Parsing catalog metadata");
         CatalogMetadata metadata = (CatalogMetadata) super.parse(statements, 
                 catalogURI);
@@ -70,6 +70,12 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
             URI catalogURI, URI fdpURI, RDFFormat format) 
             throws MetadataExeception, 
             DatatypeConfigurationException {
+        if (catalogMetadata == null || catalogMetadata.isEmpty()) {
+            String errorMsg = "The catalog metadata content "
+                    + "can't be NULL or EMPTY";
+            LOGGER.error(errorMsg);
+            throw (new IllegalArgumentException(errorMsg));
+        }
         StringReader reader = new StringReader(catalogMetadata);
         org.openrdf.model.Model modelCatalog;
         CatalogMetadata metadata;
