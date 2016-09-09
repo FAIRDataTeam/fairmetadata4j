@@ -26,10 +26,9 @@ import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.Rio;
 import org.openrdf.rio.UnsupportedRDFormatException;
 
-
-
 /**
- *
+ * Parser for catalog metadata
+ * 
  * @author Rajaram Kaliyaperumal
  * @since 2016-09-07
  * @version 0.1
@@ -42,12 +41,21 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
     protected CatalogMetadata createMetadata() {
         return new CatalogMetadata();
     }
+    
+    /**
+     * Parse RDF statements to catalog metadata object
+     * 
+     * @param statements    List of RDF statement list 
+     * @param catalogURI    Catalog URI
+     * @return              CatalogMetadata object
+     * @throws MetadataExeception 
+     */
     @Override
     public CatalogMetadata parse(@Nonnull List<Statement> statements, 
             @Nonnull URI catalogURI) throws MetadataExeception {       
-        Preconditions.checkNotNull(catalogURI, "catalog URI must not be null.");
+        Preconditions.checkNotNull(catalogURI, "Catalog URI must not be null.");
         Preconditions.checkNotNull(statements, 
-                "catalog statements must not be null.");
+                "Catalog statements must not be null.");
         LOGGER.info("Parsing catalog metadata");
         CatalogMetadata metadata = (CatalogMetadata) super.parse(statements, 
                 catalogURI);
@@ -71,23 +79,34 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
         return metadata;
     }
     
+    /**
+     * Parse RDF string to catalog metadata object
+     * 
+     * @param catalogMetadata   Catalog metadata as a RDF string
+     * @param catalogID         Catalog ID  
+     * @param catalogURI        Catalog URI 
+     * @param fdpURI            FairDataPoint URI
+     * @param format            RDF string's RDF format
+     * @return                  CatalogMetadata object
+     * @throws MetadataExeception
+     * @throws DatatypeConfigurationException 
+     */
     public CatalogMetadata parse (@Nonnull String catalogMetadata, 
             @Nonnull String catalogID, @Nonnull URI catalogURI, URI fdpURI, 
             @Nonnull RDFFormat format) 
             throws MetadataExeception, 
             DatatypeConfigurationException {
         Preconditions.checkNotNull(catalogMetadata, 
-                "catalog metadata string must not be null."); 
-        Preconditions.checkNotNull(catalogID, "catalog ID must not be null.");
-        Preconditions.checkNotNull(catalogURI, "catalog URI must not be null.");
+                "Catalog metadata string must not be null."); 
+        Preconditions.checkNotNull(catalogID, "Catalog ID must not be null.");
+        Preconditions.checkNotNull(catalogURI, "Catalog URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
         if (catalogMetadata.isEmpty()) {
             String errorMsg = "The catalog metadata content "
                     + "can't be EMPTY";
             LOGGER.error(errorMsg);
             throw (new IllegalArgumentException(errorMsg));
-        }
-        
+        }        
         if (catalogID.isEmpty()) {
             String errorMsg = "The catalog id content "
                     + "can't be EMPTY";
