@@ -10,13 +10,15 @@ import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 
 /**
- *
+ * LDP vocabulary.
+ * See {@link <a href="https://www.w3.org/TR/ldp/">LDP doc</a>}.
+ * 
  * @author Rajaram Kaliyaperumal
  * @since 2016-09-06
  * @version 0.1
  */
 public class LDP {
-    public static final String BASE_URI = "http://www.w3.org/ns/ldp#";   
-    public static final URI CONTAINER = new URIImpl(BASE_URI + "Container" );
-    public static final URI CONTAINS = new URIImpl(BASE_URI + "contains" );
+    public static final String NS = "http://www.w3.org/ns/ldp#";   
+    public static final URI CONTAINER = new URIImpl(NS + "Container" );
+    public static final URI CONTAINS = new URIImpl(NS + "contains" );
 }

@@ -8,11 +8,14 @@ package nl.dtl.fairmetadata.utils.vocabulary;
 
 
 /**
- *
+ * FairDataPoint vocabulary.
+ * See {@link <a href="https://github.com/DTL-FAIRData/FDP-O">FDP vacobulary</a>}. 
+ * 
  * @author Rajaram Kaliyaperumal
  * @since 2016-09-06
  * @version 0.1
  */
 public class FDP {
-    public static final String uri = "<http://www.dtls.nl/ontologies/fdpDummy/>";
+    public static final String NS = 
+            "http://rdf.biosemantics.org/ontologies/fdp-o#";
 }

@@ -11,34 +11,38 @@ import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 
 /**
- *
+ * DCAT vocabulary.
+ * See {@link <a href="https://www.w3.org/TR/vocab-dcat/">DCAT Vocabulary</a>}.
+ * 
  * @author Rajaram Kaliyaperumal
  * @since 2016-09-06
  * @version 0.1
  */
 public class DCAT {
-    public static final String BASE_URI = "http://www.w3.org/ns/dcat#";
-    public static final URI THEME_TAXONOMY = new URIImpl(BASE_URI + "themeTaxonomy");
-    public static final URI LANDING_PAGE = new URIImpl(BASE_URI + "landingPage");
-    public static final URI THEME = new URIImpl(BASE_URI + "theme");
+    public static final String NS = "http://www.w3.org/ns/dcat#";
+    public static final URI THEME_TAXONOMY = 
+            new URIImpl(NS + "themeTaxonomy");
+    public static final URI LANDING_PAGE = 
+            new URIImpl(NS + "landingPage");
+    public static final URI THEME = new URIImpl(NS + "theme");
     public static final URI CONTACT_POINT = new URIImpl(
-            BASE_URI + "contactPoint");
-    public static final URI KEYWORD = new URIImpl(BASE_URI + "keyword");
-    public static final URI TYPE_CATALOG = new URIImpl(BASE_URI + "Catalog");
-    public static final URI TYPE_DATASET = new URIImpl(BASE_URI + "Dataset");
+            NS + "contactPoint");
+    public static final URI KEYWORD = new URIImpl(NS + "keyword");
+    public static final URI TYPE_CATALOG = new URIImpl(NS + "Catalog");
+    public static final URI TYPE_DATASET = new URIImpl(NS + "Dataset");
     public static final URI TYPE_DISTRIBUTION = new URIImpl(
-            BASE_URI + "Distribution");
-    public static final URI DATASET = new URIImpl(BASE_URI + "dataset");
-    public static final URI ACCESS_URL = new URIImpl(BASE_URI + "accessURL");
+            NS + "Distribution");
+    public static final URI DATASET = new URIImpl(NS + "dataset");
+    public static final URI ACCESS_URL = new URIImpl(NS + "accessURL");
     public static final URI DISTRIBUTION = new URIImpl(
-            BASE_URI + "distribution");
+            NS + "distribution");
     public static final URI DOWNLOAD_URL = new URIImpl(
-            BASE_URI + "downloadURL");
+            NS + "downloadURL");
     public static final URI MEDIA_TYPE = new URIImpl(
-            BASE_URI + "mediaType");
+            NS + "mediaType");
     public static final URI FORMAT = new URIImpl(
-            BASE_URI + "format");
+            NS + "format");
     public static final URI BYTE_SIZE = new URIImpl(
-            BASE_URI + "byteSize");
+            NS + "byteSize");
     
 }
