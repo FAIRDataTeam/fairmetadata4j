@@ -75,7 +75,7 @@ public class DistributionMetadataParserTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyDistributionID() throws Exception {
-        System.out.println(" Test : Parse invalid distribution content");
+        System.out.println("Test : Parse invalid distribution content");
         URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         parser.parse(ExampleFilesUtils.getFileContentAsString(
