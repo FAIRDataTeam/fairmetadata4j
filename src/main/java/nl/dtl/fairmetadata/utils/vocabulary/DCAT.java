@@ -19,30 +19,31 @@ import org.openrdf.model.impl.URIImpl;
  * @version 0.1
  */
 public class DCAT {
-    public static final String NS = "http://www.w3.org/ns/dcat#";
+    public static final String PREFIX = "dcat";
+    public static final String NAMESPACE = "http://www.w3.org/ns/dcat#";
     public static final URI THEME_TAXONOMY = 
-            new URIImpl(NS + "themeTaxonomy");
+            new URIImpl(NAMESPACE + "themeTaxonomy");
     public static final URI LANDING_PAGE = 
-            new URIImpl(NS + "landingPage");
-    public static final URI THEME = new URIImpl(NS + "theme");
+            new URIImpl(NAMESPACE + "landingPage");
+    public static final URI THEME = new URIImpl(NAMESPACE + "theme");
     public static final URI CONTACT_POINT = new URIImpl(
-            NS + "contactPoint");
-    public static final URI KEYWORD = new URIImpl(NS + "keyword");
-    public static final URI TYPE_CATALOG = new URIImpl(NS + "Catalog");
-    public static final URI TYPE_DATASET = new URIImpl(NS + "Dataset");
+            NAMESPACE + "contactPoint");
+    public static final URI KEYWORD = new URIImpl(NAMESPACE + "keyword");
+    public static final URI TYPE_CATALOG = new URIImpl(NAMESPACE + "Catalog");
+    public static final URI TYPE_DATASET = new URIImpl(NAMESPACE + "Dataset");
     public static final URI TYPE_DISTRIBUTION = new URIImpl(
-            NS + "Distribution");
-    public static final URI DATASET = new URIImpl(NS + "dataset");
-    public static final URI ACCESS_URL = new URIImpl(NS + "accessURL");
+            NAMESPACE + "Distribution");
+    public static final URI DATASET = new URIImpl(NAMESPACE + "dataset");
+    public static final URI ACCESS_URL = new URIImpl(NAMESPACE + "accessURL");
     public static final URI DISTRIBUTION = new URIImpl(
-            NS + "distribution");
+            NAMESPACE + "distribution");
     public static final URI DOWNLOAD_URL = new URIImpl(
-            NS + "downloadURL");
+            NAMESPACE + "downloadURL");
     public static final URI MEDIA_TYPE = new URIImpl(
-            NS + "mediaType");
+            NAMESPACE + "mediaType");
     public static final URI FORMAT = new URIImpl(
-            NS + "format");
+            NAMESPACE + "format");
     public static final URI BYTE_SIZE = new URIImpl(
-            NS + "byteSize");
+            NAMESPACE + "byteSize");
     
 }

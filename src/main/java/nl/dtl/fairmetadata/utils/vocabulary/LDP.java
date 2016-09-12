@@ -18,7 +18,8 @@ import org.openrdf.model.impl.URIImpl;
  * @version 0.1
  */
 public class LDP {
-    public static final String NS = "http://www.w3.org/ns/ldp#";   
-    public static final URI CONTAINER = new URIImpl(NS + "Container" );
-    public static final URI CONTAINS = new URIImpl(NS + "contains" );
+    public static final String NAMESPACE = "http://www.w3.org/ns/ldp#";
+    public static final String PREFIX = "ldp";
+    public static final URI CONTAINER = new URIImpl(NAMESPACE + "Container" );
+    public static final URI CONTAINS = new URIImpl(NAMESPACE + "contains" );
 }

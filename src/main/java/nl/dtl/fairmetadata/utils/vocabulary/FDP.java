@@ -16,6 +16,7 @@ package nl.dtl.fairmetadata.utils.vocabulary;
  * @version 0.1
  */
 public class FDP {
-    public static final String NS = 
+    public static final String PREFIX = "fdp-o";
+    public static final String NAMESPACE =  
             "http://rdf.biosemantics.org/ontologies/fdp-o#";
 }
