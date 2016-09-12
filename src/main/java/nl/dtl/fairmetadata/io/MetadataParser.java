@@ -31,8 +31,7 @@ public abstract class MetadataParser<T extends Metadata>  {
     
     protected abstract T createMetadata();
     
-    protected T parse(List<Statement> statements, 
-            URI metadataUri) throws MetadataException {
+    protected T parse(List<Statement> statements, URI metadataUri)  {
         Metadata metadata = createMetadata();
         Iterator<Statement> it = statements.iterator();
         metadata.setUri(metadataUri);
