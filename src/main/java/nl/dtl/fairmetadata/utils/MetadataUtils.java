@@ -20,7 +20,6 @@ import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata.utils.vocabulary.LDP;
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.LinkedHashModel;
@@ -39,8 +38,10 @@ import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
 
 /**
- *
- * @author Rajaram Kaliyaperumal * 
+ * Meatadata util class to convert Metadata object to RDF statements and RDF
+ * String.
+ * 
+ * @author Rajaram Kaliyaperumal
  * @since 2016-09-12
  * @version 0.1
  */
@@ -61,7 +62,7 @@ public class MetadataUtils {
             T metadata) throws MetadataExeception {  
         checkMandatoryProperties(metadata);
         org.openrdf.model.Model model = new LinkedHashModel();
-        LOGGER.info("Creating FDP metadata rdf model");
+        LOGGER.info("Creating metadata rdf model");
         setCommonProperties(model, metadata);
         LOGGER.info("Adding specific metadata properties to the rdf model");
         if (metadata instanceof FDPMetadata) {
@@ -142,7 +143,8 @@ public class MetadataUtils {
     private static List<Statement> getStatements(org.openrdf.model.Model model, 
             CatalogMetadata metadata) 
             throws MetadataExeception {         
-        if (metadata.getThemeTaxonomy().isEmpty()) {
+        if (metadata.getThemeTaxonomy() == null || 
+                metadata.getThemeTaxonomy().isEmpty()) {
             String errMsg = "No dcat:themeTaxonomy provided";
             LOGGER.error(errMsg);
             throw (new MetadataExeception(errMsg));
@@ -173,7 +175,7 @@ public class MetadataUtils {
     private static List<Statement> getStatements(org.openrdf.model.Model model, 
             DatasetMetadata metadata) 
             throws MetadataExeception {  
-        if (metadata.getThemes().isEmpty()) {
+        if (metadata.getThemes() == null || metadata.getThemes().isEmpty()) {
             String errMsg = "No dcat:theme provided";
             LOGGER.error(errMsg);
             throw (new MetadataExeception(errMsg));
@@ -317,6 +319,10 @@ public class MetadataUtils {
             throw (new MetadataExeception(errMsg));
         } else if (metadata.getTitle() == null) {
             String errMsg = "No title or label provided";
+            LOGGER.error(errMsg);
+            throw (new MetadataExeception(errMsg));
+        } else if (metadata.getIdentifier() == null) {
+            String errMsg = "No identifier provided";
             LOGGER.error(errMsg);
             throw (new MetadataExeception(errMsg));
         }
