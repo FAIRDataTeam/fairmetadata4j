@@ -13,13 +13,13 @@ package nl.dtl.fairmetadata.io;
  * @since 2016-09-06
  * @version 0.1
  */
-public class MetadataExeception extends Exception {
+public class MetadataException extends Exception {
 
     /**
      * Creates a new instance of <code>CatalogMetadataExeception</code> without
      * detail message.
      */
-    public MetadataExeception() {
+    public MetadataException() {
     }
 
     /**
@@ -28,7 +28,7 @@ public class MetadataExeception extends Exception {
      *
      * @param msg the detail message.
      */
-    public MetadataExeception(String msg) {
+    public MetadataException(String msg) {
         super(msg);
     }
 }

@@ -28,7 +28,7 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
     
     @Override
     public FDPMetadata parse(List<Statement> statements, 
-            URI fdpURI) throws MetadataExeception {
+            URI fdpURI) throws MetadataException {
         FDPMetadata metadata = super.parse(statements, fdpURI);
         Iterator<Statement> it = statements.iterator();
         while (it.hasNext()) {

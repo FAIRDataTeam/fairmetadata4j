@@ -10,7 +10,7 @@ import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
-import nl.dtl.fairmetadata.io.MetadataExeception;
+import nl.dtl.fairmetadata.io.MetadataException;
 import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
@@ -56,10 +56,10 @@ public class MetadataUtils {
      * @param <T>
      * @param metadata  Subclass of metadata object
      * @return          List of RDF statements
-     * @throws MetadataExeception 
+     * @throws MetadataException 
      */
     public static <T extends Metadata> List<Statement> getStatements(@Nonnull 
-            T metadata) throws MetadataExeception {  
+            T metadata) throws MetadataException {  
         checkMandatoryProperties(metadata);
         org.openrdf.model.Model model = new LinkedHashModel();
         LOGGER.info("Creating metadata rdf model");
@@ -80,7 +80,7 @@ public class MetadataUtils {
             else {
                 String msg = "Unknown metadata object";
                 LOGGER.error(msg);
-                throw (new MetadataExeception(msg));
+                throw (new MetadataException(msg));
             }
     }
     
@@ -91,12 +91,12 @@ public class MetadataUtils {
      * @param metadata  Subclass of metadata object
      * @param format    RDF format
      * @return          RDF string
-     * @throws MetadataExeception
+     * @throws MetadataException
      * @throws Exception 
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata, 
             @Nonnull RDFFormat format) 
-            throws MetadataExeception, Exception {
+            throws MetadataException, Exception {
         StringWriter sw = new StringWriter();		
         RDFWriter writer = Rio.createWriter(format, sw);
         List<Statement> statement = getStatements(metadata);
@@ -115,11 +115,11 @@ public class MetadataUtils {
      * @param model     RDF model with common metadata properties
      * @param metadata  FDPMetadata object
      * @return          List of RDF statements
-     * @throws MetadataExeception 
+     * @throws MetadataException 
      */
     private static List<Statement> getStatements(org.openrdf.model.Model model, 
             FDPMetadata metadata) 
-            throws MetadataExeception { 
+            throws MetadataException { 
         LOGGER.info("Adding FDP metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, LDP.CONTAINER);
         URI swaggerURL = new URIImpl(
@@ -138,16 +138,16 @@ public class MetadataUtils {
      * @param model     RDF model with common metadata properties
      * @param metadata  CatalogMetadata object
      * @return          List of RDF statements
-     * @throws MetadataExeception 
+     * @throws MetadataException 
      */
     private static List<Statement> getStatements(org.openrdf.model.Model model, 
             CatalogMetadata metadata) 
-            throws MetadataExeception {         
+            throws MetadataException {         
         if (metadata.getThemeTaxonomy() == null || 
                 metadata.getThemeTaxonomy().isEmpty()) {
             String errMsg = "No dcat:themeTaxonomy provided";
             LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
+            throw (new MetadataException(errMsg));
         }
         LOGGER.info("Adding catalogy metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_CATALOG);        
@@ -170,15 +170,15 @@ public class MetadataUtils {
      * @param model     RDF model with common metadata properties
      * @param metadata  DatasetMetadata object
      * @return          List of RDF statements
-     * @throws MetadataExeception 
+     * @throws MetadataException 
      */
     private static List<Statement> getStatements(org.openrdf.model.Model model, 
             DatasetMetadata metadata) 
-            throws MetadataExeception {  
+            throws MetadataException {  
         if (metadata.getThemes() == null || metadata.getThemes().isEmpty()) {
             String errMsg = "No dcat:theme provided";
             LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
+            throw (new MetadataException(errMsg));
         }
         LOGGER.info("Adding dataset metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_DATASET);
@@ -209,17 +209,17 @@ public class MetadataUtils {
      * @param model     RDF model with common metadata properties
      * @param metadata  DistributionMetadata object
      * @return          List of RDF statements
-     * @throws MetadataExeception 
+     * @throws MetadataException 
      */
     private static List<Statement> getStatements(org.openrdf.model.Model model, 
             DistributionMetadata metadata) 
-            throws MetadataExeception {        
+            throws MetadataException {        
         if (metadata.getAccessURL() == null && 
                 metadata.getDownloadURL() == null ) {
             String errMsg = 
                     "No dcat:accessURL or dcat:downloadURL URL is provided";
             LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
+            throw (new MetadataException(errMsg));
         }
         LOGGER.info("Adding distrubution metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_DISTRIBUTION);        
@@ -308,23 +308,23 @@ public class MetadataUtils {
      * Check if the metadata object contains mandatory metadata properties.
      * 
      * @param metadata  Subclass of Metadata object
-     * @throws MetadataExeception Throws exceptions if a mandatory metadata 
+     * @throws MetadataException Throws exceptions if a mandatory metadata 
      * property is missing
      */
     private static void checkMandatoryProperties(Metadata metadata) 
-            throws MetadataExeception {
+            throws MetadataException {
         if (metadata.getVersion() == null) {
             String errMsg = "No version number provided";
             LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
+            throw (new MetadataException(errMsg));
         } else if (metadata.getTitle() == null) {
             String errMsg = "No title or label provided";
             LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
+            throw (new MetadataException(errMsg));
         } else if (metadata.getIdentifier() == null) {
             String errMsg = "No identifier provided";
             LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
+            throw (new MetadataException(errMsg));
         }
     }
     

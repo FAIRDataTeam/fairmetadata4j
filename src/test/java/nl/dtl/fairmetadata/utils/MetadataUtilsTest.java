@@ -10,7 +10,7 @@ import nl.dtl.fairmetadata.io.CatalogMetadataParser;
 import nl.dtl.fairmetadata.io.DatasetMetadataParser;
 import nl.dtl.fairmetadata.io.DistributionMetadataParser;
 import nl.dtl.fairmetadata.io.FDPMetadataParser;
-import nl.dtl.fairmetadata.io.MetadataExeception;
+import nl.dtl.fairmetadata.io.MetadataException;
 import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
@@ -28,15 +28,20 @@ import org.openrdf.model.impl.URIImpl;
  * @since 2016-09-12
  * @version 0.1
  */
-public class MetadataUtilsTest {    
-        
+public class MetadataUtilsTest {  
+    
+    @Test(expected = NullPointerException.class) 
+    public void testNullMetadataObject() throws Exception{ 
+        MetadataUtils.getStatements(null);
+        fail("This test is execpeted to throw an error");        
+    }    
     
      /**
      * Test missing rdf statement, this test is excepted to throw 
      * an exception
      * @throws Exception 
      */
-    @Test(expected = MetadataExeception.class)
+    @Test(expected = MetadataException.class)
     public void testParseNoVersionStatement() throws Exception {
         System.out.println("Missing version statement");
         FDPMetadataParser fdpParser = new FDPMetadataParser();
@@ -55,7 +60,7 @@ public class MetadataUtilsTest {
      * an exception
      * @throws Exception 
      */
-    @Test(expected = MetadataExeception.class)
+    @Test(expected = MetadataException.class)
     public void testParseNoTitleStatement() throws Exception {
         System.out.println("Missing title statement");
         FDPMetadataParser fdpParser = new FDPMetadataParser();
@@ -76,7 +81,7 @@ public class MetadataUtilsTest {
      * an exception
      * @throws Exception 
      */
-    @Test(expected = MetadataExeception.class)
+    @Test(expected = MetadataException.class)
     public void testParseNoThemeTaxonomyStatement() throws Exception {
         System.out.println("Missing theme taxonomy statement");
         CatalogMetadataParser parser = new CatalogMetadataParser();
@@ -96,7 +101,7 @@ public class MetadataUtilsTest {
      * an exception
      * @throws Exception 
      */
-    @Test(expected = MetadataExeception.class)
+    @Test(expected = MetadataException.class)
     public void testParseNoThemeStatement() throws Exception {
         System.out.println("Missing theme statement");
         DatasetMetadataParser parser = new DatasetMetadataParser();
@@ -115,7 +120,7 @@ public class MetadataUtilsTest {
      * an exception
      * @throws Exception 
      */
-    @Test(expected = MetadataExeception.class)
+    @Test(expected = MetadataException.class)
     public void testParseNoDowloadOrAccessStatement() throws Exception {        
         System.out.println("Missing download or access statement");
         DistributionMetadataParser parser = new DistributionMetadataParser();

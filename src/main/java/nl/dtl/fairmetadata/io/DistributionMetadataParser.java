@@ -48,11 +48,11 @@ public class DistributionMetadataParser extends MetadataParser
      * @param statements        List of RDF statement list
      * @param distributionURI   Distribution URI
      * @return                  DistributionMetadata object
-     * @throws MetadataExeception 
+     * @throws MetadataException 
      */
     @Override
     public DistributionMetadata parse(@Nonnull List<Statement> statements, 
-            @Nonnull URI distributionURI) throws MetadataExeception {
+            @Nonnull URI distributionURI) throws MetadataException {
         Preconditions.checkNotNull(distributionURI, 
                 "Distribution URI must not be null.");
         Preconditions.checkNotNull(statements, 
@@ -100,13 +100,13 @@ public class DistributionMetadataParser extends MetadataParser
      * @param datasetURI            Dataset URI
      * @param format                RDF string's RDF format
      * @return                      DistributionMetadata object
-     * @throws MetadataExeception
+     * @throws MetadataException
      * @throws DatatypeConfigurationException 
      */
     public DistributionMetadata parse (@Nonnull String distributionMetadata, 
             @Nonnull String distributionID, @Nonnull URI distributionURI, 
             URI datasetURI, @Nonnull RDFFormat format) 
-            throws MetadataExeception, 
+            throws MetadataException, 
             DatatypeConfigurationException {
         Preconditions.checkNotNull(distributionMetadata, 
                 "Distribution metadata string must not be null."); 
@@ -144,16 +144,16 @@ public class DistributionMetadataParser extends MetadataParser
             String errMsg = "Error reading distribution metadata content"
                     + ex.getMessage();
             LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
+            throw (new MetadataException(errMsg));
         } catch (RDFParseException ex) {
             String errMsg = "Error parsing distribution metadata content. "
                     + ex.getMessage();
             LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
+            throw (new MetadataException(errMsg));
         } catch (UnsupportedRDFormatException ex) {
             String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
             LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
+            throw (new MetadataException(errMsg));
         } 
         return metadata;
     }
