@@ -5,6 +5,7 @@
  */
 package nl.dtl.fairmetadata.utils;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import java.io.StringWriter;
 import java.util.Iterator;
@@ -60,6 +61,8 @@ public class MetadataUtils {
      */
     public static <T extends Metadata> List<Statement> getStatements(@Nonnull 
             T metadata) throws MetadataException {  
+        Preconditions.checkNotNull(metadata, 
+                "Metadata object must not be null.");
         checkMandatoryProperties(metadata);
         org.openrdf.model.Model model = new LinkedHashModel();
         LOGGER.info("Creating metadata rdf model");
@@ -97,6 +100,10 @@ public class MetadataUtils {
     public static <T extends Metadata> String getString(@Nonnull T metadata, 
             @Nonnull RDFFormat format) 
             throws MetadataException, Exception {
+        Preconditions.checkNotNull(metadata, 
+                "Metadata object must not be null.");
+        Preconditions.checkNotNull(format, 
+                "RDF format must not be null.");
         StringWriter sw = new StringWriter();		
         RDFWriter writer = Rio.createWriter(format, sw);
         List<Statement> statement = getStatements(metadata);
