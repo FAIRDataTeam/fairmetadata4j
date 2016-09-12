@@ -5,12 +5,9 @@
  */
 package nl.dtl.fairmetadata.io;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.utils.ExampleFilesUtils;
-import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.openrdf.model.Statement;

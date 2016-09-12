@@ -5,33 +5,21 @@
  */
 package nl.dtl.fairmetadata.utils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import nl.dtl.fairmetadata.io.CatalogMetadataParser;
 import nl.dtl.fairmetadata.io.DatasetMetadataParser;
 import nl.dtl.fairmetadata.io.DistributionMetadataParser;
 import nl.dtl.fairmetadata.io.FDPMetadataParser;
 import nl.dtl.fairmetadata.io.MetadataExeception;
-import nl.dtl.fairmetadata.io.MetadataParser;
 import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.model.FDPMetadata;
-import nl.dtl.fairmetadata.model.Metadata;
-import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.rio.RDFFormat;
 
 /**
  * Unit tests for MetadataUtils.

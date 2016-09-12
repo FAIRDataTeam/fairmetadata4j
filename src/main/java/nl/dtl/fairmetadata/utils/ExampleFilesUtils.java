@@ -6,7 +6,6 @@
 package nl.dtl.fairmetadata.utils;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import java.io.IOException;
