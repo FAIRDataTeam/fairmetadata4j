@@ -16,8 +16,6 @@ import static org.junit.Assert.*;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.RDFS;
 
 /**
  * Unit tests for DatasetMetadataParser.
@@ -116,29 +114,6 @@ public class DatasetMetadataParserTest {
                 ExampleFilesUtils.DATASET_ID, dURI, cURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata);
-    }   
-    /**
-     * Test missing dataset rdf statement, this test is excepted to throw 
-     * an exception
-     * @throws Exception 
-     */
-    @Test(expected = MetadataExeception.class)
-    public void testParseNoThemeStatement() throws Exception {
-        System.out.println("Missing theme statement");
-        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
-                ExampleFilesUtils.DATASET_METADATA_FILE, 
-                        ExampleFilesUtils.DATASET_URI);
-        Iterator<Statement> it = stmts.iterator();
-        List<Statement> in = new ArrayList();
-        while(it.hasNext()) {
-            Statement st = it.next();
-            if(!st.getPredicate().equals(DCAT.THEME)) {
-                in.add(st);
-            }
-        }
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
-        parser.parse(in , dURI);
-       fail("This test is execpeted to throw an error");
     }
     
     /**

@@ -8,7 +8,6 @@ package nl.dtl.fairmetadata.io;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.utils.ExampleFilesUtils;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
@@ -17,8 +16,6 @@ import static org.junit.Assert.*;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.RDFS;
 
 /**
  * Unit tests for DistributionMetadataParser.
@@ -118,31 +115,6 @@ public class DistributionMetadataParserTest {
                 ExampleFilesUtils.DISTRIBUTION_ID, disURI, dURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata);
-    } 
-    
-    /**
-     * Test missing distribution rdf statement, this test is excepted to throw 
-     * an exception
-     * @throws Exception 
-     */
-    @Test(expected = MetadataExeception.class)
-    public void testParseNoDowloadOrAccessStatement() throws Exception {
-        System.out.println("Missing download or access statement");
-        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
-                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
-                        ExampleFilesUtils.DISTRIBUTION_URI);
-        Iterator<Statement> it = stmts.iterator();
-        List<Statement> in = new ArrayList();
-        while(it.hasNext()) {
-            Statement st = it.next();
-            if(!st.getPredicate().equals(DCAT.ACCESS_URL) && 
-                    !st.getPredicate().equals(DCAT.DOWNLOAD_URL)) {
-                in.add(st);
-            }
-        }
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
-        parser.parse(in , disURI);
-       fail("This test is execpeted to throw an error");
     }
     
     /**

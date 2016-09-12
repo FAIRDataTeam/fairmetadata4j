@@ -16,8 +16,6 @@ import static org.junit.Assert.*;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.RDFS;
 
 /**
  * Unit tests for CatalogMetadataParser.
@@ -116,30 +114,6 @@ public class CatalogMetadataParserTest {
                 ExampleFilesUtils.CATALOG_ID, cURI, fURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata);
-    }
-    
-    /**
-     * Test missing catalog rdf statement, this test is excepted to throw 
-     * an exception
-     * @throws Exception 
-     */
-    @Test(expected = MetadataExeception.class)
-    public void testParseNoThemeTaxonomyStatement() throws Exception {
-        System.out.println("Missing theme taxonomy statement");
-        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
-                ExampleFilesUtils.CATALOG_METADATA_FILE, 
-                        ExampleFilesUtils.CATALOG_URI);
-        Iterator<Statement> it = stmts.iterator();
-        List<Statement> in = new ArrayList();
-        while(it.hasNext()) {
-            Statement st = it.next();
-            if(!st.getPredicate().equals(DCAT.THEME_TAXONOMY)) {
-                in.add(st);
-            }
-        }
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
-        parser.parse(in , cURI);
-        fail("This test is execpeted to throw an error");
     }
     
     /**
