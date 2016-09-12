@@ -31,7 +31,7 @@ public class CatalogMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFString() throws Exception {
-        System.out.println("parse invalid catalog content");
+        System.out.println("Test : Parse invalid catalog content");
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
         parser.parse(null, ExampleFilesUtils.CATALOG_ID, cURI, fURI, 
@@ -45,7 +45,7 @@ public class CatalogMetadataParserTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyRDFString() throws Exception {
-        System.out.println("parse invalid catalog content");
+        System.out.println("Test : Parse invalid catalog content");
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
         parser.parse("", ExampleFilesUtils.CATALOG_ID, cURI, fURI, 
@@ -59,7 +59,7 @@ public class CatalogMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullCatalogID() throws Exception {
-        System.out.println("parse invalid catalog content");
+        System.out.println("Test : Parse invalid catalog content");
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
         parser.parse(ExampleFilesUtils.getFileContentAsString(
@@ -74,7 +74,7 @@ public class CatalogMetadataParserTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyCatalogID() throws Exception {
-        System.out.println("parse invalid catalog content");
+        System.out.println("Test : Parse invalid catalog content");
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
         parser.parse(ExampleFilesUtils.getFileContentAsString(
@@ -88,7 +88,7 @@ public class CatalogMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFFormat() throws Exception {
-        System.out.println("parse invalid catalog content");
+        System.out.println("Test : Parse invalid catalog content");
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
         parser.parse(ExampleFilesUtils.getFileContentAsString(
@@ -102,7 +102,7 @@ public class CatalogMetadataParserTest {
      */
     @Test
     public void testParseFile() throws Exception {
-        System.out.println("parse valid catalog content");
+        System.out.println("Test : Parse valid catalog content");
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
         CatalogMetadata metadata = parser.parse(
@@ -120,7 +120,7 @@ public class CatalogMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullCatalogURI() throws Exception {
-        System.out.println("Missing catalog URL");
+        System.out.println("Test : Missing catalog URL");
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.CATALOG_METADATA_FILE, 
                         ExampleFilesUtils.CATALOG_URI);
@@ -135,7 +135,7 @@ public class CatalogMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullStatements() throws Exception {
-        System.out.println("parse valid catalog content");
+        System.out.println("Test : Parse valid catalog content");
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         parser.parse(null, cURI);
         fail("This test is execpeted to throw an error");
@@ -147,7 +147,7 @@ public class CatalogMetadataParserTest {
      */
     @Test
     public void testParseStatements() throws Exception {
-        System.out.println("parse valid catalog content");
+        System.out.println("Test : Parse valid catalog content");
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         CatalogMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsStatements(

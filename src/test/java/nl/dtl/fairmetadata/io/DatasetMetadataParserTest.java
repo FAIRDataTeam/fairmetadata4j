@@ -31,7 +31,7 @@ public class DatasetMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFString() throws Exception {
-        System.out.println("parse invalid dataset content");
+        System.out.println("Test : Parse invalid dataset content");
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         parser.parse(null, ExampleFilesUtils.DATASET_ID, dURI, cURI, 
@@ -45,7 +45,7 @@ public class DatasetMetadataParserTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyRDFString() throws Exception {
-        System.out.println("parse invalid dataset content");
+        System.out.println("Test : Parse invalid dataset content");
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         parser.parse("", ExampleFilesUtils.DATASET_ID, dURI, cURI, 
@@ -59,7 +59,7 @@ public class DatasetMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullDatasetID() throws Exception {
-        System.out.println("parse invalid dataset content");
+        System.out.println("Test : Parse invalid dataset content");
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         parser.parse(ExampleFilesUtils.getFileContentAsString(
@@ -74,7 +74,7 @@ public class DatasetMetadataParserTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyDatasetID() throws Exception {
-        System.out.println("parse invalid dataset content");
+        System.out.println("Test : Parse invalid dataset content");
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         parser.parse(ExampleFilesUtils.getFileContentAsString(
@@ -88,7 +88,7 @@ public class DatasetMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFFormat() throws Exception {
-        System.out.println("parse invalid dataset content");
+        System.out.println("Test : Parse invalid dataset content");
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         parser.parse(ExampleFilesUtils.getFileContentAsString(
@@ -102,7 +102,7 @@ public class DatasetMetadataParserTest {
      */
     @Test
     public void testParseFile() throws Exception {
-        System.out.println("parse valid dataset content");
+        System.out.println("Test : Parse valid dataset content");
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
         DatasetMetadata metadata = parser.parse(
@@ -120,7 +120,7 @@ public class DatasetMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullDatasetURI() throws Exception {
-        System.out.println("Missing dataset URL");
+        System.out.println("Test : Missing dataset URL");
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DATASET_METADATA_FILE, 
                         ExampleFilesUtils.DATASET_URI);
@@ -135,7 +135,7 @@ public class DatasetMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullStatements() throws Exception {
-        System.out.println("parse valid dataset content");
+        System.out.println("Test : Parse valid dataset content");
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         parser.parse(null, dURI);
         fail("This test is execpeted to throw an error");
@@ -147,7 +147,7 @@ public class DatasetMetadataParserTest {
      */
     @Test
     public void testParseStatements() throws Exception {
-        System.out.println("parse valid dataset content");
+        System.out.println("Test : Parse valid dataset content");
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         DatasetMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsStatements(
