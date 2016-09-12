@@ -79,11 +79,6 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
                 metadata.getKeywords().add(keyword);
             }
         }
-        if (metadata.getThemes().isEmpty()) {
-            String errMsg = "No dcat:theme provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
-        }
         return metadata;
     }
     

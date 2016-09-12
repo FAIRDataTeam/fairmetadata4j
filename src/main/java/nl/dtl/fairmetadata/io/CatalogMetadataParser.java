@@ -71,11 +71,6 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
                 metadata.getThemeTaxonomy().add(themeTax);
             }
         }
-        if (metadata.getThemeTaxonomy().isEmpty()) {
-            String errMsg = "No dcat:themeTaxonomy provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
-        }
         return metadata;
     }
     

@@ -88,13 +88,6 @@ public class DistributionMetadataParser extends MetadataParser
                 metadata.setMediaType(mediaType);
             }
         }
-        if (metadata.getAccessURL() == null && 
-                metadata.getDownloadURL() == null ) {
-            String errMsg = 
-                    "No dcat:accessURL or dcat:downloadURL URL is provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
-        }
         return metadata;
     }
     

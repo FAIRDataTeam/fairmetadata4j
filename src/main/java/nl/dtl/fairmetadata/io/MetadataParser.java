@@ -36,6 +36,7 @@ public abstract class MetadataParser<T extends Metadata>  {
         Metadata metadata = createMetadata();
         Iterator<Statement> it = statements.iterator();
         metadata.setUri(metadataUri);
+        LOGGER.info("Parse common metadata properties");
         while (it.hasNext()) {
             Statement st = it.next();
             if (st.getSubject().equals(metadataUri)
@@ -84,20 +85,7 @@ public abstract class MetadataParser<T extends Metadata>  {
                 metadata.setModified((Literal) st.getObject());
             }
         }
-        checkMetadata(metadata);
         return (T) metadata;
-    }
-
-    protected void checkMetadata(Metadata metadata) throws MetadataExeception {
-        if (metadata.getVersion() == null) {
-            String errMsg = "No version number provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
-        } else if (metadata.getTitle() == null) {
-            String errMsg = "No title or label provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataExeception(errMsg));
-        }
     }
     
 }
