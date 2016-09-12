@@ -10,6 +10,7 @@
 <> dct:title "RD connect FAIR data point(beta)" ;
         dct:language lang:en;
         ldp:contains fdp:textmining ;
+        dct:identifier "rdc-fdp" ;
         rdfs:label "RD connect FAIR data point(beta)" ;
         dct:description "This FDP provides metadata on textmining data sets." ;
         dct:title "DTL FAIR data point(beta)";

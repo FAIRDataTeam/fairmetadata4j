@@ -12,6 +12,7 @@
 <> a dcat:Dataset ;
 	dct:title "Gene disease association (LUMC)" ;
         rdfs:label "Gene disease association (LUMC)";
+        dct:identifier "gda" ;
 	dct:language lang:en ;
         dct:hasVersion "1.0" ;
 	dct:description "Gene disease association dataset from LUMC" ;
