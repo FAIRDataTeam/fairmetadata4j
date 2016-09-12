@@ -33,21 +33,6 @@ import org.openrdf.rio.Rio;
  */
 public class RDFUtils {
     
-    private final static Logger LOGGER 
-            = LogManager.getLogger(RDFUtils.class);
-    
-    public static String writeToString(List<Statement> statements, 
-            RDFFormat format) throws Exception {		
-        StringWriter sw = new StringWriter();		
-        RDFWriter writer = Rio.createWriter(format, sw);
-        try {
-            propagateToHandler(statements, writer);
-        } catch (RepositoryException | RDFHandlerException ex) {
-            LOGGER.error("Error reading RDF statements");
-            throw (new Exception(ex.getMessage()));
-        }        
-        return sw.toString();	
-    }
     public static Literal getCurrentTime() throws 
             DatatypeConfigurationException {
         Date date = new Date();
@@ -58,26 +43,6 @@ public class RDFUtils {
         Literal currentTime = new LiteralImpl(xmlDate.toXMLFormat(),
                     XMLSchema.DATETIME);
         return currentTime;
-    }
-	
-    private static void propagateToHandler(List<Statement> 
-            statements, RDFHandler handler) 
-            throws RDFHandlerException, RepositoryException{            
-        handler.startRDF();	   
-        handler.handleNamespace("rdf", 
-                "http://www.w3.org/1999/02/22-rdf-syntax-ns#");			
-        handler.handleNamespace("rdfs", 
-                "http://www.w3.org/2000/01/rdf-schema#");			
-        handler.handleNamespace("dcat", "http://www.w3.org/ns/dcat#");			
-        handler.handleNamespace("xsd", "http://www.w3.org/2001/XMLSchema#");			
-        handler.handleNamespace("owl", "http://www.w3.org/2002/07/owl#");			
-        handler.handleNamespace("dct", "http://purl.org/dc/terms/");
-        handler.handleNamespace("lang", 
-                "http://id.loc.gov/vocabulary/iso639-1/");
-        for(Statement st: statements){
-            handler.handleStatement(st);            
-        }  
-        handler.endRDF();
     }
     
 }
