@@ -5,13 +5,15 @@
  */
 package nl.dtl.fairmetadata.io;
 
-import java.util.Iterator;
 import java.util.List;
-import nl.dtl.fairmetadata.model.FDPMetadata;
+
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.FOAF;
 import org.openrdf.model.vocabulary.RDFS;
+
+import nl.dtl.fairmetadata.model.FDPMetadata;
 
 /**
  *
@@ -27,22 +29,22 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
     }
     
     @Override
-    public FDPMetadata parse(List<Statement> statements, 
-            URI fdpURI) {
+    public FDPMetadata parse(List<Statement> statements, URI fdpURI) {
         FDPMetadata metadata = super.parse(statements, fdpURI);
-        Iterator<Statement> it = statements.iterator();
-        while (it.hasNext()) {
-            Statement st = it.next();
-            if (st.getSubject().equals(fdpURI)
-                    && st.getPredicate().equals(FOAF.HOMEPAGE)) {
-                URI homePage = (URI) st.getObject();
-                metadata.setHomepage(homePage);
-            } else if (st.getSubject().equals(fdpURI)
-                    && st.getPredicate().equals(RDFS.SEEALSO)) {
-                metadata.setSwaggerDoc((URI) st.getObject());
+        
+        for (Statement st : statements) {
+            Resource subject = st.getSubject();
+            URI predicate = st.getPredicate();
+            
+            if (subject.equals(fdpURI)) {
+                if (predicate.equals(FOAF.HOMEPAGE)) {
+                    URI homePage = (URI) st.getObject();
+                    metadata.setHomepage(homePage);
+                } else if (predicate.equals(RDFS.SEEALSO)) {
+                    metadata.setSwaggerDoc((URI) st.getObject());
+                }
             }
         }
         return metadata;
     }
-    
 }
