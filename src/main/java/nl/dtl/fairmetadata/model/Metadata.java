@@ -30,7 +30,7 @@ public class Metadata {
     private URI rights;
     private URI uri;
     private URI parentURI;
-    private List<URI> publisher = new ArrayList();
+    private List<URI> publisher = new ArrayList<>();
     private URI language;
 
     /**

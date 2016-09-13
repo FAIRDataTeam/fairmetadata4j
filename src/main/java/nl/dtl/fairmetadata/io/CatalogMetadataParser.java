@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.logging.log4j.LogManager;
 import org.openrdf.model.Model;
@@ -62,7 +61,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
         
         LOGGER.info("Parsing catalog metadata");
         
-        CatalogMetadata metadata = (CatalogMetadata) super.parse(statements, catalogURI);
+        CatalogMetadata metadata = super.parse(statements, catalogURI);
         
         for (Statement st : statements) {
             Resource subject = st.getSubject();
@@ -92,7 +91,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      * @return                  CatalogMetadata object
      * @throws MetadataParserException
      */
-    public CatalogMetadata parse (@Nonnull String catalogMetadata, @Nonnull String catalogID,
+    public CatalogMetadata parse(@Nonnull String catalogMetadata, @Nonnull String catalogID,
             @Nonnull URI catalogURI, URI fdpURI, @Nonnull RDFFormat format) 
             throws MetadataParserException {
         Preconditions.checkNotNull(catalogMetadata, "Catalog metadata string must not be null."); 
