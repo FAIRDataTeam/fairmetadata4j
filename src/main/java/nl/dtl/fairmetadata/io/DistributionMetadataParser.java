@@ -56,7 +56,8 @@ public class DistributionMetadataParser extends MetadataParser
             @Nonnull URI distributionURI)  {
         Preconditions.checkNotNull(distributionURI, 
                 "Distribution URI must not be null.");
-        Preconditions.checkNotNull(statements, "Distribution statements must not be null.");
+        Preconditions.checkNotNull(statements, 
+                "Distribution statements must not be null.");
         LOGGER.info("Parsing distribution metadata");
         DistributionMetadata metadata = super.parse(statements, 
                 distributionURI);
@@ -112,15 +113,20 @@ public class DistributionMetadataParser extends MetadataParser
                 "Distribution URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
         
-        Preconditions.checkArgument(!distributionMetadata.isEmpty(), "The distribution metadata content can't be EMPTY");
-        Preconditions.checkArgument(!distributionID.isEmpty(), "The distribution id content can't be EMPTY");        
+        Preconditions.checkArgument(!distributionMetadata.isEmpty(), 
+                "The distribution metadata content can't be EMPTY");
+        Preconditions.checkArgument(!distributionID.isEmpty(), 
+                "The distribution id content can't be EMPTY");        
         try {
-            Model modelDistribution = Rio.parse(new StringReader(distributionMetadata), distributionURI.stringValue(), 
+            Model modelDistribution = Rio.parse(
+                    new StringReader(distributionMetadata), 
+                    distributionURI.stringValue(), 
                     format);
             Iterator<Statement> it = modelDistribution.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
             
-            DistributionMetadata metadata = this.parse(statements, distributionURI);
+            DistributionMetadata metadata = this.parse(statements, 
+                    distributionURI);
             metadata.setIdentifier(new LiteralImpl(distributionID, 
                     XMLSchema.STRING));
             metadata.setParentURI(datasetURI);

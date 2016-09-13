@@ -105,10 +105,13 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
         Preconditions.checkNotNull(datasetURI, "Dataset URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
         
-        Preconditions.checkArgument(!datasetMetadata.isEmpty(), "The dataset metadata content can't be EMPTY");
-        Preconditions.checkArgument(!datasetID.isEmpty(), "The dataset id content can't be EMPTY");        
+        Preconditions.checkArgument(!datasetMetadata.isEmpty(), 
+                "The dataset metadata content can't be EMPTY");
+        Preconditions.checkArgument(!datasetID.isEmpty(), 
+                "The dataset id content can't be EMPTY");        
         try {
-            Model modelDataset = Rio.parse(new StringReader(datasetMetadata), datasetURI.stringValue(), format);
+            Model modelDataset = Rio.parse(new StringReader(datasetMetadata), 
+                    datasetURI.stringValue(), format);
             Iterator<Statement> it = modelDataset.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
             

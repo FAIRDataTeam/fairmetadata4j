@@ -46,13 +46,17 @@ public abstract class MetadataParser<T extends Metadata>  {
             
             if (subject.equals(metadataUri)) {
                 if (predicate.equals(DCTERMS.HAS_VERSION)) {
-                    Literal version = new LiteralImpl(st.getObject().stringValue(), XMLSchema.FLOAT);
+                    Literal version = new LiteralImpl(st.getObject().
+                            stringValue(), XMLSchema.FLOAT);
                     metadata.setVersion(version);
-                } else if (predicate.equals(RDFS.LABEL) || predicate.equals(DCTERMS.TITLE)) {
-                    Literal title = new LiteralImpl(st.getObject().stringValue(), XMLSchema.STRING);
+                } else if (predicate.equals(RDFS.LABEL) || 
+                        predicate.equals(DCTERMS.TITLE)) {
+                    Literal title = new LiteralImpl(st.getObject().
+                            stringValue(), XMLSchema.STRING);
                     metadata.setTitle(title);
                 } else if (predicate.equals(DCTERMS.DESCRIPTION)) {
-                    Literal description = new LiteralImpl(st.getObject().stringValue(), XMLSchema.STRING);
+                    Literal description = new LiteralImpl(st.getObject().
+                            stringValue(), XMLSchema.STRING);
                     metadata.setDescription(description);
                 } else if (predicate.equals(DCTERMS.LICENSE)) {
                     URI license = (URI) st.getObject();
@@ -66,11 +70,14 @@ public abstract class MetadataParser<T extends Metadata>  {
                 } else if (predicate.equals(DCTERMS.LANGUAGE)) {
                     URI language = (URI) st.getObject();
                     metadata.setLanguage(language);
-                } else if (predicate.equals(DCTERMS.IDENTIFIER) && metadata.getIdentifier() == null) {
+                } else if (predicate.equals(DCTERMS.IDENTIFIER) && 
+                        metadata.getIdentifier() == null) {
                     metadata.setIdentifier((Literal) st.getObject());
-                } else if (predicate.equals(DCTERMS.ISSUED) && metadata.getIssued() == null) {
+                } else if (predicate.equals(DCTERMS.ISSUED) && 
+                        metadata.getIssued() == null) {
                     metadata.setIssued((Literal) st.getObject());
-                } else if (predicate.equals(DCTERMS.MODIFIED) && metadata.getModified() == null) {
+                } else if (predicate.equals(DCTERMS.MODIFIED) && 
+                        metadata.getModified() == null) {
                     metadata.setModified((Literal) st.getObject());
                 }
             }

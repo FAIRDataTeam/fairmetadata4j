@@ -91,33 +91,41 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      * @return                  CatalogMetadata object
      * @throws MetadataParserException
      */
-    public CatalogMetadata parse(@Nonnull String catalogMetadata, @Nonnull String catalogID,
+    public CatalogMetadata parse(@Nonnull String catalogMetadata, 
+            @Nonnull String catalogID,
             @Nonnull URI catalogURI, URI fdpURI, @Nonnull RDFFormat format) 
             throws MetadataParserException {
-        Preconditions.checkNotNull(catalogMetadata, "Catalog metadata string must not be null."); 
+        Preconditions.checkNotNull(catalogMetadata, 
+                "Catalog metadata string must not be null."); 
         Preconditions.checkNotNull(catalogID, "Catalog ID must not be null.");
         Preconditions.checkNotNull(catalogURI, "Catalog URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
         
-        Preconditions.checkArgument(!catalogMetadata.isEmpty(), "The catalog metadata content can't be EMPTY");
-        Preconditions.checkArgument(!catalogID.isEmpty(), "The catalog id content can't be EMPTY");        
+        Preconditions.checkArgument(!catalogMetadata.isEmpty(), 
+                "The catalog metadata content can't be EMPTY");
+        Preconditions.checkArgument(!catalogID.isEmpty(), 
+                "The catalog id content can't be EMPTY");        
         
         try {
-            Model modelCatalog = Rio.parse(new StringReader(catalogMetadata), catalogURI.stringValue(), format);
+            Model modelCatalog = Rio.parse(new StringReader(catalogMetadata), 
+                    catalogURI.stringValue(), format);
             Iterator<Statement> it = modelCatalog.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
             
             CatalogMetadata metadata = this.parse(statements, catalogURI);
-            metadata.setIdentifier(new LiteralImpl(catalogID, XMLSchema.STRING));
+            metadata.setIdentifier(new LiteralImpl(catalogID, 
+                    XMLSchema.STRING));
             metadata.setParentURI(fdpURI);
             
             return metadata;
         } catch (IOException ex) {
-            String errMsg = "Error reading catalog metadata content" + ex.getMessage();
+            String errMsg = "Error reading catalog metadata content" + 
+                    ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
         } catch (RDFParseException ex) {
-            String errMsg = "Error parsing catalog metadata content. " + ex.getMessage();
+            String errMsg = "Error parsing catalog metadata content. " + 
+                    ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
         } catch (UnsupportedRDFormatException ex) {
