@@ -8,7 +8,6 @@ package nl.dtl.fairmetadata.io;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
