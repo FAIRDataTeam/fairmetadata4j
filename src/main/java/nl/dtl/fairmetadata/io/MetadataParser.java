@@ -18,6 +18,7 @@ import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 import nl.dtl.fairmetadata.model.Metadata;
+import org.openrdf.model.Value;
 
 /**
  *
@@ -43,42 +44,39 @@ public abstract class MetadataParser<T extends Metadata>  {
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             URI predicate = st.getPredicate();
+            Value object = st.getObject();
             
             if (subject.equals(metadataUri)) {
                 if (predicate.equals(DCTERMS.HAS_VERSION)) {
-                    Literal version = new LiteralImpl(st.getObject().
-                            stringValue(), XMLSchema.FLOAT);
-                    metadata.setVersion(version);
+                    metadata.setVersion(new LiteralImpl(object.stringValue(), 
+                            XMLSchema.STRING));
                 } else if (predicate.equals(RDFS.LABEL) || 
                         predicate.equals(DCTERMS.TITLE)) {
-                    Literal title = new LiteralImpl(st.getObject().
-                            stringValue(), XMLSchema.STRING);
-                    metadata.setTitle(title);
+                    metadata.setTitle(new LiteralImpl(object.stringValue(), 
+                            XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.DESCRIPTION)) {
-                    Literal description = new LiteralImpl(st.getObject().
-                            stringValue(), XMLSchema.STRING);
-                    metadata.setDescription(description);
+                    metadata.setDescription(new LiteralImpl(object.
+                            stringValue(), XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.LICENSE)) {
-                    URI license = (URI) st.getObject();
-                    metadata.setLicense(license);
+                    metadata.setLicense((URI) object);
                 } else if (predicate.equals(DCTERMS.RIGHTS)) {
-                    URI rights = (URI) st.getObject();
-                    metadata.setRights(rights);
+                    metadata.setRights((URI) object);
                 } else if (predicate.equals(DCTERMS.PUBLISHER)) {
-                    URI publisher = (URI) st.getObject();
-                    metadata.getPublisher().add(publisher);
+                    metadata.getPublisher().add((URI) object);
                 } else if (predicate.equals(DCTERMS.LANGUAGE)) {
-                    URI language = (URI) st.getObject();
-                    metadata.setLanguage(language);
+                    metadata.setLanguage((URI) object);
                 } else if (predicate.equals(DCTERMS.IDENTIFIER) && 
                         metadata.getIdentifier() == null) {
-                    metadata.setIdentifier((Literal) st.getObject());
+                    metadata.setIdentifier(new LiteralImpl(object.stringValue(), 
+                            XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.ISSUED) && 
                         metadata.getIssued() == null) {
-                    metadata.setIssued((Literal) st.getObject());
+                    metadata.setIssued(new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.MODIFIED) && 
                         metadata.getModified() == null) {
-                    metadata.setModified((Literal) st.getObject());
+                    metadata.setModified(new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME));
                 }
             }
         }

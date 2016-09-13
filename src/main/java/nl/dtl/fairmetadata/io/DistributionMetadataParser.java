@@ -21,6 +21,7 @@ import org.openrdf.model.Model;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
@@ -64,25 +65,22 @@ public class DistributionMetadataParser extends MetadataParser
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             URI predicate = st.getPredicate();
+            Value object = st.getObject();
+            
             if (subject.equals(distributionURI)) {
                 if (predicate.equals(DCAT.ACCESS_URL)) {
-                    URI accessURL = (URI) st.getObject();
-                    metadata.setAccessURL(accessURL);
+                    metadata.setAccessURL((URI) object);
                 } else if (predicate.equals(DCAT.DOWNLOAD_URL)) {
-                    URI downloadURL = (URI) st.getObject();
-                    metadata.setDownloadURL(downloadURL);
-                } else if (predicate.equals(DCAT.FORMAT)) {
-                     Literal format = new LiteralImpl(st.getObject().
-                            stringValue(), XMLSchema.STRING);                    
-                     metadata.setFormat(format);
-                } else if (predicate.equals(DCAT.BYTE_SIZE)) {
-                     Literal byteSize = new LiteralImpl(st.getObject().
-                            stringValue(), XMLSchema.STRING);                    
-                     metadata.setByteSize(byteSize);
-                } else if (predicate.equals(DCAT.MEDIA_TYPE)) {
-                     Literal mediaType = new LiteralImpl(st.getObject().
-                            stringValue(), XMLSchema.STRING);                    
-                     metadata.setMediaType(mediaType);
+                    metadata.setDownloadURL((URI) object);
+                } else if (predicate.equals(DCAT.FORMAT)) {                   
+                     metadata.setFormat(new LiteralImpl(object.stringValue(), 
+                             XMLSchema.STRING));
+                } else if (predicate.equals(DCAT.BYTE_SIZE)) {                                  
+                     metadata.setByteSize(new LiteralImpl(object.stringValue(), 
+                             XMLSchema.STRING));
+                } else if (predicate.equals(DCAT.MEDIA_TYPE)) {                   
+                     metadata.setMediaType(new LiteralImpl(object.stringValue(), 
+                             XMLSchema.STRING));
                 }
             }
         }

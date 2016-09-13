@@ -14,6 +14,7 @@ import org.openrdf.model.vocabulary.FOAF;
 import org.openrdf.model.vocabulary.RDFS;
 
 import nl.dtl.fairmetadata.model.FDPMetadata;
+import org.openrdf.model.Value;
 
 /**
  *
@@ -35,13 +36,13 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             URI predicate = st.getPredicate();
+            Value object = st.getObject();
             
             if (subject.equals(fdpURI)) {
                 if (predicate.equals(FOAF.HOMEPAGE)) {
-                    URI homePage = (URI) st.getObject();
-                    metadata.setHomepage(homePage);
+                    metadata.setHomepage((URI) object);
                 } else if (predicate.equals(RDFS.SEEALSO)) {
-                    metadata.setSwaggerDoc((URI) st.getObject());
+                    metadata.setSwaggerDoc((URI) object);
                 }
             }
         }

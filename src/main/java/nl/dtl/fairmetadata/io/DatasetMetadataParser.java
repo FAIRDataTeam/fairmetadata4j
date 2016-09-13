@@ -21,6 +21,7 @@ import org.openrdf.model.Model;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
@@ -64,21 +65,18 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             URI predicate = st.getPredicate();
+            Value object = st.getObject();
             
             if(subject.equals(datasetURI)) {
                 if (predicate.equals(DCAT.LANDING_PAGE)) {
-                    URI landingPage = (URI) st.getObject();
-                    metadata.setLandingPage(landingPage);
+                    metadata.setLandingPage((URI) object);
                 } else if (predicate.equals(DCAT.THEME)) {
-                    URI theme = (URI) st.getObject();
-                    metadata.getThemes().add(theme);
+                    metadata.getThemes().add((URI) object);
                 } else if (predicate.equals(DCAT.CONTACT_POINT)) {
-                    URI contactPoint = (URI) st.getObject();
-                    metadata.setContactPoint(contactPoint);
+                    metadata.setContactPoint((URI) object);
                 } else if (predicate.equals(DCAT.KEYWORD)) {
-                    Literal keyword = new LiteralImpl(st.getObject().
-                            stringValue(), XMLSchema.STRING);
-                    metadata.getKeywords().add(keyword);
+                    metadata.getKeywords().add( new LiteralImpl(object.
+                            stringValue(), XMLSchema.STRING));
                 }        
             }        
         }

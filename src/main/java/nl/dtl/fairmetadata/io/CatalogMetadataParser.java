@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableList;
 
 import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
+import org.openrdf.model.Value;
 
 /**
  * Parser for catalog metadata
@@ -69,14 +70,13 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             URI predicate = st.getPredicate();
+            Value object = st.getObject();
             
             if (subject.equals(catalogURI)) {
                 if (predicate.equals(FOAF.HOMEPAGE)) {
-                    URI homePage = (URI) st.getObject();
-                    metadata.setHomepage(homePage);
+                    metadata.setHomepage((URI) object);
                 } else if (predicate.equals(DCAT.THEME_TAXONOMY)) {
-                    URI themeTax = (URI) st.getObject();
-                    metadata.getThemeTaxonomy().add(themeTax);
+                    metadata.getThemeTaxonomy().add((URI) object);
                 }
             }
         }
