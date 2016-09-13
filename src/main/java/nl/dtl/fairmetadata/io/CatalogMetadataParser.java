@@ -55,9 +55,12 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      * @return              CatalogMetadata object 
      */
     @Override
-    public CatalogMetadata parse(@Nonnull List<Statement> statements, @Nonnull URI catalogURI) {
-        Preconditions.checkNotNull(catalogURI, "Catalog URI must not be null.");
-        Preconditions.checkNotNull(statements, "Catalog statements must not be null.");
+    public CatalogMetadata parse(@Nonnull List<Statement> statements, 
+            @Nonnull URI catalogURI) {
+        Preconditions.checkNotNull(catalogURI, 
+                "Catalog URI must not be null.");
+        Preconditions.checkNotNull(statements, 
+                "Catalog statements must not be null.");
         
         LOGGER.info("Parsing catalog metadata");
         

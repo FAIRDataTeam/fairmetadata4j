@@ -55,8 +55,10 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
     @Override
     public DatasetMetadata parse(@Nonnull List<Statement> statements, 
             @Nonnull URI datasetURI) {
-        Preconditions.checkNotNull(datasetURI, "Dataset URI must not be null.");
-        Preconditions.checkNotNull(statements, "Dataset statements must not be null.");
+        Preconditions.checkNotNull(datasetURI, 
+                "Dataset URI must not be null.");
+        Preconditions.checkNotNull(statements, 
+                "Dataset statements must not be null.");
         LOGGER.info("Parsing dataset metadata");
         DatasetMetadata metadata = super.parse(statements, datasetURI);
         for (Statement st : statements) {
