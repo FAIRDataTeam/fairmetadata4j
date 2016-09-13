@@ -17,6 +17,8 @@ import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Model;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.LiteralImpl;
@@ -54,29 +56,29 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
     public DatasetMetadata parse(@Nonnull List<Statement> statements, 
             @Nonnull URI datasetURI) {
         Preconditions.checkNotNull(datasetURI, "Dataset URI must not be null.");
-        Preconditions.checkNotNull(statements, 
-                "Dataset statements must not be null.");
+        Preconditions.checkNotNull(statements, "Dataset statements must not be null.");
         LOGGER.info("Parsing dataset metadata");
         DatasetMetadata metadata = super.parse(statements, datasetURI);
-        Iterator<Statement> it = statements.iterator();
-        while (it.hasNext()) {
-            Statement st = it.next();
-            if (st.getSubject().equals(datasetURI)
-                    && st.getPredicate().equals(DCAT.LANDING_PAGE)) {
-                URI landingPage = (URI) st.getObject();
-                metadata.setLandingPage(landingPage);
-            } else if ( st.getPredicate().equals(DCAT.THEME)) {
-                URI theme = (URI) st.getObject();
-                metadata.getThemes().add(theme);
-            } else if ( st.getPredicate().equals(DCAT.CONTACT_POINT)) {
-                URI contactPoint = (URI) st.getObject();
-                metadata.setContactPoint(contactPoint);
-            } else if (st.getSubject().equals(datasetURI)
-                    && st.getPredicate().equals(DCAT.KEYWORD)) {
-                Literal keyword = new LiteralImpl(st.getObject().
-                        stringValue(), XMLSchema.STRING);
-                metadata.getKeywords().add(keyword);
-            }
+        for (Statement st : statements) {
+            Resource subject = st.getSubject();
+            URI predicate = st.getPredicate();
+            
+            if(subject.equals(datasetURI)) {
+                if (predicate.equals(DCAT.LANDING_PAGE)) {
+                    URI landingPage = (URI) st.getObject();
+                    metadata.setLandingPage(landingPage);
+                } else if (predicate.equals(DCAT.THEME)) {
+                    URI theme = (URI) st.getObject();
+                    metadata.getThemes().add(theme);
+                } else if (predicate.equals(DCAT.CONTACT_POINT)) {
+                    URI contactPoint = (URI) st.getObject();
+                    metadata.setContactPoint(contactPoint);
+                } else if (predicate.equals(DCAT.KEYWORD)) {
+                    Literal keyword = new LiteralImpl(st.getObject().
+                            stringValue(), XMLSchema.STRING);
+                    metadata.getKeywords().add(keyword);
+                }        
+            }        
         }
         return metadata;
     }
@@ -102,30 +104,19 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
         Preconditions.checkNotNull(datasetID, "Dataset ID must not be null.");
         Preconditions.checkNotNull(datasetURI, "Dataset URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-        if (datasetMetadata.isEmpty()) {
-            String errorMsg = "The dataset metadata content "
-                    + "can't be EMPTY";
-            LOGGER.error(errorMsg);
-            throw (new IllegalArgumentException(errorMsg));
-        }        
-        if (datasetID.isEmpty()) {
-            String errorMsg = "The dataset id content "
-                    + "can't be EMPTY";
-            LOGGER.error(errorMsg);
-            throw (new IllegalArgumentException(errorMsg));
-        }        
-        StringReader reader = new StringReader(datasetMetadata);
-        org.openrdf.model.Model modelDataset;
-        DatasetMetadata metadata;
+        
+        Preconditions.checkArgument(!datasetMetadata.isEmpty(), "The dataset metadata content can't be EMPTY");
+        Preconditions.checkArgument(!datasetID.isEmpty(), "The dataset id content can't be EMPTY");        
         try {
-            modelDataset = Rio.parse(reader, datasetURI.stringValue(), format);
+            Model modelDataset = Rio.parse(new StringReader(datasetMetadata), datasetURI.stringValue(), format);
             Iterator<Statement> it = modelDataset.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
-            metadata = this.parse(statements, datasetURI);
+            
+            DatasetMetadata metadata = this.parse(statements, datasetURI);
             metadata.setIdentifier(new LiteralImpl(datasetID, 
                     XMLSchema.STRING));
-            metadata.setParentURI(catalogURI);
-            
+            metadata.setParentURI(catalogURI);             
+            return metadata;
         } catch (IOException ex) {
             String errMsg = "Error reading dataset metadata content"
                     + ex.getMessage();
@@ -140,8 +131,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
             String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
-        } 
-        return metadata;
+        }
     }
     
 }

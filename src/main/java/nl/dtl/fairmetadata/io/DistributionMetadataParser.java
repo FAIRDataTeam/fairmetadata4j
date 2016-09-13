@@ -17,6 +17,8 @@ import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Model;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.LiteralImpl;
@@ -54,37 +56,33 @@ public class DistributionMetadataParser extends MetadataParser
             @Nonnull URI distributionURI)  {
         Preconditions.checkNotNull(distributionURI, 
                 "Distribution URI must not be null.");
-        Preconditions.checkNotNull(statements, 
-                "Distribution statements must not be null.");
+        Preconditions.checkNotNull(statements, "Distribution statements must not be null.");
         LOGGER.info("Parsing distribution metadata");
         DistributionMetadata metadata = super.parse(statements, 
                 distributionURI);
-        Iterator<Statement> it = statements.iterator();
-        while (it.hasNext()) {
-            Statement st = it.next();
-            if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.ACCESS_URL)) {
-                URI accessURL = (URI) st.getObject();
-                metadata.setAccessURL(accessURL);
-            } else if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.DOWNLOAD_URL)) {
-                URI downloadURL = (URI) st.getObject();
-                metadata.setDownloadURL(downloadURL);
-            } else if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.FORMAT)) {
-                 Literal format = new LiteralImpl(st.getObject().
-                        stringValue(), XMLSchema.STRING);
-                metadata.setFormat(format);
-            } else if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.BYTE_SIZE)) {
-                 Literal byteSize = new LiteralImpl(st.getObject().
-                        stringValue(), XMLSchema.STRING);
-                metadata.setByteSize(byteSize);
-            } else if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.MEDIA_TYPE)) {
-                 Literal mediaType = new LiteralImpl(st.getObject().
-                        stringValue(), XMLSchema.STRING);
-                metadata.setMediaType(mediaType);
+        for (Statement st : statements) {
+            Resource subject = st.getSubject();
+            URI predicate = st.getPredicate();
+            if (subject.equals(distributionURI)) {
+                if (predicate.equals(DCAT.ACCESS_URL)) {
+                    URI accessURL = (URI) st.getObject();
+                    metadata.setAccessURL(accessURL);
+                } else if (predicate.equals(DCAT.DOWNLOAD_URL)) {
+                    URI downloadURL = (URI) st.getObject();
+                    metadata.setDownloadURL(downloadURL);
+                } else if (predicate.equals(DCAT.FORMAT)) {
+                     Literal format = new LiteralImpl(st.getObject().
+                            stringValue(), XMLSchema.STRING);                    
+                     metadata.setFormat(format);
+                } else if (predicate.equals(DCAT.BYTE_SIZE)) {
+                     Literal byteSize = new LiteralImpl(st.getObject().
+                            stringValue(), XMLSchema.STRING);                    
+                     metadata.setByteSize(byteSize);
+                } else if (predicate.equals(DCAT.MEDIA_TYPE)) {
+                     Literal mediaType = new LiteralImpl(st.getObject().
+                            stringValue(), XMLSchema.STRING);                    
+                     metadata.setMediaType(mediaType);
+                }
             }
         }
         return metadata;
@@ -99,7 +97,8 @@ public class DistributionMetadataParser extends MetadataParser
      * @param datasetURI            Dataset URI
      * @param format                RDF string's RDF format
      * @return                      DistributionMetadata object
-     * @throws DatatypeConfigurationException 
+     * @throws  DatatypeConfigurationException 
+     * @throws nl.dtl.fairmetadata.io.MetadataParserException 
      */
     public DistributionMetadata parse (@Nonnull String distributionMetadata, 
             @Nonnull String distributionID, @Nonnull URI distributionURI, 
@@ -112,31 +111,20 @@ public class DistributionMetadataParser extends MetadataParser
         Preconditions.checkNotNull(distributionURI, 
                 "Distribution URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-        if (distributionMetadata.isEmpty()) {
-            String errorMsg = "The Distribution metadata content "
-                    + "can't be EMPTY";
-            LOGGER.error(errorMsg);
-            throw (new IllegalArgumentException(errorMsg));
-        }        
-        if (distributionID.isEmpty()) {
-            String errorMsg = "The Distribution id content "
-                    + "can't be EMPTY";
-            LOGGER.error(errorMsg);
-            throw (new IllegalArgumentException(errorMsg));
-        }        
-        StringReader reader = new StringReader(distributionMetadata);
-        org.openrdf.model.Model modelDistribution;
-        DistributionMetadata metadata;
+        
+        Preconditions.checkArgument(!distributionMetadata.isEmpty(), "The distribution metadata content can't be EMPTY");
+        Preconditions.checkArgument(!distributionID.isEmpty(), "The distribution id content can't be EMPTY");        
         try {
-            modelDistribution = Rio.parse(reader, distributionURI.stringValue(), 
+            Model modelDistribution = Rio.parse(new StringReader(distributionMetadata), distributionURI.stringValue(), 
                     format);
             Iterator<Statement> it = modelDistribution.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
-            metadata = this.parse(statements, distributionURI);
+            
+            DistributionMetadata metadata = this.parse(statements, distributionURI);
             metadata.setIdentifier(new LiteralImpl(distributionID, 
                     XMLSchema.STRING));
             metadata.setParentURI(datasetURI);
-            
+            return metadata;
         } catch (IOException ex) {
             String errMsg = "Error reading distribution metadata content"
                     + ex.getMessage();
@@ -151,8 +139,7 @@ public class DistributionMetadataParser extends MetadataParser
             String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
-        } 
-        return metadata;
+        }        
     }
     
 }
