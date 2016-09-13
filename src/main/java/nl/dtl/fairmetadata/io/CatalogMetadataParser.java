@@ -100,8 +100,8 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
         Preconditions.checkNotNull(catalogURI, "Catalog URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
         
-        Preconditions.checkArgument(catalogMetadata.isEmpty(), "The catalog metadata content can't be EMPTY");
-        Preconditions.checkArgument(catalogID.isEmpty(), "The catalog id content can't be EMPTY");        
+        Preconditions.checkArgument(!catalogMetadata.isEmpty(), "The catalog metadata content can't be EMPTY");
+        Preconditions.checkArgument(!catalogID.isEmpty(), "The catalog id content can't be EMPTY");        
         
         try {
             Model modelCatalog = Rio.parse(new StringReader(catalogMetadata), catalogURI.stringValue(), format);
