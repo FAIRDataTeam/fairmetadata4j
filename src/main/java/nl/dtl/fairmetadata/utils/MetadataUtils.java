@@ -95,11 +95,10 @@ public class MetadataUtils {
      * @param format    RDF format
      * @return          RDF string
      * @throws MetadataException
-     * @throws Exception 
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata, 
             @Nonnull RDFFormat format) 
-            throws MetadataException, Exception {
+            throws MetadataException {
         Preconditions.checkNotNull(metadata, 
                 "Metadata object must not be null.");
         Preconditions.checkNotNull(format, 
@@ -111,7 +110,7 @@ public class MetadataUtils {
             propagateToHandler(statement, writer);
         } catch (RepositoryException | RDFHandlerException ex) {
             LOGGER.error("Error reading RDF statements");
-            throw (new Exception(ex.getMessage()));
+            throw (new MetadataException(ex.getMessage()));
         }        
         return sw.toString();	        
     }
