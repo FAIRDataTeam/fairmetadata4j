@@ -91,14 +91,12 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
      * @param catalogURI        Catalog URI
      * @param format            RDF string's RDF format
      * @return                  DatasetMetadata object
-     * @throws MetadataParserException
-     * @throws DatatypeConfigurationException 
+     * @throws MetadataParserException 
      */
     public DatasetMetadata parse (@Nonnull String datasetMetadata, 
             @Nonnull String datasetID, @Nonnull URI datasetURI, URI catalogURI, 
             @Nonnull RDFFormat format) 
-            throws MetadataParserException, 
-            DatatypeConfigurationException {
+            throws MetadataParserException {
         Preconditions.checkNotNull(datasetMetadata, 
                 "Dataset metadata string must not be null."); 
         Preconditions.checkNotNull(datasetID, "Dataset ID must not be null.");

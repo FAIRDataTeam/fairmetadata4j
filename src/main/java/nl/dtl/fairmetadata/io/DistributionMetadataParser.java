@@ -95,14 +95,13 @@ public class DistributionMetadataParser extends MetadataParser
      * @param distributionURI       Distribution URI
      * @param datasetURI            Dataset URI
      * @param format                RDF string's RDF format
-     * @return                      DistributionMetadata object
-     * @throws  DatatypeConfigurationException 
+     * @return                      DistributionMetadata object 
      * @throws nl.dtl.fairmetadata.io.MetadataParserException 
      */
     public DistributionMetadata parse (@Nonnull String distributionMetadata, 
             @Nonnull String distributionID, @Nonnull URI distributionURI, 
             URI datasetURI, @Nonnull RDFFormat format) 
-            throws DatatypeConfigurationException, MetadataParserException {
+            throws MetadataParserException {
         Preconditions.checkNotNull(distributionMetadata, 
                 "Distribution metadata string must not be null."); 
         Preconditions.checkNotNull(distributionID, 
