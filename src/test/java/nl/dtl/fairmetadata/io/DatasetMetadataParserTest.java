@@ -156,4 +156,18 @@ public class DatasetMetadataParserTest {
         assertNotNull(metadata);
     }
     
+    /**
+     * Test valid dataset metadata rdf file, with no base
+     * @throws Exception 
+     */
+    @Test
+    public void testParseFileWithNoBase() throws Exception {
+        System.out.println("Test : Parse valid dataset content with no base uri");
+        DatasetMetadata metadata = parser.parse(
+                ExampleFilesUtils.getFileContentAsString(
+                ExampleFilesUtils.DATASET_METADATA_FILE), null,
+                ExampleFilesUtils.FILE_FORMAT);
+        assertNotNull(metadata);
+    }
+    
 }

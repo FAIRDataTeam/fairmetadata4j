@@ -12,17 +12,16 @@ import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
-import javax.xml.datatype.DatatypeConfigurationException;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Literal;
 import org.openrdf.model.Model;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;
+import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParseException;
@@ -125,6 +124,60 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
             throw (new MetadataParserException(errMsg));
         } catch (RDFParseException ex) {
             String errMsg = "Error parsing dataset metadata content. "
+                    + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        } catch (UnsupportedRDFormatException ex) {
+            String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        }
+    }
+    
+    /**
+     * Parse RDF string to dataset metadata object
+     *
+     * @param datasetMetadata Catalog metadata as a RDF string
+     * @param baseURI
+     * @param format RDF string's RDF format
+     * @return DatasetMetadata object
+     * @throws MetadataParserException
+     */
+    public DatasetMetadata parse(@Nonnull String datasetMetadata,
+            URI baseURI, @Nonnull RDFFormat format)
+            throws MetadataParserException {
+        Preconditions.checkNotNull(datasetMetadata,
+                "Catalog metadata string must not be null.");
+        Preconditions.checkNotNull(format, "RDF format must not be null.");
+
+        Preconditions.checkArgument(!datasetMetadata.isEmpty(),
+                "The catalog metadata content can't be EMPTY");
+        try {
+            Model modelCatalog;
+            if (baseURI != null) {
+                modelCatalog = Rio.parse(new StringReader(datasetMetadata),
+                        baseURI.stringValue(), format);
+            } else {
+                modelCatalog = Rio.parse(new StringReader(datasetMetadata), "",
+                        format);
+            }
+            Iterator<Statement> it = modelCatalog.iterator();
+            List<Statement> statements = ImmutableList.copyOf(it);
+            URI catalogURI = (URI) statements.get(0).getSubject();
+            DatasetMetadata metadata = this.parse(statements, catalogURI);
+            metadata.setUri(null);
+            return metadata;
+        } catch (IOException ex) {
+            String errMsg = "Error reading catalog metadata content"
+                    + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        } catch (RDFParseException ex) {
+            if (ex.getMessage().contains("Not a valid (absolute) URI")) {
+                String dummyURI = "http://example.com/dummyResource";
+                return parse(datasetMetadata, new URIImpl(dummyURI), format);
+            }
+            String errMsg = "Error parsing catalog metadata content. "
                     + ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));

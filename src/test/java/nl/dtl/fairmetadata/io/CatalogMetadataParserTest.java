@@ -156,4 +156,18 @@ public class CatalogMetadataParserTest {
         assertNotNull(metadata);
     }
     
+    /**
+     * Test valid catalog metadata rdf file, with no base
+     * @throws Exception 
+     */
+    @Test
+    public void testParseFileWithNoBase() throws Exception {
+        System.out.println("Test : Parse valid catalog content with no base uri");
+        CatalogMetadata metadata = parser.parse(
+                ExampleFilesUtils.getFileContentAsString(
+                ExampleFilesUtils.CATALOG_METADATA_FILE), null,
+                ExampleFilesUtils.FILE_FORMAT);
+        assertNotNull(metadata);
+    }
+    
 }

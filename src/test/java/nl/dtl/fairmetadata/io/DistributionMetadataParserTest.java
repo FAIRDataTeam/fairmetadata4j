@@ -157,4 +157,19 @@ public class DistributionMetadataParserTest {
         assertNotNull(metadata);
     }
     
+    /**
+     * Test valid dataset metadata rdf file, with no base
+     * @throws Exception 
+     */
+    @Test
+    public void testParseFileWithNoBase() throws Exception {
+        System.out.println("Test : Parse valid distribution "
+                + "content with no base uri");
+        DistributionMetadata metadata = parser.parse(
+                ExampleFilesUtils.getFileContentAsString(
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), null,
+                ExampleFilesUtils.FILE_FORMAT);
+        assertNotNull(metadata);
+    }
+    
 }
