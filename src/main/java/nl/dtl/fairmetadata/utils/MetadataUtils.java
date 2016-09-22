@@ -167,8 +167,8 @@ public class MetadataUtils {
             model.add(metadata.getUri(), DCAT.THEME_TAXONOMY, themeTax);
         });        
         metadata.getDatasets().stream().forEach((dataset) -> {
-            model.add(metadata.getUri(), DCAT.DATASET, dataset); 
-        });        
+            model.add(metadata.getUri(), DCAT.DATASET, dataset);
+        });       
         return getStatements(model);       
     }
     
@@ -205,9 +205,9 @@ public class MetadataUtils {
         metadata.getKeywords().stream().forEach((keyword) -> {
             model.add(metadata.getUri(), DCAT.KEYWORD, keyword);
         });
-        metadata.getDistribution().stream().forEach((distribution) -> {                
-            model.add(metadata.getUri(), DCAT.DISTRIBUTION, distribution);            
-        });
+        metadata.getDistribution().stream().forEach((distribution) -> {
+            model.add(metadata.getUri(), DCAT.DISTRIBUTION, distribution);
+        }); 
         return getStatements(model);       
     }
     

@@ -7,6 +7,7 @@ package nl.dtl.fairmetadata.model;
  */
 
 
+import java.util.ArrayList;
 import java.util.List;
 import org.openrdf.model.URI;
 
@@ -20,7 +21,7 @@ public final class FDPMetadata extends Metadata {
     
     private URI homepage;
     private URI swaggerDoc;  
-    private List<URI> catalogs;
+    private List<URI> catalogs = new ArrayList();
     
     /**
      * @param homepage the homepage to set
