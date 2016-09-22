@@ -27,6 +27,7 @@ import org.openrdf.rio.UnsupportedRDFormatException;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
 
 import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
@@ -68,6 +69,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
         LOGGER.info("Parsing catalog metadata");
 
         CatalogMetadata metadata = super.parse(statements, catalogURI);
+        List<URI> datasets = new ArrayList();
 
         for (Statement st : statements) {
             Resource subject = st.getSubject();
@@ -79,8 +81,13 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
                     metadata.setHomepage((URI) object);
                 } else if (predicate.equals(DCAT.THEME_TAXONOMY)) {
                     metadata.getThemeTaxonomy().add((URI) object);
+                } else if (predicate.equals(DCAT.DATASET)) {
+                    datasets.add((URI) object);
                 }
             }
+        }
+        if(!datasets.isEmpty()) {
+            metadata.setDatasets(datasets);
         }
         return metadata;
     }

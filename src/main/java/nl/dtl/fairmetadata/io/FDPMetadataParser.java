@@ -5,6 +5,7 @@
  */
 package nl.dtl.fairmetadata.io;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openrdf.model.Resource;
@@ -14,6 +15,7 @@ import org.openrdf.model.vocabulary.FOAF;
 import org.openrdf.model.vocabulary.RDFS;
 
 import nl.dtl.fairmetadata.model.FDPMetadata;
+import nl.dtl.fairmetadata.utils.vocabulary.LDP;
 import org.openrdf.model.Value;
 
 /**
@@ -32,6 +34,7 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
     @Override
     public FDPMetadata parse(List<Statement> statements, URI fdpURI) {
         FDPMetadata metadata = super.parse(statements, fdpURI);
+        List<URI> catalogs = new ArrayList();
         
         for (Statement st : statements) {
             Resource subject = st.getSubject();
@@ -43,8 +46,13 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
                     metadata.setHomepage((URI) object);
                 } else if (predicate.equals(RDFS.SEEALSO)) {
                     metadata.setSwaggerDoc((URI) object);
+                } else if (predicate.equals(LDP.CONTAINS)) {
+                    catalogs.add((URI) object);
                 }
             }
+        }
+        if(!catalogs.isEmpty()) {
+            metadata.setCatalogs(catalogs);
         }
         return metadata;
     }

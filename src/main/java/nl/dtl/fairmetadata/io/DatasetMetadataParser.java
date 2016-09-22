@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -61,6 +62,8 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
                 "Dataset statements must not be null.");
         LOGGER.info("Parsing dataset metadata");
         DatasetMetadata metadata = super.parse(statements, datasetURI);
+        List<URI> distributions = new ArrayList();
+        
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             URI predicate = st.getPredicate();
@@ -76,9 +79,16 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
                 } else if (predicate.equals(DCAT.KEYWORD)) {
                     metadata.getKeywords().add( new LiteralImpl(object.
                             stringValue(), XMLSchema.STRING));
-                }        
+                } else if (predicate.equals(DCAT.DISTRIBUTION)) {
+                    distributions.add((URI) object);
+                }       
             }        
         }
+        
+        if(!distributions.isEmpty()) {
+            metadata.setDistribution(distributions);
+        }
+        
         return metadata;
     }
     

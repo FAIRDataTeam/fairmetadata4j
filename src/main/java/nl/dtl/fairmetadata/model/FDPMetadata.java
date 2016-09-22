@@ -7,6 +7,7 @@ package nl.dtl.fairmetadata.model;
  */
 
 
+import java.util.List;
 import org.openrdf.model.URI;
 
 /**
@@ -19,6 +20,7 @@ public final class FDPMetadata extends Metadata {
     
     private URI homepage;
     private URI swaggerDoc;  
+    private List<URI> catalogs;
     
     /**
      * @param homepage the homepage to set
@@ -46,6 +48,20 @@ public final class FDPMetadata extends Metadata {
      */
     public URI getSwaggerDoc() {
         return swaggerDoc;
+    }
+
+    /**
+     * @return the catalogs
+     */
+    public List<URI> getCatalogs() {
+        return catalogs;
+    }
+
+    /**
+     * @param catalogs the catalogs to set
+     */
+    public void setCatalogs(List<URI> catalogs) {
+        this.catalogs = catalogs;
     }
     
 }

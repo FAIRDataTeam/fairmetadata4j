@@ -133,7 +133,10 @@ public class MetadataUtils {
         model.add(metadata.getUri(), RDFS.SEEALSO, swaggerURL);        
         if (metadata.getHomepage() != null) {
            model.add(metadata.getUri(), FOAF.HOMEPAGE, metadata.getHomepage());
-        }        
+        }    
+        metadata.getCatalogs().stream().forEach((catalog) -> {
+            model.add(metadata.getUri(), LDP.CONTAINS, catalog);
+        }); 
         return getStatements(model);     
     }
     
