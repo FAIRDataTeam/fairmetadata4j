@@ -12,14 +12,17 @@ import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
-import javax.xml.datatype.DatatypeConfigurationException;
+import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Literal;
+import org.openrdf.model.Model;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;
+import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParseException;
@@ -59,32 +62,26 @@ public class DistributionMetadataParser extends MetadataParser
         LOGGER.info("Parsing distribution metadata");
         DistributionMetadata metadata = super.parse(statements, 
                 distributionURI);
-        Iterator<Statement> it = statements.iterator();
-        while (it.hasNext()) {
-            Statement st = it.next();
-            if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.ACCESS_URL)) {
-                URI accessURL = (URI) st.getObject();
-                metadata.setAccessURL(accessURL);
-            } else if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.DOWNLOAD_URL)) {
-                URI downloadURL = (URI) st.getObject();
-                metadata.setDownloadURL(downloadURL);
-            } else if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.FORMAT)) {
-                 Literal format = new LiteralImpl(st.getObject().
-                        stringValue(), XMLSchema.STRING);
-                metadata.setFormat(format);
-            } else if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.BYTE_SIZE)) {
-                 Literal byteSize = new LiteralImpl(st.getObject().
-                        stringValue(), XMLSchema.STRING);
-                metadata.setByteSize(byteSize);
-            } else if (st.getSubject().equals(distributionURI)
-                    && st.getPredicate().equals(DCAT.MEDIA_TYPE)) {
-                 Literal mediaType = new LiteralImpl(st.getObject().
-                        stringValue(), XMLSchema.STRING);
-                metadata.setMediaType(mediaType);
+        for (Statement st : statements) {
+            Resource subject = st.getSubject();
+            URI predicate = st.getPredicate();
+            Value object = st.getObject();
+            
+            if (subject.equals(distributionURI)) {
+                if (predicate.equals(DCAT.ACCESS_URL)) {
+                    metadata.setAccessURL((URI) object);
+                } else if (predicate.equals(DCAT.DOWNLOAD_URL)) {
+                    metadata.setDownloadURL((URI) object);
+                } else if (predicate.equals(DCAT.FORMAT)) {                   
+                     metadata.setFormat(new LiteralImpl(object.stringValue(), 
+                             XMLSchema.STRING));
+                } else if (predicate.equals(DCAT.BYTE_SIZE)) {                                  
+                     metadata.setByteSize(new LiteralImpl(object.stringValue(), 
+                             XMLSchema.STRING));
+                } else if (predicate.equals(DCAT.MEDIA_TYPE)) {                   
+                     metadata.setMediaType(new LiteralImpl(object.stringValue(), 
+                             XMLSchema.STRING));
+                }
             }
         }
         return metadata;
@@ -98,13 +95,13 @@ public class DistributionMetadataParser extends MetadataParser
      * @param distributionURI       Distribution URI
      * @param datasetURI            Dataset URI
      * @param format                RDF string's RDF format
-     * @return                      DistributionMetadata object
-     * @throws DatatypeConfigurationException 
+     * @return                      DistributionMetadata object 
+     * @throws nl.dtl.fairmetadata.io.MetadataParserException 
      */
     public DistributionMetadata parse (@Nonnull String distributionMetadata, 
             @Nonnull String distributionID, @Nonnull URI distributionURI, 
             URI datasetURI, @Nonnull RDFFormat format) 
-            throws DatatypeConfigurationException, MetadataParserException {
+            throws MetadataParserException {
         Preconditions.checkNotNull(distributionMetadata, 
                 "Distribution metadata string must not be null."); 
         Preconditions.checkNotNull(distributionID, 
@@ -112,31 +109,25 @@ public class DistributionMetadataParser extends MetadataParser
         Preconditions.checkNotNull(distributionURI, 
                 "Distribution URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-        if (distributionMetadata.isEmpty()) {
-            String errorMsg = "The Distribution metadata content "
-                    + "can't be EMPTY";
-            LOGGER.error(errorMsg);
-            throw (new IllegalArgumentException(errorMsg));
-        }        
-        if (distributionID.isEmpty()) {
-            String errorMsg = "The Distribution id content "
-                    + "can't be EMPTY";
-            LOGGER.error(errorMsg);
-            throw (new IllegalArgumentException(errorMsg));
-        }        
-        StringReader reader = new StringReader(distributionMetadata);
-        org.openrdf.model.Model modelDistribution;
-        DistributionMetadata metadata;
+        
+        Preconditions.checkArgument(!distributionMetadata.isEmpty(), 
+                "The distribution metadata content can't be EMPTY");
+        Preconditions.checkArgument(!distributionID.isEmpty(), 
+                "The distribution id content can't be EMPTY");        
         try {
-            modelDistribution = Rio.parse(reader, distributionURI.stringValue(), 
+            Model modelDistribution = Rio.parse(
+                    new StringReader(distributionMetadata), 
+                    distributionURI.stringValue(), 
                     format);
             Iterator<Statement> it = modelDistribution.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
-            metadata = this.parse(statements, distributionURI);
+            
+            DistributionMetadata metadata = this.parse(statements, 
+                    distributionURI);
             metadata.setIdentifier(new LiteralImpl(distributionID, 
                     XMLSchema.STRING));
             metadata.setParentURI(datasetURI);
-            
+            return metadata;
         } catch (IOException ex) {
             String errMsg = "Error reading distribution metadata content"
                     + ex.getMessage();
@@ -151,8 +142,62 @@ public class DistributionMetadataParser extends MetadataParser
             String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
-        } 
-        return metadata;
+        }        
+    }
+    
+    /**
+     * Parse RDF string to dataset distributionMetadata object
+     *
+     * @param distributionMetadata Distribution metadata as a RDF string
+     * @param baseURI
+     * @param format RDF string's RDF format
+     * @return DistributionMetadata object
+     * @throws MetadataParserException
+     */
+    public DistributionMetadata parse(@Nonnull String distributionMetadata,
+            URI baseURI, @Nonnull RDFFormat format)
+            throws MetadataParserException {
+        Preconditions.checkNotNull(distributionMetadata,
+                "Catalog metadata string must not be null.");
+        Preconditions.checkNotNull(format, "RDF format must not be null.");
+
+        Preconditions.checkArgument(!distributionMetadata.isEmpty(),
+                "The catalog metadata content can't be EMPTY");
+        try {
+            Model modelCatalog;
+            if (baseURI != null) {
+                modelCatalog = Rio.parse(new StringReader(distributionMetadata),
+                        baseURI.stringValue(), format);
+            } else {
+                modelCatalog = Rio.parse(new StringReader(
+                        distributionMetadata), "", format);
+            }
+            Iterator<Statement> it = modelCatalog.iterator();
+            List<Statement> statements = ImmutableList.copyOf(it);
+            URI catalogURI = (URI) statements.get(0).getSubject();
+            DistributionMetadata metadata = this.parse(statements, catalogURI);
+            metadata.setUri(null);
+            return metadata;
+        } catch (IOException ex) {
+            String errMsg = "Error reading catalog metadata content"
+                    + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        } catch (RDFParseException ex) {
+            if (ex.getMessage().contains("Not a valid (absolute) URI")) {
+                String dummyURI = "http://example.com/dummyResource";
+                return parse(distributionMetadata, new URIImpl(dummyURI), 
+                        format);
+            }
+            String errMsg = "Error parsing catalog metadata content. "
+                    + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        } catch (UnsupportedRDFormatException ex) {
+            String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        }
     }
     
 }

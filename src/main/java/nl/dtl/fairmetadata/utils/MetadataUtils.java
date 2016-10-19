@@ -95,11 +95,10 @@ public class MetadataUtils {
      * @param format    RDF format
      * @return          RDF string
      * @throws MetadataException
-     * @throws Exception 
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata, 
             @Nonnull RDFFormat format) 
-            throws MetadataException, Exception {
+            throws MetadataException {
         Preconditions.checkNotNull(metadata, 
                 "Metadata object must not be null.");
         Preconditions.checkNotNull(format, 
@@ -111,7 +110,7 @@ public class MetadataUtils {
             propagateToHandler(statement, writer);
         } catch (RepositoryException | RDFHandlerException ex) {
             LOGGER.error("Error reading RDF statements");
-            throw (new Exception(ex.getMessage()));
+            throw (new MetadataException(ex.getMessage()));
         }        
         return sw.toString();	        
     }
@@ -134,7 +133,10 @@ public class MetadataUtils {
         model.add(metadata.getUri(), RDFS.SEEALSO, swaggerURL);        
         if (metadata.getHomepage() != null) {
            model.add(metadata.getUri(), FOAF.HOMEPAGE, metadata.getHomepage());
-        }        
+        }    
+        metadata.getCatalogs().stream().forEach((catalog) -> {
+            model.add(metadata.getUri(), LDP.CONTAINS, catalog);
+        }); 
         return getStatements(model);     
     }
     
@@ -165,8 +167,8 @@ public class MetadataUtils {
             model.add(metadata.getUri(), DCAT.THEME_TAXONOMY, themeTax);
         });        
         metadata.getDatasets().stream().forEach((dataset) -> {
-            model.add(metadata.getUri(), DCAT.DATASET, dataset); 
-        });        
+            model.add(metadata.getUri(), DCAT.DATASET, dataset);
+        });       
         return getStatements(model);       
     }
     
@@ -203,9 +205,9 @@ public class MetadataUtils {
         metadata.getKeywords().stream().forEach((keyword) -> {
             model.add(metadata.getUri(), DCAT.KEYWORD, keyword);
         });
-        metadata.getDistribution().stream().forEach((distribution) -> {                
-            model.add(metadata.getUri(), DCAT.DISTRIBUTION, distribution);            
-        });
+        metadata.getDistribution().stream().forEach((distribution) -> {
+            model.add(metadata.getUri(), DCAT.DISTRIBUTION, distribution);
+        }); 
         return getStatements(model);       
     }
     

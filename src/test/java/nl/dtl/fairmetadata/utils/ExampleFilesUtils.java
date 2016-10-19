@@ -45,7 +45,8 @@ public class ExampleFilesUtils {
     public final static String DATASET_URI = 
             "http://localhost/fdp/textmining/gene-disease-association_lumc";
     public final static String DISTRIBUTION_URI = 
-            "http://localhost/fdp/textmining/gene-disease-association_lumc/sparql";   
+            "http://localhost/fdp/textmining/gene-disease-association_lumc/"
+            + "sparql";   
     public final static String TEST_SUB_URI = "http://www.dtls.nl/test";  
     public static final String VALID_TEST_FILE = "valid-test-file.ttl";
     public static final RDFFormat FILE_FORMAT = RDFFormat.TURTLE;

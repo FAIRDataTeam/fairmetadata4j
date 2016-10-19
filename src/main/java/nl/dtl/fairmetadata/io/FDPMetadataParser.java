@@ -5,13 +5,18 @@
  */
 package nl.dtl.fairmetadata.io;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import nl.dtl.fairmetadata.model.FDPMetadata;
+
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.FOAF;
 import org.openrdf.model.vocabulary.RDFS;
+
+import nl.dtl.fairmetadata.model.FDPMetadata;
+import nl.dtl.fairmetadata.utils.vocabulary.LDP;
+import org.openrdf.model.Value;
 
 /**
  *
@@ -27,22 +32,28 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
     }
     
     @Override
-    public FDPMetadata parse(List<Statement> statements, 
-            URI fdpURI) {
+    public FDPMetadata parse(List<Statement> statements, URI fdpURI) {
         FDPMetadata metadata = super.parse(statements, fdpURI);
-        Iterator<Statement> it = statements.iterator();
-        while (it.hasNext()) {
-            Statement st = it.next();
-            if (st.getSubject().equals(fdpURI)
-                    && st.getPredicate().equals(FOAF.HOMEPAGE)) {
-                URI homePage = (URI) st.getObject();
-                metadata.setHomepage(homePage);
-            } else if (st.getSubject().equals(fdpURI)
-                    && st.getPredicate().equals(RDFS.SEEALSO)) {
-                metadata.setSwaggerDoc((URI) st.getObject());
+        List<URI> catalogs = new ArrayList();
+        
+        for (Statement st : statements) {
+            Resource subject = st.getSubject();
+            URI predicate = st.getPredicate();
+            Value object = st.getObject();
+            
+            if (subject.equals(fdpURI)) {
+                if (predicate.equals(FOAF.HOMEPAGE)) {
+                    metadata.setHomepage((URI) object);
+                } else if (predicate.equals(RDFS.SEEALSO)) {
+                    metadata.setSwaggerDoc((URI) object);
+                } else if (predicate.equals(LDP.CONTAINS)) {
+                    catalogs.add((URI) object);
+                }
             }
+        }
+        if(!catalogs.isEmpty()) {
+            metadata.setCatalogs(catalogs);
         }
         return metadata;
     }
-    
 }
