@@ -19,7 +19,7 @@ import nl.dtl.fairmetadata.model.FDPMetadata;
 import nl.dtl.fairmetadata.model.Metadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
-import nl.dtl.fairmetadata.utils.vocabulary.LDP;
+import nl.dtl.fairmetadata.utils.vocabulary.R3D;
 import org.apache.logging.log4j.LogManager;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -127,7 +127,7 @@ public class MetadataUtils {
             FDPMetadata metadata) 
             throws MetadataException { 
         LOGGER.info("Adding FDP metadata properties to the rdf model");
-        model.add(metadata.getUri(), RDF.TYPE, LDP.CONTAINER);
+        model.add(metadata.getUri(), RDF.TYPE, R3D.TYPE_REPOSTORY);
         URI swaggerURL = new URIImpl(
                 metadata.getUri().toString() + "/swagger-ui.html");
         model.add(metadata.getUri(), RDFS.SEEALSO, swaggerURL);        
@@ -135,7 +135,7 @@ public class MetadataUtils {
            model.add(metadata.getUri(), FOAF.HOMEPAGE, metadata.getHomepage());
         }    
         metadata.getCatalogs().stream().forEach((catalog) -> {
-            model.add(metadata.getUri(), LDP.CONTAINS, catalog);
+            model.add(metadata.getUri(), R3D.DATA_CATALOG, catalog);
         }); 
         return getStatements(model);     
     }
@@ -348,7 +348,7 @@ public class MetadataUtils {
         handler.handleNamespace(OWL.PREFIX, OWL.NAMESPACE);			
         handler.handleNamespace(DCTERMS.PREFIX, DCTERMS.NAMESPACE);
         handler.handleNamespace(FDP.PREFIX, FDP.NAMESPACE);
-        handler.handleNamespace(LDP.PREFIX, LDP.NAMESPACE);
+        handler.handleNamespace(R3D.PREFIX, R3D.NAMESPACE);
         handler.handleNamespace("lang", 
                 "http://id.loc.gov/vocabulary/iso639-1/");
         for(Statement st: statements){

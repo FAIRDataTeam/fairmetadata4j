@@ -15,7 +15,7 @@ import org.openrdf.model.vocabulary.FOAF;
 import org.openrdf.model.vocabulary.RDFS;
 
 import nl.dtl.fairmetadata.model.FDPMetadata;
-import nl.dtl.fairmetadata.utils.vocabulary.LDP;
+import nl.dtl.fairmetadata.utils.vocabulary.R3D;
 import org.openrdf.model.Value;
 
 /**
@@ -46,7 +46,7 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
                     metadata.setHomepage((URI) object);
                 } else if (predicate.equals(RDFS.SEEALSO)) {
                     metadata.setSwaggerDoc((URI) object);
-                } else if (predicate.equals(LDP.CONTAINS)) {
+                } else if (predicate.equals(R3D.DATA_CATALOG)) {
                     catalogs.add((URI) object);
                 }
             }
