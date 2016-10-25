@@ -6,6 +6,9 @@
 
 package nl.dtl.fairmetadata.utils.vocabulary;
 
+import org.openrdf.model.URI;
+import org.openrdf.model.impl.URIImpl;
+
 
 /**
  * FairDataPoint vocabulary.
@@ -18,5 +21,13 @@ package nl.dtl.fairmetadata.utils.vocabulary;
 public class FDP {
     public static final String PREFIX = "fdp-o";
     public static final String NAMESPACE =  
-            "http://rdf.biosemantics.org/ontologies/fdp-o#";
+            "http://rdf.biosemantics.org/ontologies/fdp-o#";    
+    public static final URI DATA_RECORD = 
+            new URIImpl(NAMESPACE + "dataRecord");
+    public static final URI TYPE_DATA_RECORD = 
+            new URIImpl(NAMESPACE + "DataRecord");
+    public static final URI REFERS_TO= 
+            new URIImpl(NAMESPACE + "refersTo");
+    public static final URI RML_MAPPING= 
+            new URIImpl(NAMESPACE + "rmlMapping");
 }

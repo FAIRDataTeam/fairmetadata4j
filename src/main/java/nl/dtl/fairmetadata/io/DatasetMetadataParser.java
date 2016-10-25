@@ -157,11 +157,11 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
             URI baseURI, @Nonnull RDFFormat format)
             throws MetadataParserException {
         Preconditions.checkNotNull(datasetMetadata,
-                "Catalog metadata string must not be null.");
+                "Dataset metadata string must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
 
         Preconditions.checkArgument(!datasetMetadata.isEmpty(),
-                "The catalog metadata content can't be EMPTY");
+                "The dataset metadata content can't be EMPTY");
         try {
             Model modelCatalog;
             if (baseURI != null) {
@@ -178,7 +178,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
             metadata.setUri(null);
             return metadata;
         } catch (IOException ex) {
-            String errMsg = "Error reading catalog metadata content"
+            String errMsg = "Error reading dataset metadata content"
                     + ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
@@ -187,7 +187,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
                 String dummyURI = "http://example.com/dummyResource";
                 return parse(datasetMetadata, new URIImpl(dummyURI), format);
             }
-            String errMsg = "Error parsing catalog metadata content. "
+            String errMsg = "Error parsing dataset metadata content. "
                     + ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));

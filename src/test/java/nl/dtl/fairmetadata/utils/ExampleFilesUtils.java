@@ -39,14 +39,21 @@ public class ExampleFilesUtils {
     public static final String DATASET_ID = "gene-disease-association_lumc";
     public static final String DISTRIBUTION_METADATA_FILE = 
             "gda-lumc-sparql.ttl";
+    public static final String DATARECORD_METADATA_FILE = 
+            "example-datarecord.ttl";
     public static final String DISTRIBUTION_ID = "sparql";
+    public static final String DATARECORD_ID = "dataRecord";
     public final static String FDP_URI = "http://localhost/fdp";
-    public final static String CATALOG_URI = "http://localhost/fdp/textmining";
+    public final static String CATALOG_URI = "http://localhost/fdp/" + 
+            CATALOG_ID;
     public final static String DATASET_URI = 
-            "http://localhost/fdp/textmining/gene-disease-association_lumc";
+            "http://localhost/fdp/" + CATALOG_ID + "/" + DATASET_ID;
     public final static String DISTRIBUTION_URI = 
-            "http://localhost/fdp/textmining/gene-disease-association_lumc/"
-            + "sparql";   
+            "http://localhost/fdp/" + CATALOG_ID + "/" + DATASET_ID + "/" + 
+            DISTRIBUTION_ID;  
+    public final static String DATARECORD_URI = 
+            "http://localhost/fdp/" + CATALOG_ID + "/" + DATASET_ID + "/" + 
+            DATARECORD_ID;  
     public final static String TEST_SUB_URI = "http://www.dtls.nl/test";  
     public static final String VALID_TEST_FILE = "valid-test-file.ttl";
     public static final RDFFormat FILE_FORMAT = RDFFormat.TURTLE;

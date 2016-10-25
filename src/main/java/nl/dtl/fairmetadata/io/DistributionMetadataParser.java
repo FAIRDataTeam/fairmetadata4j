@@ -12,7 +12,6 @@ import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
-import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
@@ -158,11 +157,11 @@ public class DistributionMetadataParser extends MetadataParser
             URI baseURI, @Nonnull RDFFormat format)
             throws MetadataParserException {
         Preconditions.checkNotNull(distributionMetadata,
-                "Catalog metadata string must not be null.");
+                "Distribution metadata string must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
 
         Preconditions.checkArgument(!distributionMetadata.isEmpty(),
-                "The catalog metadata content can't be EMPTY");
+                "The distribution metadata content can't be EMPTY");
         try {
             Model modelCatalog;
             if (baseURI != null) {
