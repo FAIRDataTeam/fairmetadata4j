@@ -121,7 +121,7 @@ public class DistributionMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullDistributionURI() throws Exception {
-        System.out.println("Test : Missing dataset URL");
+        System.out.println("Test : Missing distribution URL");
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
                         ExampleFilesUtils.DISTRIBUTION_URI);
@@ -136,7 +136,7 @@ public class DistributionMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullStatements() throws Exception {
-        System.out.println("Test : Parse valid dataset content");
+        System.out.println("Test : Parse valid distribution content");
         URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
         parser.parse(null, disURI);
         fail("This test is execpeted to throw an error");
