@@ -6,6 +6,7 @@
 package nl.dtl.fairmetadata.utils;
 
 import nl.dtl.fairmetadata.io.CatalogMetadataParser;
+import nl.dtl.fairmetadata.io.DataRecordMetadataParser;
 import nl.dtl.fairmetadata.io.DatasetMetadataParser;
 import nl.dtl.fairmetadata.io.DistributionMetadataParser;
 import nl.dtl.fairmetadata.io.FDPMetadataParser;
@@ -26,6 +27,8 @@ public class MetadataParserUtils {
             new DatasetMetadataParser();
     private static final DistributionMetadataParser distributionParser = 
             new DistributionMetadataParser();
+    private static final DataRecordMetadataParser dataRecordParser = 
+            new DataRecordMetadataParser();
 
     /**
      * @return the fdpParser
@@ -53,6 +56,13 @@ public class MetadataParserUtils {
      */
     public static DistributionMetadataParser getDistributionParser() {
         return distributionParser;
+    }
+    
+    /**
+     * @return the dataRecordParser
+     */
+    public static DataRecordMetadataParser getDataRecordParser() {
+        return dataRecordParser;
     }
     
 }

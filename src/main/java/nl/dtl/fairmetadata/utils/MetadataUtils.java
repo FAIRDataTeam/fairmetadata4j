@@ -13,6 +13,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.io.MetadataException;
 import nl.dtl.fairmetadata.model.CatalogMetadata;
+import nl.dtl.fairmetadata.model.DataRecordMetadata;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.model.FDPMetadata;
@@ -79,6 +80,10 @@ public class MetadataUtils {
             }
             else if (metadata instanceof DistributionMetadata) {
                 return getStatements(model, (DistributionMetadata) metadata);
+            }
+            
+            else if (metadata instanceof DataRecordMetadata) {
+                return getStatements(model, (DataRecordMetadata) metadata);
             }
             else {
                 String msg = "Unknown metadata object";
@@ -251,7 +256,37 @@ public class MetadataUtils {
                     metadata.getMediaType());
         }
         return getStatements(model);       
-    }    
+    }
+    
+    /**
+     * 
+     * Get RDF statements from dataRecord metadata object
+     * 
+     * @param model     RDF model with common metadata properties
+     * @param metadata  DataRecordMetadata object
+     * @return          List of RDF statements
+     * @throws MetadataException 
+     */
+    private static List<Statement> getStatements(org.openrdf.model.Model model, 
+            DataRecordMetadata metadata) 
+            throws MetadataException {        
+        if (metadata.getRmlURI() == null) {
+            String errMsg = 
+                    "No fdp:rmlMapping URL is provided";
+            LOGGER.error(errMsg);
+            throw (new MetadataException(errMsg));
+        }
+        LOGGER.info("Adding dataRecord metadata properties to the rdf model");
+        model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_DISTRIBUTION);        
+        if (metadata.getRmlURI() != null) {
+           model.add(metadata.getUri(), FDP.RML_MAPPING, metadata.getRmlURI()); 
+        }
+        if(metadata.getDistributionURI() != null) {
+           model.add(metadata.getUri(), FDP.REFERS_TO, 
+                   metadata.getDistributionURI()); 
+        }        
+        return getStatements(model);       
+    } 
         
     /**
      * Get statements from the RDF model

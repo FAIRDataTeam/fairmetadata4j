@@ -7,11 +7,13 @@ package nl.dtl.fairmetadata.utils;
 
 import java.util.List;
 import nl.dtl.fairmetadata.io.CatalogMetadataParser;
+import nl.dtl.fairmetadata.io.DataRecordMetadataParser;
 import nl.dtl.fairmetadata.io.DatasetMetadataParser;
 import nl.dtl.fairmetadata.io.DistributionMetadataParser;
 import nl.dtl.fairmetadata.io.FDPMetadataParser;
 import nl.dtl.fairmetadata.io.MetadataException;
 import nl.dtl.fairmetadata.model.CatalogMetadata;
+import nl.dtl.fairmetadata.model.DataRecordMetadata;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.model.FDPMetadata;
@@ -230,8 +232,8 @@ public class MetadataUtilsTest {
     
        
     /**
-     * Test missing dataset rdf statement, this test is excepted to throw 
-     * an exception
+     * This test is excepted to pass 
+     *
      * @throws Exception 
      */
     @Test
@@ -248,8 +250,8 @@ public class MetadataUtilsTest {
     }
     
     /**
-     * Test missing distribution rdf statement, this test is excepted to throw 
-     * an exception
+     * This test is excepted to pass 
+     *
      * @throws Exception 
      */
     @Test
@@ -264,6 +266,26 @@ public class MetadataUtilsTest {
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
     }
+    
+    /**
+     * This test is excepted to pass 
+     *
+     * @throws Exception 
+     */
+    @Test
+    public void testGetDataRecordStatements() throws Exception {        
+        System.out.println("Test : Valid datarecord metadata");
+        DataRecordMetadataParser parser = new DataRecordMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DATARECORD_METADATA_FILE, 
+                        ExampleFilesUtils.DATARECORD_URI);
+        URI drURI = new URIImpl(ExampleFilesUtils.DATARECORD_URI);
+        DataRecordMetadata metadata = parser.parse(stmts , drURI);             
+        List<Statement> out = MetadataUtils.getStatements(metadata);
+        assertTrue(out.size() > 1);
+    }
+    
+    
     
     
     /**
