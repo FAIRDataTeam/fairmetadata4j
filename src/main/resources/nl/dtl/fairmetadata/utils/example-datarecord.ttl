@@ -6,6 +6,8 @@
 
 <> dct:title "An example data record metadata" ;
     rdfs:label "An example data record metadata" ;
+    <http://rdf.biosemantics.org/ontologies/fdp-o#metadataIssued> "2016-10-27"^^xsd:date ;
+    <http://rdf.biosemantics.org/ontologies/fdp-o#metadataModified> "2016-10-27"^^xsd:date ;
     a fdp:DataRecord ; 
     dct:identifier "dataRecord" ;
     dct:language lang:en  ;
