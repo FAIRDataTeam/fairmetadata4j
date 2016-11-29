@@ -5,6 +5,7 @@
  */
 package nl.dtl.fairmetadata.model;
 
+import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 
 /**
@@ -17,6 +18,8 @@ public class DataRecordMetadata extends Metadata {
     
     private URI rmlURI;
     private URI distributionURI;
+    private Literal dataRecordIssued;
+    private Literal dataRecordModified;
 
     /**
      * @return the rmlURI
@@ -44,6 +47,34 @@ public class DataRecordMetadata extends Metadata {
      */
     public void setDistributionURI(URI distributionURI) {
         this.distributionURI = distributionURI;
+    }
+
+    /**
+     * @return the dataRecordIssued
+     */
+    public Literal getDataRecordIssued() {
+        return dataRecordIssued;
+    }
+
+    /**
+     * @param dataRecordIssued the dataRecordIssued to set
+     */
+    public void setDataRecordIssued(Literal dataRecordIssued) {
+        this.dataRecordIssued = dataRecordIssued;
+    }
+
+    /**
+     * @return the dataRecordModified
+     */
+    public Literal getDataRecordModified() {
+        return dataRecordModified;
+    }
+
+    /**
+     * @param dataRecordModified the dataRecordModified to set
+     */
+    public void setDataRecordModified(Literal dataRecordModified) {
+        this.dataRecordModified = dataRecordModified;
     }
     
 }

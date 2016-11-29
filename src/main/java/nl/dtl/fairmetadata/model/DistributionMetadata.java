@@ -23,6 +23,8 @@ public class DistributionMetadata extends Metadata {
     private Literal mediaType;
     private Literal format;
     private Literal byteSize;
+    private Literal distributionIssued;
+    private Literal distributionModified;
     
     /**
      * @param accessURL the accessURL to set
@@ -92,6 +94,34 @@ public class DistributionMetadata extends Metadata {
      */
     public Literal getByteSize() {
         return byteSize;
+    }
+
+    /**
+     * @return the distributionIssued
+     */
+    public Literal getDistributionIssued() {
+        return distributionIssued;
+    }
+
+    /**
+     * @param distributionIssued the distributionIssued to set
+     */
+    public void setDistributionIssued(Literal distributionIssued) {
+        this.distributionIssued = distributionIssued;
+    }
+
+    /**
+     * @return the distributionModified
+     */
+    public Literal getDistributionModified() {
+        return distributionModified;
+    }
+
+    /**
+     * @param distributionModified the distributionModified to set
+     */
+    public void setDistributionModified(Literal distributionModified) {
+        this.distributionModified = distributionModified;
     }
     
 }

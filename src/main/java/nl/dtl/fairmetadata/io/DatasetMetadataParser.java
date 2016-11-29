@@ -23,6 +23,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;
 import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.vocabulary.DCTERMS;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParseException;
@@ -81,7 +82,13 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
                             stringValue(), XMLSchema.STRING));
                 } else if (predicate.equals(DCAT.DISTRIBUTION)) {
                     distributions.add((URI) object);
-                }       
+                } else if (predicate.equals(DCTERMS.ISSUED)) {
+                    metadata.setDatasetIssued(new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME));
+                } else if (predicate.equals(DCTERMS.MODIFIED)) {
+                    metadata.setDatasetModified(new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME));
+                }      
             }        
         }
         

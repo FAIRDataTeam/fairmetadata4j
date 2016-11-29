@@ -25,6 +25,8 @@ public final class DatasetMetadata extends Metadata {
     private URI contactPoint;
     private List<Literal> keywords = new ArrayList();
     private URI landingPage;   
+    private Literal datasetIssued;
+    private Literal datasetModified;
 
     /**
      * @param distribution the distribution to set
@@ -94,5 +96,33 @@ public final class DatasetMetadata extends Metadata {
      */
     public URI getLandingPage() {
         return landingPage;
+    }
+
+    /**
+     * @return the datasetIssued
+     */
+    public Literal getDatasetIssued() {
+        return datasetIssued;
+    }
+
+    /**
+     * @param datasetIssued the datasetIssued to set
+     */
+    public void setDatasetIssued(Literal datasetIssued) {
+        this.datasetIssued = datasetIssued;
+    }
+
+    /**
+     * @return the datasetModified
+     */
+    public Literal getDatasetModified() {
+        return datasetModified;
+    }
+
+    /**
+     * @param datasetModified the datasetModified to set
+     */
+    public void setDatasetModified(Literal datasetModified) {
+        this.datasetModified = datasetModified;
     }
 }

@@ -33,6 +33,7 @@ import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.vocabulary.DCTERMS;
 
 /**
  * Parser for catalog metadata
@@ -83,6 +84,12 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
                     metadata.getThemeTaxonomy().add((URI) object);
                 } else if (predicate.equals(DCAT.DATASET)) {
                     datasets.add((URI) object);
+                } else if (predicate.equals(DCTERMS.ISSUED)) {
+                    metadata.setCatalogIssued(new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME));
+                } else if (predicate.equals(DCTERMS.MODIFIED)) {
+                    metadata.setCatalogModified(new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME));
                 }
             }
         }

@@ -162,6 +162,14 @@ public class MetadataUtils {
         if (metadata.getHomepage() != null) {
             model.add(metadata.getUri(), FOAF.HOMEPAGE, metadata.getHomepage());
         }
+        if (metadata.getCatalogIssued() != null) {
+            model.add(metadata.getUri(), DCTERMS.ISSUED, 
+                    metadata.getCatalogIssued());
+        }
+        if (metadata.getCatalogModified() != null) {
+            model.add(metadata.getUri(), DCTERMS.MODIFIED, 
+                    metadata.getCatalogModified());
+        }
         metadata.getThemeTaxonomy().stream().forEach((themeTax) -> {
             model.add(metadata.getUri(), DCAT.THEME_TAXONOMY, themeTax);
         });
@@ -197,6 +205,14 @@ public class MetadataUtils {
         if (metadata.getLandingPage() != null) {
             model.add(metadata.getUri(), DCAT.LANDING_PAGE,
                     metadata.getLandingPage());
+        }
+        if (metadata.getDatasetIssued() != null) {
+            model.add(metadata.getUri(), DCTERMS.ISSUED, 
+                    metadata.getDatasetIssued());
+        }
+        if (metadata.getDatasetModified() != null) {
+            model.add(metadata.getUri(), DCTERMS.MODIFIED, 
+                    metadata.getDatasetModified());
         }
         metadata.getThemes().stream().forEach((theme) -> {
             model.add(metadata.getUri(), DCAT.THEME, theme);
@@ -238,6 +254,14 @@ public class MetadataUtils {
             model.add(metadata.getUri(), DCAT.DOWNLOAD_URL,
                     metadata.getDownloadURL());
         }
+        if (metadata.getDistributionIssued() != null) {
+            model.add(metadata.getUri(), DCTERMS.ISSUED, 
+                    metadata.getDistributionIssued());
+        }
+        if (metadata.getDistributionModified() != null) {
+            model.add(metadata.getUri(), DCTERMS.MODIFIED, 
+                    metadata.getDistributionModified());
+        }
         if (metadata.getByteSize() != null) {
             model.add(metadata.getUri(), DCAT.BYTE_SIZE,
                     metadata.getByteSize());
@@ -278,6 +302,14 @@ public class MetadataUtils {
         if (metadata.getDistributionURI() != null) {
             model.add(metadata.getUri(), FDP.REFERS_TO,
                     metadata.getDistributionURI());
+        }
+        if (metadata.getDataRecordIssued() != null) {
+            model.add(metadata.getUri(), DCTERMS.ISSUED, 
+                    metadata.getDataRecordIssued());
+        }
+        if (metadata.getDataRecordModified() != null) {
+            model.add(metadata.getUri(), DCTERMS.MODIFIED, 
+                    metadata.getDataRecordModified());
         }
         return getStatements(model);
     }

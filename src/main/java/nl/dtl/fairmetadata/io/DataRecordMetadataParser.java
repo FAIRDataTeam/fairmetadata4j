@@ -22,6 +22,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;
 import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.vocabulary.DCTERMS;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParseException;
@@ -72,7 +73,13 @@ public class DataRecordMetadataParser extends
                     metadata.setRmlURI((URI) object);
                 } else if (predicate.equals(FDP.REFERS_TO)) {
                     metadata.setDistributionURI((URI) object);
-                } 
+                } else if (predicate.equals(DCTERMS.ISSUED)) {
+                    metadata.setDataRecordIssued(new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME));
+                } else if (predicate.equals(DCTERMS.MODIFIED)) {
+                    metadata.setDataRecordModified(new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME));
+                }
             }
         }
         return metadata;
