@@ -28,6 +28,12 @@ public class FDP {
             new URIImpl(NAMESPACE + "DataRecord");
     public static final URI REFERS_TO= 
             new URIImpl(NAMESPACE + "refersTo");
+    public static final URI METADATA_ISSUED= 
+            new URIImpl(NAMESPACE + "metadataIssued");
+    public static final URI METADATA_MODIFIED= 
+            new URIImpl(NAMESPACE + "metadataModified");    
+    public static final URI METADATA_IDENTIFIER= 
+            new URIImpl(NAMESPACE + "metadataIdentifier");
     public static final URI RML_MAPPING= 
             new URIImpl(NAMESPACE + "rmlMapping");
 }

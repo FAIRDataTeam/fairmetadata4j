@@ -25,5 +25,15 @@ public class R3D {
             NAMESPACE + "Repository");
     public static final URI DATA_CATALOG = new URIImpl(
             NAMESPACE + "dataCatalog");
+    public static final URI REPO_IDENTIFIER = new URIImpl(
+            NAMESPACE + "repositoryIdentifier");
+    public static final URI INSTITUTION = new URIImpl(
+            NAMESPACE + "institution");
+    public static final URI INSTITUTION_COUNTRY = new URIImpl(
+            NAMESPACE + "institutionCountry");
+    public static final URI REPO_LAST_UPDATE = new URIImpl(
+            NAMESPACE + "lastUpdate");
+    public static final URI REPO_START_DATE = new URIImpl(
+            NAMESPACE + "startDate");
     
 }
