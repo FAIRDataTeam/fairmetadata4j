@@ -22,6 +22,7 @@ public final class FDPMetadata extends Metadata {
     private URI homepage;
     private URI swaggerDoc;  
     private List<URI> catalogs = new ArrayList();
+    private Identifier repostoryIdentifier;
     
     /**
      * @param homepage the homepage to set
@@ -63,6 +64,20 @@ public final class FDPMetadata extends Metadata {
      */
     public void setCatalogs(List<URI> catalogs) {
         this.catalogs = catalogs;
+    }
+
+    /**
+     * @return the repostoryIdentifier
+     */
+    public Identifier getRepostoryIdentifier() {
+        return repostoryIdentifier;
+    }
+
+    /**
+     * @param repostoryIdentifier the repostoryIdentifier to set
+     */
+    public void setRepostoryIdentifier(Identifier repostoryIdentifier) {
+        this.repostoryIdentifier = repostoryIdentifier;
     }
     
 }

@@ -134,6 +134,12 @@ public class MetadataUtils {
         if (metadata.getHomepage() != null) {
             model.add(metadata.getUri(), FOAF.HOMEPAGE, metadata.getHomepage());
         }
+        if (metadata.getRepostoryIdentifier() != null) {
+            Identifier id = metadata.getRepostoryIdentifier();
+            model.add(metadata.getUri(), R3D.REPO_IDENTIFIER, id.getUri());
+            model.add(id.getUri(), RDF.TYPE, id.getType());
+            model.add(id.getUri(), DCTERMS.IDENTIFIER, id.getIdentifier());
+        }
         metadata.getCatalogs().stream().forEach((catalog) -> {
             model.add(metadata.getUri(), R3D.DATA_CATALOG, catalog);
         });

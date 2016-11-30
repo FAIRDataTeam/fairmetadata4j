@@ -74,12 +74,26 @@ public class IdentifierParserTest {
      * Test valid metadata id.
      */
     @Test
-    public void testParse() {
+    public void testValidMetadataID() {
         System.out.println("Parse fdp metadata ID");
         List<Statement> statements = ExampleFilesUtils.
                 getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE, 
                         ExampleFilesUtils.FDP_URI);
         URI identifierURI = new URIImpl(ExampleFilesUtils.FDP_METADATA_ID_URI);
+        Identifier result = IdentifierParser.parse(statements, identifierURI);
+        assertNotNull(result);
+    }
+    
+    /**
+     * Test valid repo id.
+     */
+    @Test
+    public void testValidRepoID() {
+        System.out.println("Parse fdp repo ID");
+        List<Statement> statements = ExampleFilesUtils.
+                getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE, 
+                        ExampleFilesUtils.FDP_URI);
+        URI identifierURI = new URIImpl(ExampleFilesUtils.FDP_REPO_ID_URI);
         Identifier result = IdentifierParser.parse(statements, identifierURI);
         assertNotNull(result);
     }

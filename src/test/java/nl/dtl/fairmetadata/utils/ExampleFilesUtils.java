@@ -44,7 +44,10 @@ public class ExampleFilesUtils {
     public static final String DISTRIBUTION_ID = "sparql";
     public static final String DATARECORD_ID = "dataRecord";
     public final static String FDP_URI = "http://localhost/fdp";
-    public final static String FDP_METADATA_ID_URI = "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID";
+    public final static String FDP_METADATA_ID_URI = 
+            "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID";
+    public final static String FDP_REPO_ID_URI = 
+            "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-repositoryID";
     public final static String CATALOG_URI = "http://localhost/fdp/" + 
             CATALOG_ID;
     public final static String DATASET_URI = 
