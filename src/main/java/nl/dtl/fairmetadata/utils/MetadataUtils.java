@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.io.MetadataException;
+import nl.dtl.fairmetadata.model.Agent;
 import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.model.DataRecordMetadata;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
@@ -376,10 +377,11 @@ public class MetadataUtils {
             model.add(metadata.getUri(), DCTERMS.LANGUAGE,
                     metadata.getLanguage());
         }
-        if (!metadata.getPublisher().isEmpty()) {
-            metadata.getPublisher().stream().forEach((publisher) -> {
-                model.add(metadata.getUri(), DCTERMS.PUBLISHER, publisher);
-            });
+        if (metadata.getPublisher() != null) {
+            Agent agent = metadata.getPublisher();
+            model.add(metadata.getUri(), DCTERMS.PUBLISHER, agent.getUri());
+            model.add(agent.getUri(), RDF.TYPE, agent.getType());
+            model.add(agent.getUri(), FOAF.NAME, agent.getName());
         }
         if (metadata.getLanguage() != null) {
             model.add(metadata.getUri(), DCTERMS.LANGUAGE,

@@ -30,8 +30,8 @@ public class Metadata {
     private URI rights;
     private URI uri;
     private URI parentURI;
-    private List<URI> publisher = new ArrayList<>();
     private URI language;
+    private Agent publisher;
 
     /**
      * @param title the title to set
@@ -161,7 +161,7 @@ public class Metadata {
     /**
      * @return the publisher
      */
-    public List<URI> getPublisher() {
+    public Agent getPublisher() {
         return publisher;
     }
 
@@ -191,5 +191,12 @@ public class Metadata {
      */
     public void setParentURI(URI parentURI) {
         this.parentURI = parentURI;
+    }
+
+    /**
+     * @param publisher the publisher to set
+     */
+    public void setPublisher(Agent publisher) {
+        this.publisher = publisher;
     }
 }

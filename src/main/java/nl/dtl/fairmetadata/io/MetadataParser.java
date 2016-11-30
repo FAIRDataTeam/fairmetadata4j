@@ -61,12 +61,12 @@ public abstract class MetadataParser<T extends Metadata>  {
                     metadata.setLicense((URI) object);
                 } else if (predicate.equals(DCTERMS.RIGHTS)) {
                     metadata.setRights((URI) object);
-                } else if (predicate.equals(DCTERMS.PUBLISHER)) {
-                    metadata.getPublisher().add((URI) object);
                 } else if (predicate.equals(DCTERMS.LANGUAGE)) {
                     metadata.setLanguage((URI) object);
-                } else if (predicate.equals(FDP.METADATA_IDENTIFIER) && 
-                        metadata.getIdentifier() == null) {
+                } else if (predicate.equals(DCTERMS.PUBLISHER)) {
+                    metadata.setPublisher(AgentParser.parse(statements, 
+                            (URI)object));
+                } else if (predicate.equals(FDP.METADATA_IDENTIFIER)) {
                     metadata.setIdentifier(IdentifierParser.parse(statements, 
                             (URI)object));
                 } else if (predicate.equals(FDP.METADATA_ISSUED) && 
