@@ -24,5 +24,5 @@
 <http://dtls.nl> a <http://xmlns.com/foaf/Organization> ;
 	<http://xmlns.com/foaf/name> "DTLS"@en .
 
-<http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/textmining/textmining-metadataID> a <http://purl.org/spar/datacite/Identifier> ;
+<http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/textmining/textmining-metadataID> a <http://purl.org/spar/datacite/ResourceIdentifier> ;
 	dct:identifier "textmining-metadataID" .

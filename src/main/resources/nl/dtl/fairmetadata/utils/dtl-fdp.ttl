@@ -24,7 +24,7 @@
 	rdfs:label "DTL FAIR Data Point"@en ;
         dct:identifier "fdp-metadataID" .
 
-<http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID> a <http://purl.org/spar/datacite/Identifier> ;
+<http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID> a <http://purl.org/spar/datacite/ResourceIdentifier> ;
 	dct:identifier "fdp-metadataID" .
 
 <http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-repositoryID> a <http://purl.org/spar/datacite/Identifier> ;
