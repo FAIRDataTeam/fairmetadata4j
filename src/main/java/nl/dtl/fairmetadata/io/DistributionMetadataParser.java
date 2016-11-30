@@ -130,8 +130,8 @@ public class DistributionMetadataParser extends MetadataParser
             
             DistributionMetadata metadata = this.parse(statements, 
                     distributionURI);
-            metadata.setIdentifier(new LiteralImpl(distributionID, 
-                    XMLSchema.STRING));
+//            metadata.setIdentifier(new LiteralImpl(distributionID, 
+//                    XMLSchema.STRING));
             metadata.setParentURI(datasetURI);
             return metadata;
         } catch (IOException ex) {

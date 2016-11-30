@@ -19,6 +19,7 @@ import org.openrdf.model.vocabulary.XMLSchema;
 import nl.dtl.fairmetadata.model.Metadata;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
 import org.openrdf.model.Value;
+import org.openrdf.model.impl.URIImpl;
 
 /**
  *
@@ -65,10 +66,10 @@ public abstract class MetadataParser<T extends Metadata>  {
                     metadata.getPublisher().add((URI) object);
                 } else if (predicate.equals(DCTERMS.LANGUAGE)) {
                     metadata.setLanguage((URI) object);
-                } else if (predicate.equals(DCTERMS.IDENTIFIER) && 
+                } else if (predicate.equals(FDP.METADATA_IDENTIFIER) && 
                         metadata.getIdentifier() == null) {
-                    metadata.setIdentifier(new LiteralImpl(object.stringValue(), 
-                            XMLSchema.STRING));
+                    metadata.setIdentifier(IdentifierParser.parse(statements, 
+                            (URI)object));
                 } else if (predicate.equals(FDP.METADATA_ISSUED) && 
                         metadata.getIssued() == null) {
                     metadata.setIssued(new LiteralImpl(object.

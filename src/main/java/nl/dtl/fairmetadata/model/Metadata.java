@@ -21,7 +21,7 @@ import org.openrdf.model.URI;
 public class Metadata {
 
     private Literal title;
-    private Literal identifier;
+    private Identifier identifier;
     private Literal issued;
     private Literal modified;
     private Literal version;
@@ -43,7 +43,7 @@ public class Metadata {
     /**
      * @param identifier the identifier to set
      */
-    public void setIdentifier(Literal identifier) {
+    public void setIdentifier(Identifier identifier) {
         this.identifier = identifier;
     }
 
@@ -105,7 +105,7 @@ public class Metadata {
     /**
      * @return the identifier
      */
-    public Literal getIdentifier() {
+    public Identifier getIdentifier() {
         return identifier;
     }
 

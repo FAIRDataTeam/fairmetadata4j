@@ -121,8 +121,8 @@ public class DataRecordMetadataParser extends
             
             DataRecordMetadata metadata = this.parse(statements, 
                     dataRecordURI);
-            metadata.setIdentifier(new LiteralImpl(dataRecordID, 
-                    XMLSchema.STRING));
+//            metadata.setIdentifier(new LiteralImpl(dataRecordID, 
+//                    XMLSchema.STRING));
             metadata.setParentURI(datasetURI);
             return metadata;
         } catch (IOException ex) {

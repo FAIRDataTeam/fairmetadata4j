@@ -130,8 +130,8 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
             List<Statement> statements = ImmutableList.copyOf(it);
             
             DatasetMetadata metadata = this.parse(statements, datasetURI);
-            metadata.setIdentifier(new LiteralImpl(datasetID, 
-                    XMLSchema.STRING));
+//            metadata.setIdentifier(new LiteralImpl(datasetID, 
+//                    XMLSchema.STRING));
             metadata.setParentURI(catalogURI);             
             return metadata;
         } catch (IOException ex) {

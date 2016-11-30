@@ -24,7 +24,7 @@ public final class CatalogMetadata extends Metadata {
     private List<URI> datasets = new ArrayList();
     private List<URI> themeTaxonomy = new ArrayList();
     private Literal catalogIssued;
-    private Literal catalogModified;
+    private Literal catalogModified;    
     /**
      * @param homepage the homepage to set
      */

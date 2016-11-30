@@ -132,8 +132,8 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
             List<Statement> statements = ImmutableList.copyOf(it);
 
             CatalogMetadata metadata = this.parse(statements, catalogURI);
-            metadata.setIdentifier(new LiteralImpl(catalogID,
-                    XMLSchema.STRING));
+//            metadata.setIdentifier(new LiteralImpl(catalogID,
+//                    XMLSchema.STRING));
             metadata.setParentURI(fdpURI);
 
             return metadata;

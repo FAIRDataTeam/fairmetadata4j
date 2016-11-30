@@ -17,6 +17,7 @@ import nl.dtl.fairmetadata.model.DataRecordMetadata;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.model.FDPMetadata;
+import nl.dtl.fairmetadata.model.Identifier;
 import nl.dtl.fairmetadata.model.Metadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
@@ -337,13 +338,17 @@ public class MetadataUtils {
         LOGGER.info("Adding common metadata properties to the  rdf model");
         model.add(metadata.getUri(), DCTERMS.TITLE, metadata.getTitle());
         model.add(metadata.getUri(), RDFS.LABEL, metadata.getTitle());
-        model.add(metadata.getUri(), DCTERMS.IDENTIFIER,
-                metadata.getIdentifier());
         model.add(metadata.getUri(), DCTERMS.HAS_VERSION,
                 metadata.getVersion());
         if (metadata.getIssued() != null) {
             model.add(metadata.getUri(), FDP.METADATA_ISSUED, 
                     metadata.getIssued());
+        }
+        if (metadata.getIdentifier() != null) {
+            Identifier id = metadata.getIdentifier();
+            model.add(metadata.getUri(), FDP.METADATA_IDENTIFIER, id.getUri());
+            model.add(id.getUri(), RDF.TYPE, id.getType());
+            model.add(id.getUri(), DCTERMS.IDENTIFIER, id.getIdentifier());
         }
         if (metadata.getModified() != null) {
             model.add(metadata.getUri(), FDP.METADATA_MODIFIED,
