@@ -9,6 +9,7 @@ package nl.dtl.fairmetadata.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 
 /**
@@ -23,6 +24,9 @@ public final class FDPMetadata extends Metadata {
     private URI swaggerDoc;  
     private List<URI> catalogs = new ArrayList();
     private Identifier repostoryIdentifier;
+    private URI institutionCountry;  
+    private Literal lastUpdate;
+    private Literal startDate;
     
     /**
      * @param homepage the homepage to set
@@ -78,6 +82,48 @@ public final class FDPMetadata extends Metadata {
      */
     public void setRepostoryIdentifier(Identifier repostoryIdentifier) {
         this.repostoryIdentifier = repostoryIdentifier;
+    }
+
+    /**
+     * @return the institutionCountry
+     */
+    public URI getInstitutionCountry() {
+        return institutionCountry;
+    }
+
+    /**
+     * @param institutionCountry the institutionCountry to set
+     */
+    public void setInstitutionCountry(URI institutionCountry) {
+        this.institutionCountry = institutionCountry;
+    }
+
+    /**
+     * @return the lastUpdate
+     */
+    public Literal getLastUpdate() {
+        return lastUpdate;
+    }
+
+    /**
+     * @param lastUpdate the lastUpdate to set
+     */
+    public void setLastUpdate(Literal lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    /**
+     * @return the startDate
+     */
+    public Literal getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * @param startDate the startDate to set
+     */
+    public void setStartDate(Literal startDate) {
+        this.startDate = startDate;
     }
     
 }

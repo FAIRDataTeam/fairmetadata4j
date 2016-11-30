@@ -18,6 +18,8 @@ import nl.dtl.fairmetadata.model.FDPMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata.utils.vocabulary.R3D;
 import org.openrdf.model.Value;
+import org.openrdf.model.impl.LiteralImpl;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  *
@@ -52,6 +54,14 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
                 } else if (predicate.equals(R3D.REPO_IDENTIFIER)) {
                     metadata.setRepostoryIdentifier(IdentifierParser.parse(
                             statements, (URI)object));
+                } else if (predicate.equals(R3D.INSTITUTION_COUNTRY)) {
+                    metadata.setInstitutionCountry((URI) object);
+                } else if (predicate.equals(R3D.REPO_START_DATE)) {
+                    metadata.setStartDate((new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME)));
+                } else if (predicate.equals(R3D.REPO_LAST_UPDATE)) {
+                    metadata.setLastUpdate((new LiteralImpl(object.
+                            stringValue(), XMLSchema.DATETIME)));
                 }
             }
         }

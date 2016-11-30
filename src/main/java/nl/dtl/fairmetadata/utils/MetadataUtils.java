@@ -140,6 +140,18 @@ public class MetadataUtils {
             model.add(id.getUri(), RDF.TYPE, id.getType());
             model.add(id.getUri(), DCTERMS.IDENTIFIER, id.getIdentifier());
         }
+        if (metadata.getInstitutionCountry() != null) {
+            model.add(metadata.getUri(), R3D.INSTITUTION_COUNTRY, 
+                    metadata.getInstitutionCountry());
+        }
+        if (metadata.getLastUpdate() != null) {
+            model.add(metadata.getUri(), R3D.REPO_LAST_UPDATE, 
+                    metadata.getLastUpdate());
+        }
+        if (metadata.getStartDate() != null) {
+            model.add(metadata.getUri(), R3D.REPO_START_DATE, 
+                    metadata.getStartDate());
+        }
         metadata.getCatalogs().stream().forEach((catalog) -> {
             model.add(metadata.getUri(), R3D.DATA_CATALOG, catalog);
         });
