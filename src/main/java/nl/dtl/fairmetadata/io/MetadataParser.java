@@ -19,7 +19,6 @@ import org.openrdf.model.vocabulary.XMLSchema;
 import nl.dtl.fairmetadata.model.Metadata;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.URIImpl;
 
 /**
  *
