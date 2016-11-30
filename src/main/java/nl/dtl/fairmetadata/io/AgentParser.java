@@ -53,8 +53,7 @@ public class AgentParser {
             if (subject.equals(agentURI)) {
                 if (predicate.equals(RDF.TYPE)) {
                     agent.setType((URI) object);
-                } else if (predicate.equals(FOAF.NAME) || predicate.equals(
-                        new URIImpl("http://xmlns.com/foaf/name"))) {
+                } else if (predicate.equals(FOAF.NAME)) {
                     agent.setName(new LiteralImpl(object.stringValue(),
                             XMLSchema.STRING));
                 }

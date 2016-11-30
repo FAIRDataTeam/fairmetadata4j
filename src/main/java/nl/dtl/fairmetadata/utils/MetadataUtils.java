@@ -156,6 +156,12 @@ public class MetadataUtils {
         metadata.getCatalogs().stream().forEach((catalog) -> {
             model.add(metadata.getUri(), R3D.DATA_CATALOG, catalog);
         });
+        if (metadata.getInstitution() != null) {
+            Agent agent = metadata.getInstitution();
+            model.add(metadata.getUri(), R3D.INSTITUTION, agent.getUri());
+            model.add(agent.getUri(), RDF.TYPE, agent.getType());
+            model.add(agent.getUri(), FOAF.NAME, agent.getName());
+        }
         return getStatements(model);
     }
 

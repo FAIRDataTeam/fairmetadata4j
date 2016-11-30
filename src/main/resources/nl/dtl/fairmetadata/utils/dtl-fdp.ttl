@@ -30,5 +30,5 @@
 <http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-repositoryID> a <http://purl.org/spar/datacite/Identifier> ;
 	dct:identifier "fdp-repositoryID" .
 
-<http://dtls.nl> a <http://xmlns.com/foaf/Organization> ;
-	<http://xmlns.com/foaf/name> "DTLS"@en .
+<http://dtls.nl> a <http://xmlns.com/foaf/0.1/Organization> ;
+	<http://xmlns.com/foaf/0.1/name> "DTLS"@en .

@@ -62,6 +62,9 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
                 } else if (predicate.equals(R3D.REPO_LAST_UPDATE)) {
                     metadata.setLastUpdate((new LiteralImpl(object.
                             stringValue(), XMLSchema.DATETIME)));
+                } else if (predicate.equals(R3D.INSTITUTION)) {
+                    metadata.setInstitution(AgentParser.parse(
+                            statements, (URI)object));
                 }
             }
         }

@@ -27,6 +27,7 @@ public final class FDPMetadata extends Metadata {
     private URI institutionCountry;  
     private Literal lastUpdate;
     private Literal startDate;
+    private Agent institution;
     
     /**
      * @param homepage the homepage to set
@@ -124,6 +125,20 @@ public final class FDPMetadata extends Metadata {
      */
     public void setStartDate(Literal startDate) {
         this.startDate = startDate;
+    }
+
+    /**
+     * @return the institution
+     */
+    public Agent getInstitution() {
+        return institution;
+    }
+
+    /**
+     * @param institution the institution to set
+     */
+    public void setInstitution(Agent institution) {
+        this.institution = institution;
     }
     
 }
