@@ -22,4 +22,6 @@ public class DataCite {
     public static final String NAMESPACE = "http://purl.org/spar/datacite/";
     public static final URI IDENTIFIER = 
             new URIImpl(NAMESPACE + "Identifier");
+    public static final URI RESOURCE_IDENTIFIER = 
+            new URIImpl(NAMESPACE + "ResourceIdentifier");
 }
