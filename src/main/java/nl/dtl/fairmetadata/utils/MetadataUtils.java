@@ -160,7 +160,12 @@ public class MetadataUtils {
             Agent agent = metadata.getInstitution();
             model.add(metadata.getUri(), R3D.INSTITUTION, agent.getUri());
             model.add(agent.getUri(), RDF.TYPE, agent.getType());
-            model.add(agent.getUri(), FOAF.NAME, agent.getName());
+             if(agent.getName() == null) {
+                String errMsg = "No institution name provided";
+                LOGGER.debug(errMsg);
+            } else {
+               model.add(agent.getUri(), FOAF.NAME, agent.getName()); 
+            }            
         }
         return getStatements(model);
     }
@@ -387,7 +392,12 @@ public class MetadataUtils {
             Agent agent = metadata.getPublisher();
             model.add(metadata.getUri(), DCTERMS.PUBLISHER, agent.getUri());
             model.add(agent.getUri(), RDF.TYPE, agent.getType());
-            model.add(agent.getUri(), FOAF.NAME, agent.getName());
+            if(agent.getName() == null) {
+                String errMsg = "No publisher name provided";
+                LOGGER.debug(errMsg);
+            } else {
+               model.add(agent.getUri(), FOAF.NAME, agent.getName()); 
+            }
         }
         if (metadata.getLanguage() != null) {
             model.add(metadata.getUri(), DCTERMS.LANGUAGE,
@@ -425,6 +435,10 @@ public class MetadataUtils {
             throw (new MetadataException(errMsg));
         } else if (metadata.getIdentifier() == null) {
             String errMsg = "No identifier provided";
+            LOGGER.error(errMsg);
+            throw (new MetadataException(errMsg));
+        } else if (metadata.getIdentifier().getIdentifier() == null) {
+            String errMsg = "No identifier literal provided";
             LOGGER.error(errMsg);
             throw (new MetadataException(errMsg));
         } else if (metadata.getIssued() == null) {
