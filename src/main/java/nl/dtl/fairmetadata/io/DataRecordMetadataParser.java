@@ -167,8 +167,9 @@ public class DataRecordMetadataParser extends
                 modelCatalog = Rio.parse(new StringReader(dataRecordMetadata),
                         baseURI.stringValue(), format);
             } else {
+                String dummyURI = "http://example.com/dummyResource";
                 modelCatalog = Rio.parse(new StringReader(
-                        dataRecordMetadata), "", format);
+                        dataRecordMetadata), dummyURI, format);
             }
             Iterator<Statement> it = modelCatalog.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
@@ -182,12 +183,6 @@ public class DataRecordMetadataParser extends
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
         } catch (RDFParseException ex) {
-            if (ex.getMessage().contains("Not a valid (absolute) URI")) {
-                String dummyURI = "http://example.com/dummyResource";
-                ValueFactory f = SimpleValueFactory.getInstance();
-                return parse(dataRecordMetadata, f.createIRI(dummyURI), 
-                        format);
-            }
             String errMsg = "Error parsing datarecord metadata content. "
                     + ex.getMessage();
             LOGGER.error(errMsg);

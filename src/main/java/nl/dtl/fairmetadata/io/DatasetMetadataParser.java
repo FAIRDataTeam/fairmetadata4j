@@ -175,8 +175,9 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
                 modelCatalog = Rio.parse(new StringReader(datasetMetadata),
                         baseURI.stringValue(), format);
             } else {
-                modelCatalog = Rio.parse(new StringReader(datasetMetadata), "",
-                        format);
+                String dummyURI = "http://example.com/dummyResource";
+                modelCatalog = Rio.parse(new StringReader(datasetMetadata), 
+                        dummyURI, format);
             }
             Iterator<Statement> it = modelCatalog.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
@@ -190,11 +191,6 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
         } catch (RDFParseException ex) {
-            if (ex.getMessage().contains("Not a valid (absolute) URI")) {
-                String dummyURI = "http://example.com/dummyResource";
-                ValueFactory f = SimpleValueFactory.getInstance();
-                return parse(datasetMetadata, f.createIRI(dummyURI), format);
-            }
             String errMsg = "Error parsing dataset metadata content. "
                     + ex.getMessage();
             LOGGER.error(errMsg);

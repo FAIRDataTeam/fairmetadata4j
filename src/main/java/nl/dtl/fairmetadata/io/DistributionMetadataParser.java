@@ -176,8 +176,9 @@ public class DistributionMetadataParser extends MetadataParser
                 modelCatalog = Rio.parse(new StringReader(distributionMetadata),
                         baseURI.stringValue(), format);
             } else {
+                String dummyURI = "http://example.com/dummyResource";
                 modelCatalog = Rio.parse(new StringReader(
-                        distributionMetadata), "", format);
+                        distributionMetadata), dummyURI, format);
             }
             Iterator<Statement> it = modelCatalog.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
@@ -191,12 +192,6 @@ public class DistributionMetadataParser extends MetadataParser
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
         } catch (RDFParseException ex) {
-            if (ex.getMessage().contains("Not a valid (absolute) URI")) {
-                String dummyURI = "http://example.com/dummyResource";
-                ValueFactory f = SimpleValueFactory.getInstance();
-                return parse(distributionMetadata, f.createIRI(dummyURI), 
-                        format);
-            }
             String errMsg = "Error parsing catalog metadata content. "
                     + ex.getMessage();
             LOGGER.error(errMsg);

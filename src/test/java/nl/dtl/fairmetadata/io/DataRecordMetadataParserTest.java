@@ -10,8 +10,6 @@ import nl.dtl.fairmetadata.model.DataRecordMetadata;
 import nl.dtl.fairmetadata.utils.ExampleFilesUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Statement;
-import org.eclipse.rdf4j.model.ValueFactory;
-import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
