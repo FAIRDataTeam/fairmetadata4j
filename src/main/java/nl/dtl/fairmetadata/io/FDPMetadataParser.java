@@ -15,7 +15,6 @@ import org.openrdf.model.vocabulary.FOAF;
 import org.openrdf.model.vocabulary.RDFS;
 
 import nl.dtl.fairmetadata.model.FDPMetadata;
-import nl.dtl.fairmetadata.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata.utils.vocabulary.R3D;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;

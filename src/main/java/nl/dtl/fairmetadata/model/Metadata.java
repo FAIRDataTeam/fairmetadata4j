@@ -7,8 +7,6 @@ package nl.dtl.fairmetadata.model;
  */
 
 
-import java.util.ArrayList;
-import java.util.List;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 
