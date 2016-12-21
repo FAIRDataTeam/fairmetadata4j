@@ -66,7 +66,11 @@ public class MetadataUtils {
             @Nonnull T metadata) throws MetadataException {
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
-        checkMandatoryProperties(metadata);
+        try {
+            checkMandatoryProperties(metadata); 
+        } catch (NullPointerException ex) {
+            throw(new MetadataException(ex.getMessage()));
+        }
         org.openrdf.model.Model model = new LinkedHashModel();
         LOGGER.info("Creating metadata rdf model");
         setCommonProperties(model, metadata);
@@ -99,11 +103,11 @@ public class MetadataUtils {
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata,
             @Nonnull RDFFormat format)
-            throws MetadataException {
+            throws MetadataException {       
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
-        Preconditions.checkNotNull(format,
-                "RDF format must not be null.");
+        Preconditions.checkNotNull(format, "RDF format must not be null.");
+        
         StringWriter sw = new StringWriter();
         RDFWriter writer = Rio.createWriter(format, sw);
         List<Statement> statement = getStatements(metadata);
@@ -128,19 +132,26 @@ public class MetadataUtils {
             FDPMetadata metadata)
             throws MetadataException {
         LOGGER.info("Adding FDP metadata properties to the rdf model");
+        try {
+            Preconditions.checkNotNull(metadata.getRepostoryIdentifier(),
+                    "Repostory ID must not be null.");        
+            Preconditions.checkNotNull(metadata.getPublisher(),
+                    "Metadata publisher must not be null.");
+        } catch (NullPointerException ex) {
+            throw(new MetadataException(ex.getMessage()));
+        }
         model.add(metadata.getUri(), RDF.TYPE, R3D.TYPE_REPOSTORY);
         URI swaggerURL = new URIImpl(
                 metadata.getUri().toString() + "/swagger-ui.html");
         model.add(metadata.getUri(), RDFS.SEEALSO, swaggerURL);
+        Identifier id = metadata.getRepostoryIdentifier();
+        model.add(metadata.getUri(), R3D.REPO_IDENTIFIER, id.getUri());
+        model.add(id.getUri(), RDF.TYPE, id.getType());
+        model.add(id.getUri(), DCTERMS.IDENTIFIER, id.getIdentifier());
+        
         if (metadata.getHomepage() != null) {
             model.add(metadata.getUri(), FOAF.HOMEPAGE, metadata.getHomepage());
-        }
-        if (metadata.getRepostoryIdentifier() != null) {
-            Identifier id = metadata.getRepostoryIdentifier();
-            model.add(metadata.getUri(), R3D.REPO_IDENTIFIER, id.getUri());
-            model.add(id.getUri(), RDF.TYPE, id.getType());
-            model.add(id.getUri(), DCTERMS.IDENTIFIER, id.getIdentifier());
-        }
+        }            
         if (metadata.getInstitutionCountry() != null) {
             model.add(metadata.getUri(), R3D.INSTITUTION_COUNTRY, 
                     metadata.getInstitutionCountry());
@@ -181,12 +192,16 @@ public class MetadataUtils {
      */
     private static List<Statement> getStatements(org.openrdf.model.Model model,
             CatalogMetadata metadata)
-            throws MetadataException {
-        if (metadata.getThemeTaxonomy() == null
-                || metadata.getThemeTaxonomy().isEmpty()) {
-            String errMsg = "No dcat:themeTaxonomy provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
+            throws MetadataException {        
+        try {
+            Preconditions.checkNotNull(metadata.getPublisher(),
+                    "Metadata publisher must not be null.");        
+            Preconditions.checkNotNull(metadata.getThemeTaxonomy(),
+                    "Metadata dcat:themeTaxonomy must not be null.");
+             Preconditions.checkArgument(!metadata.getThemeTaxonomy().isEmpty(),
+                    "Metadata dcat:themeTaxonomy must not be empty.");
+        } catch (NullPointerException | IllegalArgumentException ex) {
+            throw(new MetadataException(ex.getMessage()));
         }
         LOGGER.info("Adding catalogy metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_CATALOG);
@@ -222,11 +237,16 @@ public class MetadataUtils {
     private static List<Statement> getStatements(org.openrdf.model.Model model,
             DatasetMetadata metadata)
             throws MetadataException {
-        if (metadata.getThemes() == null || metadata.getThemes().isEmpty()) {
-            String errMsg = "No dcat:theme provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
-        }
+        try {            
+            Preconditions.checkNotNull(metadata.getPublisher(),
+                    "Metadata publisher must not be null.");
+            Preconditions.checkNotNull(metadata.getThemes(),
+                    "Metadata dcat:theme must not be null.");
+            Preconditions.checkArgument(!metadata.getThemes().isEmpty(),
+                    "Metadata dcat:theme must not be empty.");
+        } catch (NullPointerException | IllegalArgumentException ex) {
+            throw(new MetadataException(ex.getMessage()));
+        }        
         LOGGER.info("Adding dataset metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_DATASET);
         if (metadata.getContactPoint() != null) {
@@ -268,7 +288,8 @@ public class MetadataUtils {
      */
     private static List<Statement> getStatements(org.openrdf.model.Model model,
             DistributionMetadata metadata)
-            throws MetadataException {
+            throws MetadataException {        
+        
         if (metadata.getAccessURL() == null
                 && metadata.getDownloadURL() == null) {
             String errMsg
@@ -318,13 +339,14 @@ public class MetadataUtils {
      */
     private static List<Statement> getStatements(org.openrdf.model.Model model,
             DataRecordMetadata metadata)
-            throws MetadataException {
-        if (metadata.getRmlURI() == null) {
-            String errMsg
-                    = "No fdp:rmlMapping URL is provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
+            throws MetadataException {        
+        try {
+             Preconditions.checkNotNull(metadata.getRmlURI(),
+                    "Metadata rml mapping uri must not be null.");            
+        } catch (NullPointerException | IllegalArgumentException ex) {
+            throw(new MetadataException(ex.getMessage()));
         }
+        
         LOGGER.info("Adding dataRecord metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_DISTRIBUTION);
         if (metadata.getRmlURI() != null) {
@@ -424,32 +446,23 @@ public class MetadataUtils {
      * property is missing
      */
     private static void checkMandatoryProperties(Metadata metadata)
-            throws MetadataException {
-        if (metadata.getVersion() == null) {
-            String errMsg = "No version number provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
-        } else if (metadata.getTitle() == null) {
-            String errMsg = "No title or label provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
-        } else if (metadata.getIdentifier() == null) {
-            String errMsg = "No identifier provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
-        } else if (metadata.getIdentifier().getIdentifier() == null) {
-            String errMsg = "No identifier literal provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
-        } else if (metadata.getIssued() == null) {
-            String errMsg = "No issued date provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
-        } else if (metadata.getModified() == null) {
-            String errMsg = "No modified date provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
-        }
+            throws MetadataException {                
+        Preconditions.checkNotNull(metadata.getIdentifier(),
+                "Metadata ID must not be null.");
+        Preconditions.checkNotNull(metadata.getIdentifier().getIdentifier(),
+                "Metadata ID literal must not be null.");
+        Preconditions.checkNotNull(metadata.getIdentifier().getUri(),
+                "Metadata ID uri must not be null.");
+        Preconditions.checkNotNull(metadata.getIdentifier().getType(),
+                "Metadata ID type must not be null.");
+        Preconditions.checkNotNull(metadata.getTitle(),
+                "Metadata title must not be null.");
+        Preconditions.checkNotNull(metadata.getVersion(),
+                "Metadata version must not be null.");
+        Preconditions.checkNotNull(metadata.getIssued(),
+                "Metadata issued date must not be null.");
+        Preconditions.checkNotNull(metadata.getModified(),
+                "Metadata modified date must not be null.");
     }
 
     private static void propagateToHandler(List<Statement> statements, 

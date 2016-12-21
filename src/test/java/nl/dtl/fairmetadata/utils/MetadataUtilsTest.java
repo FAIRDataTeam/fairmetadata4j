@@ -5,6 +5,7 @@
  */
 package nl.dtl.fairmetadata.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import nl.dtl.fairmetadata.io.CatalogMetadataParser;
 import nl.dtl.fairmetadata.io.DataRecordMetadataParser;
@@ -17,6 +18,8 @@ import nl.dtl.fairmetadata.model.DataRecordMetadata;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.model.FDPMetadata;
+import nl.dtl.fairmetadata.model.Identifier;
+import org.apache.jena.iri.impl.IRIImpl;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.openrdf.model.Statement;
@@ -136,13 +139,76 @@ public class MetadataUtilsTest {
     }
     
     /**
+     * Test missing id statement with missing triple, this test is excepted to 
+     * throw an exception
+     * @throws Exception 
+     */
+    @Test(expected = MetadataException.class)
+    public void testParseIDStatementWithMissingLiteral() throws Exception {
+        System.out.println("Test : Missing ID literal");
+        FDPMetadataParser fdpParser = new FDPMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.FDP_METADATA_FILE, 
+                        ExampleFilesUtils.FDP_URI);
+        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+        FDPMetadata metadata = fdpParser.parse(stmts , fURI);
+        Identifier id = metadata.getIdentifier();
+        id.setIdentifier(null);
+        metadata.setIdentifier(id);    
+        MetadataUtils.getStatements(metadata);
+        fail("This test is execpeted to throw an error");
+    }
+    
+    /**
+     * Test missing id statement with missing triple, this test is excepted to 
+     * throw an exception
+     * @throws Exception 
+     */
+    @Test(expected = MetadataException.class)
+    public void testParseIDStatementWithMissingURI() throws Exception {
+        System.out.println("Test : Missing ID uri");
+        FDPMetadataParser fdpParser = new FDPMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.FDP_METADATA_FILE, 
+                        ExampleFilesUtils.FDP_URI);
+        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+        FDPMetadata metadata = fdpParser.parse(stmts , fURI);
+        Identifier id = metadata.getIdentifier();
+        id.setUri(null);
+        metadata.setIdentifier(id);    
+        MetadataUtils.getStatements(metadata);
+        fail("This test is execpeted to throw an error");
+    }
+    
+    /**
+     * Test missing id statement with missing triple, this test is excepted to 
+     * throw an exception
+     * @throws Exception 
+     */
+    @Test(expected = MetadataException.class)
+    public void testParseIDStatementWithMissingType() throws Exception {
+        System.out.println("Test : Missing ID type");
+        FDPMetadataParser fdpParser = new FDPMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.FDP_METADATA_FILE, 
+                        ExampleFilesUtils.FDP_URI);
+        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+        FDPMetadata metadata = fdpParser.parse(stmts , fURI);
+        Identifier id = metadata.getIdentifier();
+        id.setType(null);
+        metadata.setIdentifier(id);    
+        MetadataUtils.getStatements(metadata);
+        fail("This test is execpeted to throw an error");
+    }
+    
+    /**
      * Test missing catalog rdf statement, this test is excepted to throw 
      * an exception
      * @throws Exception 
      */
     @Test(expected = MetadataException.class)
-    public void testParseNoThemeTaxonomyStatement() throws Exception {
-        System.out.println("Test : Missing theme taxonomy statement");
+    public void testParseNullThemeTaxonomyStatement() throws Exception {
+        System.out.println("Test : Null theme taxonomy statement");
         CatalogMetadataParser parser = new CatalogMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.CATALOG_METADATA_FILE, 
@@ -154,6 +220,26 @@ public class MetadataUtilsTest {
         fail("This test is execpeted to throw an error");
     }
     
+    
+    /**
+     * Test missing catalog rdf statement, this test is excepted to throw 
+     * an exception
+     * @throws Exception 
+     */
+    @Test(expected = MetadataException.class)
+    public void testParseEmptyThemeTaxonomyStatement() throws Exception {
+        System.out.println("Test : Empty theme taxonomy statement");
+        CatalogMetadataParser parser = new CatalogMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.CATALOG_METADATA_FILE, 
+                        ExampleFilesUtils.CATALOG_URI);
+        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        CatalogMetadata metadata = parser.parse(stmts , cURI);
+        metadata.setThemeTaxonomy(new ArrayList());
+        MetadataUtils.getStatements(metadata);
+        fail("This test is execpeted to throw an error");
+    }
+    
        
     /**
      * Test missing dataset rdf statement, this test is excepted to throw 
@@ -161,7 +247,7 @@ public class MetadataUtilsTest {
      * @throws Exception 
      */
     @Test(expected = MetadataException.class)
-    public void testParseNoThemeStatement() throws Exception {
+    public void testParseNullThemeStatement() throws Exception {
         System.out.println("Test : Missing theme statement");
         DatasetMetadataParser parser = new DatasetMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
@@ -170,6 +256,25 @@ public class MetadataUtilsTest {
         URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
         DatasetMetadata metadata = parser.parse(stmts , dURI);
         metadata.setThemes(null);
+        MetadataUtils.getStatements(metadata);
+        fail("This test is execpeted to throw an error");
+    }
+    
+    /**
+     * Test missing dataset rdf statement, this test is excepted to throw 
+     * an exception
+     * @throws Exception 
+     */
+    @Test(expected = MetadataException.class)
+    public void testParseEmptyThemeStatement() throws Exception {
+        System.out.println("Test : Missing theme statement");
+        DatasetMetadataParser parser = new DatasetMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DATASET_METADATA_FILE, 
+                        ExampleFilesUtils.DATASET_URI);        
+        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+        DatasetMetadata metadata = parser.parse(stmts , dURI);
+        metadata.setThemes(new ArrayList());
         MetadataUtils.getStatements(metadata);
         fail("This test is execpeted to throw an error");
     }
@@ -193,6 +298,46 @@ public class MetadataUtilsTest {
         MetadataUtils.getStatements(metadata);
         fail("This test is execpeted to throw an error");
     }  
+    
+    /**
+     * Test missing distribution rdf statement, this test is excepted to pass
+     * 
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testParseNoDowload() throws Exception {        
+        System.out.println("Test : Missing download url");
+        DistributionMetadataParser parser = new DistributionMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
+                        ExampleFilesUtils.DISTRIBUTION_URI);
+        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
+        DistributionMetadata metadata = parser.parse(stmts , disURI);
+        metadata.setAccessURL(new URIImpl("http://example.com/accessuri"));
+        metadata.setDownloadURL(null);     
+        List<Statement> out = MetadataUtils.getStatements(metadata);
+        assertTrue(out.size() > 1);
+    }
+    
+    /**
+     * Test missing distribution rdf statement, this test is excepted to pass
+     * 
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testParseNoAccess() throws Exception {        
+        System.out.println("Test : Missing download url");
+        DistributionMetadataParser parser = new DistributionMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
+                        ExampleFilesUtils.DISTRIBUTION_URI);
+        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
+        DistributionMetadata metadata = parser.parse(stmts , disURI);
+        metadata.setAccessURL(null);
+        metadata.setDownloadURL(new URIImpl("http://example.com/downloaduri"));     
+        List<Statement> out = MetadataUtils.getStatements(metadata);
+        assertTrue(out.size() > 1);
+    }
     
     /**
      * This test is excepted to pass 

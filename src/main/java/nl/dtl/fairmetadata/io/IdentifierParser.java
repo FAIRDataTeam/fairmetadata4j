@@ -57,6 +57,9 @@ public class IdentifierParser {
                 }
             }
         }
+        Preconditions.checkNotNull(id.getUri(), "Identifier uri can't be null.");
+        Preconditions.checkNotNull(id.getIdentifier(), 
+                "Identifier value can't be null.");
         return id;
     }
 }

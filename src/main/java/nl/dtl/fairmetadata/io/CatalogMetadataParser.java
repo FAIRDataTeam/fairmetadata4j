@@ -66,7 +66,6 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
                 "Catalog URI must not be null.");
         Preconditions.checkNotNull(statements,
                 "Catalog statements must not be null.");
-
         LOGGER.info("Parsing catalog metadata");
 
         CatalogMetadata metadata = super.parse(statements, catalogURI);
