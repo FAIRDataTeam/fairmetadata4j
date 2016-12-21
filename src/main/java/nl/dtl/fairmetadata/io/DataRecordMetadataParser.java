@@ -15,19 +15,19 @@ import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.model.DataRecordMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Model;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.XMLSchema;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.Rio;
-import org.openrdf.rio.UnsupportedRDFormatException;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /**
  * Parser for datarecord metadata
@@ -55,7 +55,7 @@ public class DataRecordMetadataParser extends
      */
     @Override
     public DataRecordMetadata parse(@Nonnull List<Statement> statements, 
-            @Nonnull URI dataRecordURI)  {
+            @Nonnull IRI dataRecordURI)  {
         Preconditions.checkNotNull(dataRecordURI, 
                 "Datarecord URI must not be null.");
         Preconditions.checkNotNull(statements, 
@@ -63,21 +63,22 @@ public class DataRecordMetadataParser extends
         LOGGER.info("Parsing distribution metadata");
         DataRecordMetadata metadata = super.parse(statements, 
                 dataRecordURI);
+        ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
-            URI predicate = st.getPredicate();
+            IRI predicate = st.getPredicate();
             Value object = st.getObject();
             
             if (subject.equals(dataRecordURI)) {
                 if (predicate.equals(FDP.RML_MAPPING)) {
-                    metadata.setRmlURI((URI) object);
+                    metadata.setRmlURI((IRI) object);
                 } else if (predicate.equals(FDP.REFERS_TO)) {
-                    metadata.setDistributionURI((URI) object);
+                    metadata.setDistributionURI((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
-                    metadata.setDataRecordIssued(new LiteralImpl(object.
+                    metadata.setDataRecordIssued(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.MODIFIED)) {
-                    metadata.setDataRecordModified(new LiteralImpl(object.
+                    metadata.setDataRecordModified(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 }
             }
@@ -97,8 +98,8 @@ public class DataRecordMetadataParser extends
      * @throws nl.dtl.fairmetadata.io.MetadataParserException 
      */
     public DataRecordMetadata parse (@Nonnull String dataRecordMetadata, 
-            @Nonnull String dataRecordID, @Nonnull URI dataRecordURI, 
-            URI datasetURI, @Nonnull RDFFormat format) 
+            @Nonnull String dataRecordID, @Nonnull IRI dataRecordURI, 
+            IRI datasetURI, @Nonnull RDFFormat format) 
             throws MetadataParserException {
         Preconditions.checkNotNull(dataRecordMetadata, 
                 "Datarecord metadata string must not be null."); 
@@ -152,7 +153,7 @@ public class DataRecordMetadataParser extends
      * @throws MetadataParserException
      */
     public DataRecordMetadata parse(@Nonnull String dataRecordMetadata,
-            URI baseURI, @Nonnull RDFFormat format)
+            IRI baseURI, @Nonnull RDFFormat format)
             throws MetadataParserException {
         Preconditions.checkNotNull(dataRecordMetadata,
                 "Datarecord metadata string must not be null.");
@@ -171,7 +172,7 @@ public class DataRecordMetadataParser extends
             }
             Iterator<Statement> it = modelCatalog.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
-            URI catalogURI = (URI) statements.get(0).getSubject();
+            IRI catalogURI = (IRI) statements.get(0).getSubject();
             DataRecordMetadata metadata = this.parse(statements, catalogURI);
             metadata.setUri(null);
             return metadata;
@@ -183,7 +184,8 @@ public class DataRecordMetadataParser extends
         } catch (RDFParseException ex) {
             if (ex.getMessage().contains("Not a valid (absolute) URI")) {
                 String dummyURI = "http://example.com/dummyResource";
-                return parse(dataRecordMetadata, new URIImpl(dummyURI), 
+                ValueFactory f = SimpleValueFactory.getInstance();
+                return parse(dataRecordMetadata, f.createIRI(dummyURI), 
                         format);
             }
             String errMsg = "Error parsing datarecord metadata content. "

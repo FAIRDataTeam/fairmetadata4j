@@ -7,18 +7,17 @@ package nl.dtl.fairmetadata.io;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.FOAF;
-import org.openrdf.model.vocabulary.RDFS;
-
 import nl.dtl.fairmetadata.model.FDPMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.R3D;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.FOAF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
  *
@@ -34,36 +33,36 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
     }
     
     @Override
-    public FDPMetadata parse(List<Statement> statements, URI fdpURI) {
+    public FDPMetadata parse(List<Statement> statements, IRI fdpURI) {
         FDPMetadata metadata = super.parse(statements, fdpURI);
-        List<URI> catalogs = new ArrayList();
-        
+        List<IRI> catalogs = new ArrayList();
+        ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
-            URI predicate = st.getPredicate();
+            IRI predicate = st.getPredicate();
             Value object = st.getObject();
             
             if (subject.equals(fdpURI)) {
                 if (predicate.equals(FOAF.HOMEPAGE)) {
-                    metadata.setHomepage((URI) object);
+                    metadata.setHomepage((IRI) object);
                 } else if (predicate.equals(RDFS.SEEALSO)) {
-                    metadata.setSwaggerDoc((URI) object);
+                    metadata.setSwaggerDoc((IRI) object);
                 } else if (predicate.equals(R3D.DATA_CATALOG)) {
-                    catalogs.add((URI) object);
+                    catalogs.add((IRI) object);
                 } else if (predicate.equals(R3D.REPO_IDENTIFIER)) {
                     metadata.setRepostoryIdentifier(IdentifierParser.parse(
-                            statements, (URI)object));
+                            statements, (IRI)object));
                 } else if (predicate.equals(R3D.INSTITUTION_COUNTRY)) {
-                    metadata.setInstitutionCountry((URI) object);
+                    metadata.setInstitutionCountry((IRI) object);
                 } else if (predicate.equals(R3D.REPO_START_DATE)) {
-                    metadata.setStartDate((new LiteralImpl(object.
+                    metadata.setStartDate((f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME)));
                 } else if (predicate.equals(R3D.REPO_LAST_UPDATE)) {
-                    metadata.setLastUpdate((new LiteralImpl(object.
+                    metadata.setLastUpdate((f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME)));
                 } else if (predicate.equals(R3D.INSTITUTION)) {
                     metadata.setInstitution(AgentParser.parse(
-                            statements, (URI)object));
+                            statements, (IRI)object));
                 }
             }
         }

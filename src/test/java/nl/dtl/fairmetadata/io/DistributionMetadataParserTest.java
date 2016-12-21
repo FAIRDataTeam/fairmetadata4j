@@ -8,11 +8,10 @@ package nl.dtl.fairmetadata.io;
 import java.util.List;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.utils.ExampleFilesUtils;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Statement;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
 
 /**
  * Unit tests for DistributionMetadataParser.
@@ -33,8 +32,8 @@ public class DistributionMetadataParserTest {
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFString() throws Exception {
         System.out.println("Test : Parse invalid distribution content");
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         parser.parse(null, ExampleFilesUtils.DISTRIBUTION_ID, disURI, dURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
@@ -47,8 +46,8 @@ public class DistributionMetadataParserTest {
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyRDFString() throws Exception {
         System.out.println("Test : Parse invalid distribution content");
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         parser.parse("", ExampleFilesUtils.DISTRIBUTION_ID, disURI, dURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
@@ -61,8 +60,8 @@ public class DistributionMetadataParserTest {
     @Test(expected = NullPointerException.class)
     public void testParseNullDistributionID() throws Exception {        
         System.out.println("Test : Parse invalid distribution content");
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), null, disURI, 
                 dURI, ExampleFilesUtils.FILE_FORMAT);
@@ -76,8 +75,8 @@ public class DistributionMetadataParserTest {
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyDistributionID() throws Exception {
         System.out.println("Test : Parse invalid distribution content");
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), "", disURI, 
                 dURI, ExampleFilesUtils.FILE_FORMAT);
@@ -90,8 +89,8 @@ public class DistributionMetadataParserTest {
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFFormat() throws Exception {
         System.out.println("Test : Parse invalid distribution content");
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), 
                 ExampleFilesUtils.DISTRIBUTION_ID, disURI, dURI, null);
@@ -104,8 +103,8 @@ public class DistributionMetadataParserTest {
     @Test
     public void testParseFile() throws Exception {
         System.out.println("Test : Parse invalid distribution content");
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         DistributionMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsString(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), 
@@ -124,7 +123,7 @@ public class DistributionMetadataParserTest {
         System.out.println("Test : Missing distribution URL");
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
-                        ExampleFilesUtils.DISTRIBUTION_URI);
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
         parser.parse(stmts , null);
        fail("This test is execpeted to throw an error");
     }
@@ -137,7 +136,7 @@ public class DistributionMetadataParserTest {
     @Test(expected = NullPointerException.class)
     public void testNullStatements() throws Exception {
         System.out.println("Test : Parse valid distribution content");
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         parser.parse(null, disURI);
         fail("This test is execpeted to throw an error");
     }
@@ -149,11 +148,11 @@ public class DistributionMetadataParserTest {
     @Test
     public void testParseStatements() throws Exception {
         System.out.println("Test : Parse valid distribution content");
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         DistributionMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
-                        ExampleFilesUtils.DISTRIBUTION_URI), disURI);
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString()), disURI);
         assertNotNull(metadata);
     }
     

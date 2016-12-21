@@ -16,19 +16,19 @@ import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Model;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.XMLSchema;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.Rio;
-import org.openrdf.rio.UnsupportedRDFormatException;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /**
  * Parser for dataset metadata
@@ -56,37 +56,37 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
      */
     @Override
     public DatasetMetadata parse(@Nonnull List<Statement> statements, 
-            @Nonnull URI datasetURI) {
+            @Nonnull IRI datasetURI) {
         Preconditions.checkNotNull(datasetURI, 
                 "Dataset URI must not be null.");
         Preconditions.checkNotNull(statements, 
                 "Dataset statements must not be null.");
         LOGGER.info("Parsing dataset metadata");
         DatasetMetadata metadata = super.parse(statements, datasetURI);
-        List<URI> distributions = new ArrayList();
-        
+        List<IRI> distributions = new ArrayList();
+        ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
-            URI predicate = st.getPredicate();
+            IRI predicate = st.getPredicate();
             Value object = st.getObject();
             
             if(subject.equals(datasetURI)) {
                 if (predicate.equals(DCAT.LANDING_PAGE)) {
-                    metadata.setLandingPage((URI) object);
+                    metadata.setLandingPage((IRI) object);
                 } else if (predicate.equals(DCAT.THEME)) {
-                    metadata.getThemes().add((URI) object);
+                    metadata.getThemes().add((IRI) object);
                 } else if (predicate.equals(DCAT.CONTACT_POINT)) {
-                    metadata.setContactPoint((URI) object);
+                    metadata.setContactPoint((IRI) object);
                 } else if (predicate.equals(DCAT.KEYWORD)) {
-                    metadata.getKeywords().add( new LiteralImpl(object.
+                    metadata.getKeywords().add( f.createLiteral(object.
                             stringValue(), XMLSchema.STRING));
                 } else if (predicate.equals(DCAT.DISTRIBUTION)) {
-                    distributions.add((URI) object);
+                    distributions.add((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
-                    metadata.setDatasetIssued(new LiteralImpl(object.
+                    metadata.setDatasetIssued(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.MODIFIED)) {
-                    metadata.setDatasetModified(new LiteralImpl(object.
+                    metadata.setDatasetModified(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 }      
             }        
@@ -110,7 +110,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
      * @throws MetadataParserException 
      */
     public DatasetMetadata parse (@Nonnull String datasetMetadata, 
-            @Nonnull String datasetID, @Nonnull URI datasetURI, URI catalogURI, 
+            @Nonnull String datasetID, @Nonnull IRI datasetURI, IRI catalogURI, 
             @Nonnull RDFFormat format) 
             throws MetadataParserException {
         Preconditions.checkNotNull(datasetMetadata, 
@@ -161,7 +161,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
      * @throws MetadataParserException
      */
     public DatasetMetadata parse(@Nonnull String datasetMetadata,
-            URI baseURI, @Nonnull RDFFormat format)
+            IRI baseURI, @Nonnull RDFFormat format)
             throws MetadataParserException {
         Preconditions.checkNotNull(datasetMetadata,
                 "Dataset metadata string must not be null.");
@@ -180,7 +180,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
             }
             Iterator<Statement> it = modelCatalog.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
-            URI catalogURI = (URI) statements.get(0).getSubject();
+            IRI catalogURI = (IRI) statements.get(0).getSubject();
             DatasetMetadata metadata = this.parse(statements, catalogURI);
             metadata.setUri(null);
             return metadata;
@@ -192,7 +192,8 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
         } catch (RDFParseException ex) {
             if (ex.getMessage().contains("Not a valid (absolute) URI")) {
                 String dummyURI = "http://example.com/dummyResource";
-                return parse(datasetMetadata, new URIImpl(dummyURI), format);
+                ValueFactory f = SimpleValueFactory.getInstance();
+                return parse(datasetMetadata, f.createIRI(dummyURI), format);
             }
             String errMsg = "Error parsing dataset metadata content. "
                     + ex.getMessage();

@@ -6,8 +6,11 @@
 
 package nl.dtl.fairmetadata.utils.vocabulary;
 
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+
+
 
 
 /**
@@ -19,21 +22,22 @@ import org.openrdf.model.impl.URIImpl;
  * @version 0.1
  */
 public class FDP {
+    static final ValueFactory f = SimpleValueFactory.getInstance();
     public static final String PREFIX = "fdp-o";
     public static final String NAMESPACE =  
             "http://rdf.biosemantics.org/ontologies/fdp-o#";    
-    public static final URI DATA_RECORD = 
-            new URIImpl(NAMESPACE + "dataRecord");
-    public static final URI TYPE_DATA_RECORD = 
-            new URIImpl(NAMESPACE + "DataRecord");
-    public static final URI REFERS_TO= 
-            new URIImpl(NAMESPACE + "refersTo");
-    public static final URI METADATA_ISSUED= 
-            new URIImpl(NAMESPACE + "metadataIssued");
-    public static final URI METADATA_MODIFIED= 
-            new URIImpl(NAMESPACE + "metadataModified");    
-    public static final URI METADATA_IDENTIFIER= 
-            new URIImpl(NAMESPACE + "metadataIdentifier");
-    public static final URI RML_MAPPING= 
-            new URIImpl(NAMESPACE + "rmlMapping");
+    public static final IRI DATA_RECORD = 
+            f.createIRI(NAMESPACE + "dataRecord");
+    public static final IRI TYPE_DATA_RECORD = 
+            f.createIRI(NAMESPACE + "DataRecord");
+    public static final IRI REFERS_TO= 
+            f.createIRI(NAMESPACE + "refersTo");
+    public static final IRI METADATA_ISSUED= 
+            f.createIRI(NAMESPACE + "metadataIssued");
+    public static final IRI METADATA_MODIFIED= 
+            f.createIRI(NAMESPACE + "metadataModified");    
+    public static final IRI METADATA_IDENTIFIER= 
+            f.createIRI(NAMESPACE + "metadataIdentifier");
+    public static final IRI RML_MAPPING= 
+            f.createIRI(NAMESPACE + "rmlMapping");
 }

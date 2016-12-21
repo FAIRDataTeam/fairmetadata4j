@@ -13,17 +13,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Model;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.vocabulary.FOAF;
-import org.openrdf.model.vocabulary.XMLSchema;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.Rio;
-import org.openrdf.rio.UnsupportedRDFormatException;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -31,9 +20,20 @@ import java.util.ArrayList;
 
 import nl.dtl.fairmetadata.model.CatalogMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.FOAF;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /**
  * Parser for catalog metadata
@@ -61,7 +61,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      */
     @Override
     public CatalogMetadata parse(@Nonnull List<Statement> statements,
-            @Nonnull URI catalogURI) {
+            @Nonnull IRI catalogURI) {
         Preconditions.checkNotNull(catalogURI,
                 "Catalog URI must not be null.");
         Preconditions.checkNotNull(statements,
@@ -69,25 +69,25 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
         LOGGER.info("Parsing catalog metadata");
 
         CatalogMetadata metadata = super.parse(statements, catalogURI);
-        List<URI> datasets = new ArrayList();
-
+        List<IRI> datasets = new ArrayList();
+        ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
-            URI predicate = st.getPredicate();
+            IRI predicate = st.getPredicate();
             Value object = st.getObject();
 
             if (subject.equals(catalogURI)) {
                 if (predicate.equals(FOAF.HOMEPAGE)) {
-                    metadata.setHomepage((URI) object);
+                    metadata.setHomepage((IRI) object);
                 } else if (predicate.equals(DCAT.THEME_TAXONOMY)) {
-                    metadata.getThemeTaxonomy().add((URI) object);
+                    metadata.getThemeTaxonomy().add((IRI) object);
                 } else if (predicate.equals(DCAT.DATASET)) {
-                    datasets.add((URI) object);
+                    datasets.add((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
-                    metadata.setCatalogIssued(new LiteralImpl(object.
+                    metadata.setCatalogIssued(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.MODIFIED)) {
-                    metadata.setCatalogModified(new LiteralImpl(object.
+                    metadata.setCatalogModified(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 }
             }
@@ -111,7 +111,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      */
     public CatalogMetadata parse(@Nonnull String catalogMetadata,
             @Nonnull String catalogID,
-            @Nonnull URI catalogURI, URI fdpURI, @Nonnull RDFFormat format)
+            @Nonnull IRI catalogURI, IRI fdpURI, @Nonnull RDFFormat format)
             throws MetadataParserException {
         Preconditions.checkNotNull(catalogMetadata,
                 "Catalog metadata string must not be null.");
@@ -163,7 +163,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      * @throws MetadataParserException
      */
     public CatalogMetadata parse(@Nonnull String catalogMetadata,
-            URI baseURI, @Nonnull RDFFormat format)
+            IRI baseURI, @Nonnull RDFFormat format)
             throws MetadataParserException {
         Preconditions.checkNotNull(catalogMetadata,
                 "Catalog metadata string must not be null.");
@@ -182,7 +182,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
             }
             Iterator<Statement> it = modelCatalog.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
-            URI catalogURI = (URI) statements.get(0).getSubject();
+            IRI catalogURI = (IRI) statements.get(0).getSubject();
             CatalogMetadata metadata = this.parse(statements, catalogURI);
             metadata.setUri(null);
             return metadata;
@@ -194,7 +194,8 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
         } catch (RDFParseException ex) {
             if (ex.getMessage().contains("Not a valid (absolute) URI")) {
                 String dummyURI = "http://example.com/dummyResource";
-                return parse(catalogMetadata, new URIImpl(dummyURI), format);
+                ValueFactory f = SimpleValueFactory.getInstance();
+                return parse(catalogMetadata, f.createIRI(dummyURI), format);
             }
             String errMsg = "Error parsing catalog metadata content. "
                     + ex.getMessage();

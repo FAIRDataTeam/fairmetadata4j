@@ -5,8 +5,10 @@
  */
 package nl.dtl.fairmetadata.model;
 
-import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
+
+
 
 /**
  *
@@ -16,36 +18,36 @@ import org.openrdf.model.URI;
  */
 public class DataRecordMetadata extends Metadata {
     
-    private URI rmlURI;
-    private URI distributionURI;
+    private IRI rmlURI;
+    private IRI distributionURI;
     private Literal dataRecordIssued;
     private Literal dataRecordModified;
 
     /**
      * @return the rmlURI
      */
-    public URI getRmlURI() {
+    public IRI getRmlURI() {
         return rmlURI;
     }
 
     /**
      * @param rmlURI the rmlURI to set
      */
-    public void setRmlURI(URI rmlURI) {
+    public void setRmlURI(IRI rmlURI) {
         this.rmlURI = rmlURI;
     }
 
     /**
      * @return the distributionURI
      */
-    public URI getDistributionURI() {
+    public IRI getDistributionURI() {
         return distributionURI;
     }
 
     /**
      * @param distributionURI the distributionURI to set
      */
-    public void setDistributionURI(URI distributionURI) {
+    public void setDistributionURI(IRI distributionURI) {
         this.distributionURI = distributionURI;
     }
 

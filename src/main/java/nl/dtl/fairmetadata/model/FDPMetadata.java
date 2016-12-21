@@ -9,9 +9,8 @@ package nl.dtl.fairmetadata.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
-
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
 /**
  *
  * @author Rajaram Kaliyaperumal
@@ -20,11 +19,11 @@ import org.openrdf.model.URI;
  */
 public final class FDPMetadata extends Metadata {
     
-    private URI homepage;
-    private URI swaggerDoc;  
-    private List<URI> catalogs = new ArrayList();
+    private IRI homepage;
+    private IRI swaggerDoc;  
+    private List<IRI> catalogs = new ArrayList();
     private Identifier repostoryIdentifier;
-    private URI institutionCountry;  
+    private IRI institutionCountry;  
     private Literal lastUpdate;
     private Literal startDate;
     private Agent institution;
@@ -32,42 +31,42 @@ public final class FDPMetadata extends Metadata {
     /**
      * @param homepage the homepage to set
      */
-    public void setHomepage(URI homepage) {
+    public void setHomepage(IRI homepage) {
         this.homepage = homepage;
     }
 
     /**
      * @param swaggerDoc the swaggerDoc to set
      */
-    public void setSwaggerDoc(URI swaggerDoc) {
+    public void setSwaggerDoc(IRI swaggerDoc) {
         this.swaggerDoc = swaggerDoc;
     }
 
     /**
      * @return the homepage
      */
-    public URI getHomepage() {
+    public IRI getHomepage() {
         return homepage;
     }
 
     /**
      * @return the swaggerDoc
      */
-    public URI getSwaggerDoc() {
+    public IRI getSwaggerDoc() {
         return swaggerDoc;
     }
 
     /**
      * @return the catalogs
      */
-    public List<URI> getCatalogs() {
+    public List<IRI> getCatalogs() {
         return catalogs;
     }
 
     /**
      * @param catalogs the catalogs to set
      */
-    public void setCatalogs(List<URI> catalogs) {
+    public void setCatalogs(List<IRI> catalogs) {
         this.catalogs = catalogs;
     }
 
@@ -88,14 +87,14 @@ public final class FDPMetadata extends Metadata {
     /**
      * @return the institutionCountry
      */
-    public URI getInstitutionCountry() {
+    public IRI getInstitutionCountry() {
         return institutionCountry;
     }
 
     /**
      * @param institutionCountry the institutionCountry to set
      */
-    public void setInstitutionCountry(URI institutionCountry) {
+    public void setInstitutionCountry(IRI institutionCountry) {
         this.institutionCountry = institutionCountry;
     }
 

@@ -8,11 +8,12 @@ package nl.dtl.fairmetadata.io;
 import java.util.List;
 import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.utils.ExampleFilesUtils;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
 
 /**
  * Unit tests for DatasetMetadataParser.
@@ -24,6 +25,7 @@ import org.openrdf.model.impl.URIImpl;
 public class DatasetMetadataParserTest {
     
     private final DatasetMetadataParser parser = new DatasetMetadataParser();
+    private final ValueFactory f = SimpleValueFactory.getInstance();
     
     /**
      * Test null RDF string, this test is expected to throw exception
@@ -32,8 +34,8 @@ public class DatasetMetadataParserTest {
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFString() throws Exception {
         System.out.println("Test : Parse invalid dataset content");
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         parser.parse(null, ExampleFilesUtils.DATASET_ID, dURI, cURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
@@ -46,8 +48,8 @@ public class DatasetMetadataParserTest {
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyRDFString() throws Exception {
         System.out.println("Test : Parse invalid dataset content");
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         parser.parse("", ExampleFilesUtils.DATASET_ID, dURI, cURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
@@ -60,8 +62,8 @@ public class DatasetMetadataParserTest {
     @Test(expected = NullPointerException.class)
     public void testParseNullDatasetID() throws Exception {
         System.out.println("Test : Parse invalid dataset content");
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
                 ExampleFilesUtils.DATASET_METADATA_FILE), null, dURI, cURI, 
                 ExampleFilesUtils.FILE_FORMAT);
@@ -75,8 +77,8 @@ public class DatasetMetadataParserTest {
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyDatasetID() throws Exception {
         System.out.println("Test : Parse invalid dataset content");
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
                 ExampleFilesUtils.DATASET_METADATA_FILE), "", dURI, cURI, 
                 ExampleFilesUtils.FILE_FORMAT);
@@ -89,8 +91,8 @@ public class DatasetMetadataParserTest {
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFFormat() throws Exception {
         System.out.println("Test : Parse invalid dataset content");
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
                 ExampleFilesUtils.DATASET_METADATA_FILE), 
                 ExampleFilesUtils.DATASET_ID, dURI, cURI, null);
@@ -103,8 +105,8 @@ public class DatasetMetadataParserTest {
     @Test
     public void testParseFile() throws Exception {
         System.out.println("Test : Parse valid dataset content");
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         DatasetMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsString(
                 ExampleFilesUtils.DATASET_METADATA_FILE), 
@@ -123,7 +125,7 @@ public class DatasetMetadataParserTest {
         System.out.println("Test : Missing dataset URL");
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DATASET_METADATA_FILE, 
-                        ExampleFilesUtils.DATASET_URI);
+                        ExampleFilesUtils.DATASET_URI.toString());
         parser.parse(stmts , null);
        fail("This test is execpeted to throw an error");
     }
@@ -136,7 +138,7 @@ public class DatasetMetadataParserTest {
     @Test(expected = NullPointerException.class)
     public void testNullStatements() throws Exception {
         System.out.println("Test : Parse valid dataset content");
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         parser.parse(null, dURI);
         fail("This test is execpeted to throw an error");
     }
@@ -148,11 +150,11 @@ public class DatasetMetadataParserTest {
     @Test
     public void testParseStatements() throws Exception {
         System.out.println("Test : Parse valid dataset content");
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         DatasetMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DATASET_METADATA_FILE, 
-                        ExampleFilesUtils.DATASET_URI), dURI);
+                        ExampleFilesUtils.DATASET_URI.toString()), dURI);
         assertNotNull(metadata);
     }
     

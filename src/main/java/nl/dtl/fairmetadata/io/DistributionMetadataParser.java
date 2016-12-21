@@ -15,19 +15,19 @@ import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Model;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.XMLSchema;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.Rio;
-import org.openrdf.rio.UnsupportedRDFormatException;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /**
  * Parser for distribution metadata
@@ -54,7 +54,7 @@ public class DistributionMetadataParser extends MetadataParser
      */
     @Override
     public DistributionMetadata parse(@Nonnull List<Statement> statements, 
-            @Nonnull URI distributionURI)  {
+            @Nonnull IRI distributionURI)  {
         Preconditions.checkNotNull(distributionURI, 
                 "Distribution URI must not be null.");
         Preconditions.checkNotNull(statements, 
@@ -62,30 +62,31 @@ public class DistributionMetadataParser extends MetadataParser
         LOGGER.info("Parsing distribution metadata");
         DistributionMetadata metadata = super.parse(statements, 
                 distributionURI);
+        ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
-            URI predicate = st.getPredicate();
+            IRI predicate = st.getPredicate();
             Value object = st.getObject();
             
             if (subject.equals(distributionURI)) {
                 if (predicate.equals(DCAT.ACCESS_URL)) {
-                    metadata.setAccessURL((URI) object);
+                    metadata.setAccessURL((IRI) object);
                 } else if (predicate.equals(DCAT.DOWNLOAD_URL)) {
-                    metadata.setDownloadURL((URI) object);
+                    metadata.setDownloadURL((IRI) object);
                 } else if (predicate.equals(DCAT.FORMAT)) {                   
-                     metadata.setFormat(new LiteralImpl(object.stringValue(), 
+                     metadata.setFormat(f.createLiteral(object.stringValue(), 
                              XMLSchema.STRING));
                 } else if (predicate.equals(DCAT.BYTE_SIZE)) {                                  
-                     metadata.setByteSize(new LiteralImpl(object.stringValue(), 
+                     metadata.setByteSize(f.createLiteral(object.stringValue(), 
                              XMLSchema.STRING));
                 } else if (predicate.equals(DCAT.MEDIA_TYPE)) {                   
-                     metadata.setMediaType(new LiteralImpl(object.stringValue(), 
+                     metadata.setMediaType(f.createLiteral(object.stringValue(), 
                              XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
-                    metadata.setDistributionIssued(new LiteralImpl(object.
+                    metadata.setDistributionIssued(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.MODIFIED)) {
-                    metadata.setDistributionModified(new LiteralImpl(object.
+                    metadata.setDistributionModified(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 }
             }
@@ -105,8 +106,8 @@ public class DistributionMetadataParser extends MetadataParser
      * @throws nl.dtl.fairmetadata.io.MetadataParserException 
      */
     public DistributionMetadata parse (@Nonnull String distributionMetadata, 
-            @Nonnull String distributionID, @Nonnull URI distributionURI, 
-            URI datasetURI, @Nonnull RDFFormat format) 
+            @Nonnull String distributionID, @Nonnull IRI distributionURI, 
+            IRI datasetURI, @Nonnull RDFFormat format) 
             throws MetadataParserException {
         Preconditions.checkNotNull(distributionMetadata, 
                 "Distribution metadata string must not be null."); 
@@ -161,7 +162,7 @@ public class DistributionMetadataParser extends MetadataParser
      * @throws MetadataParserException
      */
     public DistributionMetadata parse(@Nonnull String distributionMetadata,
-            URI baseURI, @Nonnull RDFFormat format)
+            IRI baseURI, @Nonnull RDFFormat format)
             throws MetadataParserException {
         Preconditions.checkNotNull(distributionMetadata,
                 "Distribution metadata string must not be null.");
@@ -180,7 +181,7 @@ public class DistributionMetadataParser extends MetadataParser
             }
             Iterator<Statement> it = modelCatalog.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
-            URI catalogURI = (URI) statements.get(0).getSubject();
+            IRI catalogURI = (IRI) statements.get(0).getSubject();
             DistributionMetadata metadata = this.parse(statements, catalogURI);
             metadata.setUri(null);
             return metadata;
@@ -192,7 +193,8 @@ public class DistributionMetadataParser extends MetadataParser
         } catch (RDFParseException ex) {
             if (ex.getMessage().contains("Not a valid (absolute) URI")) {
                 String dummyURI = "http://example.com/dummyResource";
-                return parse(distributionMetadata, new URIImpl(dummyURI), 
+                ValueFactory f = SimpleValueFactory.getInstance();
+                return parse(distributionMetadata, f.createIRI(dummyURI), 
                         format);
             }
             String errMsg = "Error parsing catalog metadata content. "

@@ -6,8 +6,8 @@
 package nl.dtl.fairmetadata.model;
 
 import nl.dtl.fairmetadata.utils.vocabulary.DataCite;
-import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
 
 /**
  *
@@ -16,21 +16,21 @@ import org.openrdf.model.URI;
  * @version 0.1
  */
 public class Identifier {
-    private URI uri;
-    private URI type = DataCite.IDENTIFIER;
+    private IRI uri;
+    private IRI type = DataCite.IDENTIFIER;
     private Literal identifier;
 
     /**
      * @return the type
      */
-    public URI getType() {
+    public IRI getType() {
         return type;
     }
 
     /**
      * @param type the type to set
      */
-    public void setType(URI type) {
+    public void setType(IRI type) {
         this.type = type;
     }
 
@@ -51,14 +51,14 @@ public class Identifier {
     /**
      * @return the uri
      */
-    public URI getUri() {
+    public IRI getUri() {
         return uri;
     }
 
     /**
      * @param uri the uri to set
      */
-    public void setUri(URI uri) {
+    public void setUri(IRI uri) {
         this.uri = uri;
     }
     

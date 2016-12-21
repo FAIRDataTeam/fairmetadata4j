@@ -5,8 +5,10 @@
  */
 package nl.dtl.fairmetadata.utils.vocabulary;
 
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+
 
 /**
  * R3d vocabulary.
@@ -17,23 +19,23 @@ import org.openrdf.model.impl.URIImpl;
  * @version 0.1
  */
 public class R3D {
-    
+    static final ValueFactory f = SimpleValueFactory.getInstance();    
     public static final String PREFIX = "r3d";
     public static final String NAMESPACE =  
             "http://www.re3data.org/schema/3-0#";
-    public static final URI TYPE_REPOSTORY = new URIImpl(
-            NAMESPACE + "Repository");
-    public static final URI DATA_CATALOG = new URIImpl(
-            NAMESPACE + "dataCatalog");
-    public static final URI REPO_IDENTIFIER = new URIImpl(
-            NAMESPACE + "repositoryIdentifier");
-    public static final URI INSTITUTION = new URIImpl(
-            NAMESPACE + "institution");
-    public static final URI INSTITUTION_COUNTRY = new URIImpl(
-            NAMESPACE + "institutionCountry");
-    public static final URI REPO_LAST_UPDATE = new URIImpl(
-            NAMESPACE + "lastUpdate");
-    public static final URI REPO_START_DATE = new URIImpl(
-            NAMESPACE + "startDate");
+    public static final IRI TYPE_REPOSTORY = f.createIRI
+        (NAMESPACE + "Repository");
+    public static final IRI DATA_CATALOG = f.createIRI
+        (NAMESPACE + "dataCatalog");
+    public static final IRI REPO_IDENTIFIER = f.createIRI
+        (NAMESPACE + "repositoryIdentifier");
+    public static final IRI INSTITUTION = f.createIRI
+        (NAMESPACE + "institution");
+    public static final IRI INSTITUTION_COUNTRY = f.createIRI
+        (NAMESPACE + "institutionCountry");
+    public static final IRI REPO_LAST_UPDATE = f.createIRI
+        (NAMESPACE + "lastUpdate");
+    public static final IRI REPO_START_DATE = f.createIRI
+        (NAMESPACE + "startDate");
     
 }

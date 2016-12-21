@@ -19,13 +19,13 @@ import nl.dtl.fairmetadata.model.DatasetMetadata;
 import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.model.FDPMetadata;
 import nl.dtl.fairmetadata.model.Identifier;
-import org.apache.jena.iri.impl.IRIImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.rio.RDFFormat;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.rio.RDFFormat;
 
 /**
  * Unit tests for MetadataUtils.
@@ -74,8 +74,8 @@ public class MetadataUtilsTest {
         FDPMetadataParser fdpParser = new FDPMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         MetadataUtils.getString(metadata, null);
         fail("This test is execpeted to throw an error");        
@@ -92,8 +92,8 @@ public class MetadataUtilsTest {
         FDPMetadataParser fdpParser = new FDPMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         metadata.setVersion(null);
         MetadataUtils.getStatements(metadata);
@@ -111,8 +111,8 @@ public class MetadataUtilsTest {
         FDPMetadataParser fdpParser = new FDPMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         metadata.setTitle(null);    
         MetadataUtils.getStatements(metadata);
@@ -130,8 +130,8 @@ public class MetadataUtilsTest {
         FDPMetadataParser fdpParser = new FDPMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         metadata.setIdentifier(null);    
         MetadataUtils.getStatements(metadata);
@@ -149,8 +149,8 @@ public class MetadataUtilsTest {
         FDPMetadataParser fdpParser = new FDPMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         Identifier id = metadata.getIdentifier();
         id.setIdentifier(null);
@@ -170,8 +170,8 @@ public class MetadataUtilsTest {
         FDPMetadataParser fdpParser = new FDPMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         Identifier id = metadata.getIdentifier();
         id.setUri(null);
@@ -191,8 +191,8 @@ public class MetadataUtilsTest {
         FDPMetadataParser fdpParser = new FDPMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         Identifier id = metadata.getIdentifier();
         id.setType(null);
@@ -212,8 +212,8 @@ public class MetadataUtilsTest {
         CatalogMetadataParser parser = new CatalogMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.CATALOG_METADATA_FILE, 
-                        ExampleFilesUtils.CATALOG_URI);
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+                        ExampleFilesUtils.CATALOG_URI.toString());
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         CatalogMetadata metadata = parser.parse(stmts , cURI);
         metadata.setThemeTaxonomy(null);
         MetadataUtils.getStatements(metadata);
@@ -232,8 +232,8 @@ public class MetadataUtilsTest {
         CatalogMetadataParser parser = new CatalogMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.CATALOG_METADATA_FILE, 
-                        ExampleFilesUtils.CATALOG_URI);
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+                        ExampleFilesUtils.CATALOG_URI.toString());
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         CatalogMetadata metadata = parser.parse(stmts , cURI);
         metadata.setThemeTaxonomy(new ArrayList());
         MetadataUtils.getStatements(metadata);
@@ -252,8 +252,8 @@ public class MetadataUtilsTest {
         DatasetMetadataParser parser = new DatasetMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DATASET_METADATA_FILE, 
-                        ExampleFilesUtils.DATASET_URI);        
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+                        ExampleFilesUtils.DATASET_URI.toString());        
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         DatasetMetadata metadata = parser.parse(stmts , dURI);
         metadata.setThemes(null);
         MetadataUtils.getStatements(metadata);
@@ -271,8 +271,8 @@ public class MetadataUtilsTest {
         DatasetMetadataParser parser = new DatasetMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DATASET_METADATA_FILE, 
-                        ExampleFilesUtils.DATASET_URI);        
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+                        ExampleFilesUtils.DATASET_URI.toString());        
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         DatasetMetadata metadata = parser.parse(stmts , dURI);
         metadata.setThemes(new ArrayList());
         MetadataUtils.getStatements(metadata);
@@ -290,8 +290,8 @@ public class MetadataUtilsTest {
         DistributionMetadataParser parser = new DistributionMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
-                        ExampleFilesUtils.DISTRIBUTION_URI);
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         DistributionMetadata metadata = parser.parse(stmts , disURI);
         metadata.setAccessURL(null);
         metadata.setDownloadURL(null);     
@@ -310,10 +310,11 @@ public class MetadataUtilsTest {
         DistributionMetadataParser parser = new DistributionMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
-                        ExampleFilesUtils.DISTRIBUTION_URI);
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         DistributionMetadata metadata = parser.parse(stmts , disURI);
-        metadata.setAccessURL(new URIImpl("http://example.com/accessuri"));
+        ValueFactory f = SimpleValueFactory.getInstance();
+        metadata.setAccessURL(f.createIRI("http://example.com/accessuri"));
         metadata.setDownloadURL(null);     
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
@@ -330,11 +331,12 @@ public class MetadataUtilsTest {
         DistributionMetadataParser parser = new DistributionMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
-                        ExampleFilesUtils.DISTRIBUTION_URI);
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         DistributionMetadata metadata = parser.parse(stmts , disURI);
         metadata.setAccessURL(null);
-        metadata.setDownloadURL(new URIImpl("http://example.com/downloaduri"));     
+        ValueFactory f = SimpleValueFactory.getInstance();
+        metadata.setDownloadURL(f.createIRI("http://example.com/downloaduri"));     
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
     }
@@ -350,8 +352,8 @@ public class MetadataUtilsTest {
         FDPMetadataParser fdpParser = new FDPMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI fURI = new URIImpl(ExampleFilesUtils.FDP_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);   
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
@@ -368,8 +370,8 @@ public class MetadataUtilsTest {
         CatalogMetadataParser parser = new CatalogMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.CATALOG_METADATA_FILE, 
-                        ExampleFilesUtils.CATALOG_URI);
-        URI cURI = new URIImpl(ExampleFilesUtils.CATALOG_URI);
+                        ExampleFilesUtils.CATALOG_URI.toString());
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         CatalogMetadata metadata = parser.parse(stmts , cURI);
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
@@ -387,8 +389,8 @@ public class MetadataUtilsTest {
         DatasetMetadataParser parser = new DatasetMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DATASET_METADATA_FILE, 
-                        ExampleFilesUtils.DATASET_URI);        
-        URI dURI = new URIImpl(ExampleFilesUtils.DATASET_URI);
+                        ExampleFilesUtils.DATASET_URI.toString());        
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
         DatasetMetadata metadata = parser.parse(stmts , dURI);
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
@@ -405,8 +407,8 @@ public class MetadataUtilsTest {
         DistributionMetadataParser parser = new DistributionMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
-                        ExampleFilesUtils.DISTRIBUTION_URI);
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         DistributionMetadata metadata = parser.parse(stmts , disURI);             
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
@@ -423,8 +425,8 @@ public class MetadataUtilsTest {
         DataRecordMetadataParser parser = new DataRecordMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DATARECORD_METADATA_FILE, 
-                        ExampleFilesUtils.DATARECORD_URI);
-        URI drURI = new URIImpl(ExampleFilesUtils.DATARECORD_URI);
+                        ExampleFilesUtils.DATARECORD_URI.toString());
+        IRI drURI = ExampleFilesUtils.DATARECORD_URI;
         DataRecordMetadata metadata = parser.parse(stmts , drURI);             
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
@@ -444,8 +446,8 @@ public class MetadataUtilsTest {
         DistributionMetadataParser parser = new DistributionMetadataParser();
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
-                        ExampleFilesUtils.DISTRIBUTION_URI);
-        URI disURI = new URIImpl(ExampleFilesUtils.DISTRIBUTION_URI);
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         DistributionMetadata metadata = parser.parse(stmts , disURI);             
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE);
         assertFalse(out.isEmpty());

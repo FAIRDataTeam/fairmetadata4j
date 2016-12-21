@@ -10,14 +10,16 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.model.Agent;
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.vocabulary.FOAF;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.LiteralImpl;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.FOAF;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
  *
@@ -31,7 +33,7 @@ public class AgentParser {
             = LogManager.getLogger(IdentifierParser.class);
 
     public static Agent parse(@Nonnull List<Statement> statements,
-            @Nonnull URI agentURI) {
+            @Nonnull IRI agentURI) {
         Preconditions.checkNotNull(agentURI,
                 "Agent URI must not be null.");
         Preconditions.checkNotNull(statements,
@@ -44,14 +46,15 @@ public class AgentParser {
         agent.setUri(agentURI);
         for (Statement st : statements) {
             Resource subject = st.getSubject();
-            URI predicate = st.getPredicate();
+            IRI predicate = st.getPredicate();
             Value object = st.getObject();
 
             if (subject.equals(agentURI)) {
                 if (predicate.equals(RDF.TYPE)) {
-                    agent.setType((URI) object);
+                    agent.setType((IRI) object);
                 } else if (predicate.equals(FOAF.NAME)) {
-                    agent.setName(new LiteralImpl(object.stringValue(),
+                    ValueFactory f = SimpleValueFactory.getInstance();
+                    agent.setName(f.createLiteral(object.stringValue(),
                             XMLSchema.STRING));
                 }
             }

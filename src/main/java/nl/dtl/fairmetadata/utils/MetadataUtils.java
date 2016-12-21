@@ -24,22 +24,24 @@ import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata.utils.vocabulary.R3D;
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.LinkedHashModel;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.FOAF;
-import org.openrdf.model.vocabulary.OWL;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.model.vocabulary.XMLSchema;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.RDFWriter;
-import org.openrdf.rio.Rio;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.LinkedHashModel;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.FOAF;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.repository.RepositoryException;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFHandler;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.RDFWriter;
+import org.eclipse.rdf4j.rio.Rio;
 
 /**
  * Meatadata util class to convert Metadata object to RDF statements and RDF
@@ -71,7 +73,7 @@ public class MetadataUtils {
         } catch (NullPointerException ex) {
             throw(new MetadataException(ex.getMessage()));
         }
-        org.openrdf.model.Model model = new LinkedHashModel();
+        Model model = new LinkedHashModel();
         LOGGER.info("Creating metadata rdf model");
         setCommonProperties(model, metadata);
         LOGGER.info("Adding specific metadata properties to the rdf model");
@@ -128,7 +130,7 @@ public class MetadataUtils {
      * @return List of RDF statements
      * @throws MetadataException
      */
-    private static List<Statement> getStatements(org.openrdf.model.Model model,
+    private static List<Statement> getStatements(Model model,
             FDPMetadata metadata)
             throws MetadataException {
         LOGGER.info("Adding FDP metadata properties to the rdf model");
@@ -140,8 +142,9 @@ public class MetadataUtils {
         } catch (NullPointerException ex) {
             throw(new MetadataException(ex.getMessage()));
         }
+        ValueFactory f = SimpleValueFactory.getInstance();
         model.add(metadata.getUri(), RDF.TYPE, R3D.TYPE_REPOSTORY);
-        URI swaggerURL = new URIImpl(
+        IRI swaggerURL = f.createIRI(
                 metadata.getUri().toString() + "/swagger-ui.html");
         model.add(metadata.getUri(), RDFS.SEEALSO, swaggerURL);
         Identifier id = metadata.getRepostoryIdentifier();
@@ -190,7 +193,7 @@ public class MetadataUtils {
      * @return List of RDF statements
      * @throws MetadataException
      */
-    private static List<Statement> getStatements(org.openrdf.model.Model model,
+    private static List<Statement> getStatements(Model model,
             CatalogMetadata metadata)
             throws MetadataException {        
         try {
@@ -234,7 +237,7 @@ public class MetadataUtils {
      * @return List of RDF statements
      * @throws MetadataException
      */
-    private static List<Statement> getStatements(org.openrdf.model.Model model,
+    private static List<Statement> getStatements(Model model,
             DatasetMetadata metadata)
             throws MetadataException {
         try {            
@@ -286,7 +289,7 @@ public class MetadataUtils {
      * @return List of RDF statements
      * @throws MetadataException
      */
-    private static List<Statement> getStatements(org.openrdf.model.Model model,
+    private static List<Statement> getStatements(Model model,
             DistributionMetadata metadata)
             throws MetadataException {        
         
@@ -337,7 +340,7 @@ public class MetadataUtils {
      * @return List of RDF statements
      * @throws MetadataException
      */
-    private static List<Statement> getStatements(org.openrdf.model.Model model,
+    private static List<Statement> getStatements(Model model,
             DataRecordMetadata metadata)
             throws MetadataException {        
         try {
@@ -373,8 +376,7 @@ public class MetadataUtils {
      * @param model RDF model with metadata properties
      * @return List of RDF statements
      */
-    private static List<Statement> getStatements(
-            org.openrdf.model.Model model) {
+    private static List<Statement> getStatements(Model model) {
         Iterator<Statement> it = model.iterator();
         List<Statement> statements = ImmutableList.copyOf(it);
         return statements;
@@ -385,8 +387,7 @@ public class MetadataUtils {
      *
      * @param model Empty RDF model
      */
-    private static void setCommonProperties(org.openrdf.model.Model model,
-            Metadata metadata) {
+    private static void setCommonProperties(Model model, Metadata metadata) {
         LOGGER.info("Adding common metadata properties to the  rdf model");
         model.add(metadata.getUri(), DCTERMS.TITLE, metadata.getTitle());
         model.add(metadata.getUri(), RDFS.LABEL, metadata.getTitle());

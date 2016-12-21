@@ -8,17 +8,18 @@ package nl.dtl.fairmetadata.io;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.model.vocabulary.XMLSchema;
 
 import nl.dtl.fairmetadata.model.Metadata;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
  *
@@ -34,48 +35,48 @@ public abstract class MetadataParser<T extends Metadata>  {
     
     protected abstract T createMetadata();
     
-    protected T parse(List<Statement> statements, URI metadataUri)  {
+    protected T parse(List<Statement> statements, IRI metadataUri)  {
         T metadata = createMetadata();
         
         metadata.setUri(metadataUri);
         
         LOGGER.info("Parse common metadata properties");
-        
+        ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
-            URI predicate = st.getPredicate();
+            IRI predicate = st.getPredicate();
             Value object = st.getObject();
             
             if (subject.equals(metadataUri)) {
                 if (predicate.equals(DCTERMS.HAS_VERSION)) {
-                    metadata.setVersion(new LiteralImpl(object.stringValue(), 
+                    metadata.setVersion(f.createLiteral(object.stringValue(), 
                             XMLSchema.STRING));
                 } else if (predicate.equals(RDFS.LABEL) || 
                         predicate.equals(DCTERMS.TITLE)) {
-                    metadata.setTitle(new LiteralImpl(object.stringValue(), 
+                    metadata.setTitle(f.createLiteral(object.stringValue(), 
                             XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.DESCRIPTION)) {
-                    metadata.setDescription(new LiteralImpl(object.
+                    metadata.setDescription(f.createLiteral(object.
                             stringValue(), XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.LICENSE)) {
-                    metadata.setLicense((URI) object);
+                    metadata.setLicense((IRI) object);
                 } else if (predicate.equals(DCTERMS.RIGHTS)) {
-                    metadata.setRights((URI) object);
+                    metadata.setRights((IRI) object);
                 } else if (predicate.equals(DCTERMS.LANGUAGE)) {
-                    metadata.setLanguage((URI) object);
+                    metadata.setLanguage((IRI) object);
                 } else if (predicate.equals(DCTERMS.PUBLISHER)) {
                     metadata.setPublisher(AgentParser.parse(statements, 
-                            (URI)object));
+                            (IRI)object));
                 } else if (predicate.equals(FDP.METADATA_IDENTIFIER)) {
                     metadata.setIdentifier(IdentifierParser.parse(statements, 
-                            (URI)object));
+                            (IRI)object));
                 } else if (predicate.equals(FDP.METADATA_ISSUED) && 
                         metadata.getIssued() == null) {
-                    metadata.setIssued(new LiteralImpl(object.
+                    metadata.setIssued(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 } else if (predicate.equals(FDP.METADATA_MODIFIED) && 
                         metadata.getModified() == null) {
-                    metadata.setModified(new LiteralImpl(object.
+                    metadata.setModified(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 }
             }

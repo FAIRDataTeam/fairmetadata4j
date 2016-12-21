@@ -1,5 +1,8 @@
 package nl.dtl.fairmetadata.model;
 
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,8 +10,6 @@ package nl.dtl.fairmetadata.model;
  */
 
 
-import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
 
 /**
  *
@@ -24,11 +25,11 @@ public class Metadata {
     private Literal modified;
     private Literal version;
     private Literal description;
-    private URI license;
-    private URI rights;
-    private URI uri;
-    private URI parentURI;
-    private URI language;
+    private IRI license;
+    private IRI rights;
+    private IRI uri;
+    private IRI parentURI;
+    private IRI language;
     private Agent publisher;
 
     /**
@@ -76,21 +77,21 @@ public class Metadata {
     /**
      * @param license the license to set
      */
-    public void setLicense(URI license) {
+    public void setLicense(IRI license) {
         this.license = license;
     }
 
     /**
      * @param rights the rights to set
      */
-    public void setRights(URI rights) {
+    public void setRights(IRI rights) {
         this.rights = rights;
     }
 
     /**
      * @param uri the uri to set
      */
-    public void setUri(URI uri) {
+    public void setUri(IRI uri) {
         this.uri = uri;
     }
     /**
@@ -138,21 +139,21 @@ public class Metadata {
     /**
      * @return the license
      */
-    public URI getLicense() {
+    public IRI getLicense() {
         return license;
     }
 
     /**
      * @return the rights
      */
-    public URI getRights() {
+    public IRI getRights() {
         return rights;
     }
 
     /**
      * @return the uri
      */
-    public URI getUri() {
+    public IRI getUri() {
         return uri;
     }    
 
@@ -166,28 +167,28 @@ public class Metadata {
     /**
      * @return the language
      */
-    public URI getLanguage() {
+    public IRI getLanguage() {
         return language;
     }   
 
     /**
      * @param language the language to set
      */
-    public void setLanguage(URI language) {
+    public void setLanguage(IRI language) {
         this.language = language;
     }
 
     /**
      * @return the parentURI
      */
-    public URI getParentURI() {
+    public IRI getParentURI() {
         return parentURI;
     }
 
     /**
      * @param parentURI the parentURI to set
      */
-    public void setParentURI(URI parentURI) {
+    public void setParentURI(IRI parentURI) {
         this.parentURI = parentURI;
     }
 

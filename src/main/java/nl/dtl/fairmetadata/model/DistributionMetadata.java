@@ -1,5 +1,8 @@
 package nl.dtl.fairmetadata.model;
 
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,8 +10,6 @@ package nl.dtl.fairmetadata.model;
  */
 
 
-import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
 
 /**
  *
@@ -18,8 +19,8 @@ import org.openrdf.model.URI;
  */
 public class DistributionMetadata extends Metadata {
     
-    private URI accessURL;
-    private URI downloadURL;
+    private IRI accessURL;
+    private IRI downloadURL;
     private Literal mediaType;
     private Literal format;
     private Literal byteSize;
@@ -29,14 +30,14 @@ public class DistributionMetadata extends Metadata {
     /**
      * @param accessURL the accessURL to set
      */
-    public void setAccessURL(URI accessURL) {
+    public void setAccessURL(IRI accessURL) {
         this.accessURL = accessURL;
     }
 
     /**
      * @param downloadURL the downloadURL to set
      */
-    public void setDownloadURL(URI downloadURL) {
+    public void setDownloadURL(IRI downloadURL) {
         this.downloadURL = downloadURL;
     }
 
@@ -64,14 +65,14 @@ public class DistributionMetadata extends Metadata {
     /**
      * @return the accessURL
      */
-    public URI getAccessURL() {
+    public IRI getAccessURL() {
         return accessURL;
     }
 
     /**
      * @return the downloadURL
      */
-    public URI getDownloadURL() {
+    public IRI getDownloadURL() {
         return downloadURL;
     }
 

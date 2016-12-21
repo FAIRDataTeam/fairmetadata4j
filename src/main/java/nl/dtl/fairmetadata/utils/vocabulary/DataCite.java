@@ -5,8 +5,11 @@
  */
 package nl.dtl.fairmetadata.utils.vocabulary;
 
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+
+
 
 /**
  * DataCite vocabulary.
@@ -17,11 +20,11 @@ import org.openrdf.model.impl.URIImpl;
  * @version 0.1
  */
 public class DataCite {
-     
+    
+    static final ValueFactory f = SimpleValueFactory.getInstance();
     public static final String PREFIX = "dataCite";        
     public static final String NAMESPACE = "http://purl.org/spar/datacite/";
-    public static final URI IDENTIFIER = 
-            new URIImpl(NAMESPACE + "Identifier");
-    public static final URI RESOURCE_IDENTIFIER = 
-            new URIImpl(NAMESPACE + "ResourceIdentifier");
+    public static final IRI IDENTIFIER = f.createIRI(NAMESPACE + "Identifier");
+    public static final IRI RESOURCE_IDENTIFIER = 
+            f.createIRI(NAMESPACE + "ResourceIdentifier");
 }

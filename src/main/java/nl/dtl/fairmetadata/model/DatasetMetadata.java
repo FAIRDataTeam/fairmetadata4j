@@ -9,8 +9,8 @@ package nl.dtl.fairmetadata.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
 
 /**
  *
@@ -20,32 +20,32 @@ import org.openrdf.model.URI;
  */
 public final class DatasetMetadata extends Metadata {
     
-    private List<URI> distribution = new ArrayList();
-    private List<URI> themes = new ArrayList();
-    private URI contactPoint;
+    private List<IRI> distribution = new ArrayList();
+    private List<IRI> themes = new ArrayList();
+    private IRI contactPoint;
     private List<Literal> keywords = new ArrayList();
-    private URI landingPage;   
+    private IRI landingPage;   
     private Literal datasetIssued;
     private Literal datasetModified;
 
     /**
      * @param distribution the distribution to set
      */
-    public void setDistribution(List<URI> distribution) {
+    public void setDistribution(List<IRI> distribution) {
         this.distribution = distribution;
     }
 
     /**
      * @param themes the themes to set
      */
-    public void setThemes(List<URI> themes) {
+    public void setThemes(List<IRI> themes) {
         this.themes = themes;
     }
 
     /**
      * @param contactPoint the contactPoint to set
      */
-    public void setContactPoint(URI contactPoint) {
+    public void setContactPoint(IRI contactPoint) {
         this.contactPoint = contactPoint;
     }
 
@@ -59,28 +59,28 @@ public final class DatasetMetadata extends Metadata {
     /**
      * @param landingPage the landingPage to set
      */
-    public void setLandingPage(URI landingPage) {
+    public void setLandingPage(IRI landingPage) {
         this.landingPage = landingPage;
     }
     
     /**
      * @return the distribution
      */
-    public List<URI> getDistribution() {
+    public List<IRI> getDistribution() {
         return distribution;
     }
 
     /**
      * @return the themes
      */
-    public List<URI> getThemes() {
+    public List<IRI> getThemes() {
         return themes;
     }
 
     /**
      * @return the contactPoint
      */
-    public URI getContactPoint() {
+    public IRI getContactPoint() {
         return contactPoint;
     }
 
@@ -94,7 +94,7 @@ public final class DatasetMetadata extends Metadata {
     /**
      * @return the landingPage
      */
-    public URI getLandingPage() {
+    public IRI getLandingPage() {
         return landingPage;
     }
 

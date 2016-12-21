@@ -6,9 +6,12 @@
 
 package nl.dtl.fairmetadata.utils.vocabulary;
 
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
+
+
 
 /**
  * DCAT vocabulary.
@@ -19,31 +22,26 @@ import org.openrdf.model.impl.URIImpl;
  * @version 0.1
  */
 public class DCAT {
+    static final ValueFactory f = SimpleValueFactory.getInstance();
     public static final String PREFIX = "dcat";
     public static final String NAMESPACE = "http://www.w3.org/ns/dcat#";
-    public static final URI THEME_TAXONOMY = 
-            new URIImpl(NAMESPACE + "themeTaxonomy");
-    public static final URI LANDING_PAGE = 
-            new URIImpl(NAMESPACE + "landingPage");
-    public static final URI THEME = new URIImpl(NAMESPACE + "theme");
-    public static final URI CONTACT_POINT = new URIImpl(
-            NAMESPACE + "contactPoint");
-    public static final URI KEYWORD = new URIImpl(NAMESPACE + "keyword");
-    public static final URI TYPE_CATALOG = new URIImpl(NAMESPACE + "Catalog");
-    public static final URI TYPE_DATASET = new URIImpl(NAMESPACE + "Dataset");
-    public static final URI TYPE_DISTRIBUTION = new URIImpl(
-            NAMESPACE + "Distribution");
-    public static final URI DATASET = new URIImpl(NAMESPACE + "dataset");
-    public static final URI ACCESS_URL = new URIImpl(NAMESPACE + "accessURL");
-    public static final URI DISTRIBUTION = new URIImpl(
-            NAMESPACE + "distribution");
-    public static final URI DOWNLOAD_URL = new URIImpl(
-            NAMESPACE + "downloadURL");
-    public static final URI MEDIA_TYPE = new URIImpl(
-            NAMESPACE + "mediaType");
-    public static final URI FORMAT = new URIImpl(
-            NAMESPACE + "format");
-    public static final URI BYTE_SIZE = new URIImpl(
-            NAMESPACE + "byteSize");
+    public static final IRI THEME_TAXONOMY = f.createIRI(NAMESPACE + "themeTaxonomy");
+    public static final IRI LANDING_PAGE = f.createIRI(NAMESPACE + "landingPage");
+    public static final IRI THEME = f.createIRI(NAMESPACE + "theme");
+    public static final IRI CONTACT_POINT = f.createIRI(NAMESPACE + "contactPoint");
+    public static final IRI KEYWORD = f.createIRI(NAMESPACE + "keyword");
+    public static final IRI TYPE_CATALOG = f.createIRI(NAMESPACE + "Catalog");
+    public static final IRI TYPE_DATASET = f.createIRI(NAMESPACE + "Dataset");
+    public static final IRI TYPE_DISTRIBUTION = f.createIRI
+        (NAMESPACE + "Distribution");
+    public static final IRI DATASET = f.createIRI(NAMESPACE + "dataset");
+    public static final IRI ACCESS_URL = f.createIRI(NAMESPACE + "accessURL");
+    public static final IRI DISTRIBUTION = f.createIRI
+        (NAMESPACE + "distribution");
+    public static final IRI DOWNLOAD_URL = f.createIRI
+        (NAMESPACE + "downloadURL");
+    public static final IRI MEDIA_TYPE = f.createIRI(NAMESPACE + "mediaType");
+    public static final IRI FORMAT = f.createIRI(NAMESPACE + "format");
+    public static final IRI BYTE_SIZE = f.createIRI(NAMESPACE + "byteSize");
     
 }

@@ -15,11 +15,15 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openrdf.model.Statement;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.Rio;
-import org.openrdf.rio.UnsupportedRDFormatException;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /** 
  * Contains references to the example metadata rdf files which are used in the 
@@ -32,6 +36,7 @@ import org.openrdf.rio.UnsupportedRDFormatException;
 public class ExampleFilesUtils {
     private final static Logger LOGGER = 
             LogManager.getLogger(ExampleFilesUtils.class.getName());
+    private static final ValueFactory f = SimpleValueFactory.getInstance();
     public static final String FDP_METADATA_FILE = "dtl-fdp.ttl";
     public static final String CATALOG_METADATA_FILE = "textmining-catalog.ttl";
     public static final String CATALOG_ID = "textmining";
@@ -43,21 +48,19 @@ public class ExampleFilesUtils {
             "example-datarecord.ttl";
     public static final String DISTRIBUTION_ID = "sparql";
     public static final String DATARECORD_ID = "dataRecord";
-    public final static String FDP_URI = "http://localhost/fdp";
-    public final static String FDP_METADATA_ID_URI = 
-            "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID";
-    public final static String FDP_REPO_ID_URI = 
-            "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-repositoryID";
-    public final static String CATALOG_URI = "http://localhost/fdp/" + 
-            CATALOG_ID;
-    public final static String DATASET_URI = 
-            "http://localhost/fdp/" + CATALOG_ID + "/" + DATASET_ID;
-    public final static String DISTRIBUTION_URI = 
-            "http://localhost/fdp/" + CATALOG_ID + "/" + DATASET_ID + "/" + 
-            DISTRIBUTION_ID;  
-    public final static String DATARECORD_URI = 
-            "http://localhost/fdp/" + CATALOG_ID + "/" + DATASET_ID + "/" + 
-            DATARECORD_ID;  
+    public final static IRI FDP_URI = f.createIRI("http://localhost/fdp");
+    public final static IRI FDP_METADATA_ID_URI = f.createIRI(
+            "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID");
+    public final static IRI FDP_REPO_ID_URI = f.createIRI(
+            "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-repositoryID");
+    public final static IRI CATALOG_URI = f.createIRI(FDP_URI.toString() + "/" + 
+            CATALOG_ID);
+    public final static IRI DATASET_URI = f.createIRI(FDP_URI.toString() + "/" +
+            CATALOG_ID + "/" + DATASET_ID);
+    public final static IRI DISTRIBUTION_URI = f.createIRI(FDP_URI.toString() 
+            + "/" + CATALOG_ID + "/" + DATASET_ID + "/" + DISTRIBUTION_ID);  
+    public final static IRI  DATARECORD_URI = f.createIRI(FDP_URI.toString() + 
+            "/" + CATALOG_ID + "/" + DATASET_ID + "/" + DATARECORD_ID);  
     public final static String TEST_SUB_URI = "http://www.dtls.nl/test";  
     public static final String VALID_TEST_FILE = "valid-test-file.ttl";
     public static final RDFFormat FILE_FORMAT = RDFFormat.TURTLE;
@@ -92,7 +95,7 @@ public class ExampleFilesUtils {
         try {
             String content = getFileContentAsString(fileName);
             StringReader reader = new StringReader(content);
-            org.openrdf.model.Model model;
+            Model model;
             model = Rio.parse(reader, baseURI, FILE_FORMAT);
             Iterator<Statement> it = model.iterator();
             statements =  Lists.newArrayList(it);

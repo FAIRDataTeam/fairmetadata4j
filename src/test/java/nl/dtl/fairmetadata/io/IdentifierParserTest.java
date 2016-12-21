@@ -9,11 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import nl.dtl.fairmetadata.model.Identifier;
 import nl.dtl.fairmetadata.utils.ExampleFilesUtils;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Statement;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
 
 /**
  * Unit tests for IdentifierParser.
@@ -33,8 +32,8 @@ public class IdentifierParserTest {
         System.out.println("Test : Parse null id uri");
         List<Statement> statements = ExampleFilesUtils.
                 getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI identifierURI = null;
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI identifierURI = null;
         IdentifierParser.parse(statements, identifierURI);
         fail("This test is execpeted to throw an error");
     }
@@ -47,7 +46,7 @@ public class IdentifierParserTest {
     public void testParseNullStatements() throws Exception {
         System.out.println("Test : Parse null statements");
         List<Statement> statements = null;
-        URI identifierURI = new URIImpl(ExampleFilesUtils.FDP_METADATA_ID_URI);
+        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
         IdentifierParser.parse(statements, identifierURI);
         fail("This test is execpeted to throw an error");
     }
@@ -60,7 +59,7 @@ public class IdentifierParserTest {
     public void testParseEmptyStatements() throws Exception {
         System.out.println("Test : Parse empty statements");
         List<Statement> statements = new ArrayList();
-        URI identifierURI = new URIImpl(ExampleFilesUtils.FDP_METADATA_ID_URI);
+        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
         IdentifierParser.parse(statements, identifierURI);
         fail("This test is execpeted to throw an error");
     }
@@ -74,8 +73,8 @@ public class IdentifierParserTest {
         System.out.println("Parse fdp metadata ID");
         List<Statement> statements = ExampleFilesUtils.
                 getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI identifierURI = new URIImpl(ExampleFilesUtils.FDP_METADATA_ID_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
         Identifier result = IdentifierParser.parse(statements, identifierURI);
         assertNotNull(result);
     }
@@ -88,8 +87,8 @@ public class IdentifierParserTest {
         System.out.println("Parse fdp repo ID");
         List<Statement> statements = ExampleFilesUtils.
                 getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI);
-        URI identifierURI = new URIImpl(ExampleFilesUtils.FDP_REPO_ID_URI);
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI identifierURI = ExampleFilesUtils.FDP_REPO_ID_URI;
         Identifier result = IdentifierParser.parse(statements, identifierURI);
         assertNotNull(result);
     }

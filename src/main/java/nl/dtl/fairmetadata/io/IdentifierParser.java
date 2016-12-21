@@ -10,14 +10,15 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.model.Identifier;
 import org.apache.logging.log4j.LogManager;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
  *
@@ -31,28 +32,28 @@ public class IdentifierParser {
             = LogManager.getLogger(IdentifierParser.class);
 
     public static Identifier parse(@Nonnull List<Statement> statements,
-            @Nonnull URI identifierURI) {
+            @Nonnull IRI identifierURI) {
         Preconditions.checkNotNull(identifierURI,
                 "Identifier URI must not be null.");
         Preconditions.checkNotNull(statements,
                 "Identifier statements must not be null.");
         Preconditions.checkArgument(!statements.isEmpty(),
                 "Identifier statements must not be empty.");
-        LOGGER.info("Parsing identifier");
-        
+        LOGGER.info("Parsing identifier");  
 
         Identifier id = new Identifier();
         id.setUri(identifierURI);
+        ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
-            URI predicate = st.getPredicate();
+            IRI predicate = st.getPredicate();
             Value object = st.getObject();
 
             if (subject.equals(identifierURI)) {
                 if (predicate.equals(RDF.TYPE)) {
-                    id.setType((URI) object);
+                    id.setType((IRI) object);
                 } else if (predicate.equals(DCTERMS.IDENTIFIER)) {
-                    id.setIdentifier(new LiteralImpl(object.stringValue(),
+                    id.setIdentifier(f.createLiteral(object.stringValue(),
                             XMLSchema.STRING));
                 }
             }
