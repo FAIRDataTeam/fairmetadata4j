@@ -15,7 +15,6 @@ import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
-import org.eclipse.rdf4j.model.impl.LiteralImpl;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
@@ -40,8 +39,7 @@ public class AgentParser {
                 "Agent statements must not be null.");
         Preconditions.checkArgument(!statements.isEmpty(),
                 "Agent statements must not be empty.");
-        LOGGER.info("Parsing agent");        
-
+        LOGGER.info("Parsing agent");
         Agent agent = new Agent();
         agent.setUri(agentURI);
         for (Statement st : statements) {
