@@ -100,6 +100,8 @@ public abstract class MetadataParser<T extends Metadata>  {
                         metadata.getModified() == null) {
                     metadata.setModified(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
+                } else if (predicate.equals(DCTERMS.IS_PART_OF)) {
+                    metadata.setParentURI((IRI) object);
                 }
             }
         }

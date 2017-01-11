@@ -27,11 +27,18 @@
  */
 package nl.dtl.fairmetadata.utils;
 
+import com.github.jknack.handlebars.Handlebars;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.io.MetadataException;
 import nl.dtl.fairmetadata.model.Agent;
@@ -46,6 +53,13 @@ import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata.utils.vocabulary.R3D;
 import org.apache.logging.log4j.LogManager;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Statement;
@@ -64,6 +78,8 @@ import org.eclipse.rdf4j.rio.RDFHandler;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFWriter;
 import org.eclipse.rdf4j.rio.Rio;
+import org.springframework.beans.MethodInvocationException;
+import org.springframework.http.MediaType;
 
 /**
  * Meatadata util class to convert Metadata object to RDF statements and RDF
@@ -91,9 +107,9 @@ public class MetadataUtils {
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
         try {
-            checkMandatoryProperties(metadata); 
+            checkMandatoryProperties(metadata);
         } catch (NullPointerException ex) {
-            throw(new MetadataException(ex.getMessage()));
+            throw (new MetadataException(ex.getMessage()));
         }
         Model model = new LinkedHashModel();
         LOGGER.info("Creating metadata rdf model");
@@ -127,7 +143,7 @@ public class MetadataUtils {
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata,
             @Nonnull RDFFormat format)
-            throws MetadataException {       
+            throws MetadataException {
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
@@ -158,11 +174,11 @@ public class MetadataUtils {
         LOGGER.info("Adding FDP metadata properties to the rdf model");
         try {
             Preconditions.checkNotNull(metadata.getRepostoryIdentifier(),
-                    "Repostory ID must not be null.");        
+                    "Repostory ID must not be null.");
             Preconditions.checkNotNull(metadata.getPublisher(),
                     "Metadata publisher must not be null.");
         } catch (NullPointerException ex) {
-            throw(new MetadataException(ex.getMessage()));
+            throw (new MetadataException(ex.getMessage()));
         }
         ValueFactory f = SimpleValueFactory.getInstance();
         model.add(metadata.getUri(), RDF.TYPE, R3D.TYPE_REPOSTORY);
@@ -173,20 +189,20 @@ public class MetadataUtils {
         model.add(metadata.getUri(), R3D.REPO_IDENTIFIER, id.getUri());
         model.add(id.getUri(), RDF.TYPE, id.getType());
         model.add(id.getUri(), DCTERMS.IDENTIFIER, id.getIdentifier());
-        
+
         if (metadata.getHomepage() != null) {
             model.add(metadata.getUri(), FOAF.HOMEPAGE, metadata.getHomepage());
-        }            
+        }
         if (metadata.getInstitutionCountry() != null) {
-            model.add(metadata.getUri(), R3D.INSTITUTION_COUNTRY, 
+            model.add(metadata.getUri(), R3D.INSTITUTION_COUNTRY,
                     metadata.getInstitutionCountry());
         }
         if (metadata.getLastUpdate() != null) {
-            model.add(metadata.getUri(), R3D.REPO_LAST_UPDATE, 
+            model.add(metadata.getUri(), R3D.REPO_LAST_UPDATE,
                     metadata.getLastUpdate());
         }
         if (metadata.getStartDate() != null) {
-            model.add(metadata.getUri(), R3D.REPO_START_DATE, 
+            model.add(metadata.getUri(), R3D.REPO_START_DATE,
                     metadata.getStartDate());
         }
         metadata.getCatalogs().stream().forEach((catalog) -> {
@@ -196,12 +212,12 @@ public class MetadataUtils {
             Agent agent = metadata.getInstitution();
             model.add(metadata.getUri(), R3D.INSTITUTION, agent.getUri());
             model.add(agent.getUri(), RDF.TYPE, agent.getType());
-             if(agent.getName() == null) {
+            if (agent.getName() == null) {
                 String errMsg = "No institution name provided";
                 LOGGER.debug(errMsg);
             } else {
-               model.add(agent.getUri(), FOAF.NAME, agent.getName()); 
-            }            
+                model.add(agent.getUri(), FOAF.NAME, agent.getName());
+            }
         }
         return getStatements(model);
     }
@@ -217,16 +233,16 @@ public class MetadataUtils {
      */
     private static List<Statement> getStatements(Model model,
             CatalogMetadata metadata)
-            throws MetadataException {        
+            throws MetadataException {
         try {
             Preconditions.checkNotNull(metadata.getPublisher(),
-                    "Metadata publisher must not be null.");        
+                    "Metadata publisher must not be null.");
             Preconditions.checkNotNull(metadata.getThemeTaxonomy(),
                     "Metadata dcat:themeTaxonomy must not be null.");
-             Preconditions.checkArgument(!metadata.getThemeTaxonomy().isEmpty(),
+            Preconditions.checkArgument(!metadata.getThemeTaxonomy().isEmpty(),
                     "Metadata dcat:themeTaxonomy must not be empty.");
         } catch (NullPointerException | IllegalArgumentException ex) {
-            throw(new MetadataException(ex.getMessage()));
+            throw (new MetadataException(ex.getMessage()));
         }
         LOGGER.info("Adding catalogy metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_CATALOG);
@@ -234,11 +250,11 @@ public class MetadataUtils {
             model.add(metadata.getUri(), FOAF.HOMEPAGE, metadata.getHomepage());
         }
         if (metadata.getCatalogIssued() != null) {
-            model.add(metadata.getUri(), DCTERMS.ISSUED, 
+            model.add(metadata.getUri(), DCTERMS.ISSUED,
                     metadata.getCatalogIssued());
         }
         if (metadata.getCatalogModified() != null) {
-            model.add(metadata.getUri(), DCTERMS.MODIFIED, 
+            model.add(metadata.getUri(), DCTERMS.MODIFIED,
                     metadata.getCatalogModified());
         }
         metadata.getThemeTaxonomy().stream().forEach((themeTax) -> {
@@ -262,7 +278,7 @@ public class MetadataUtils {
     private static List<Statement> getStatements(Model model,
             DatasetMetadata metadata)
             throws MetadataException {
-        try {            
+        try {
             Preconditions.checkNotNull(metadata.getPublisher(),
                     "Metadata publisher must not be null.");
             Preconditions.checkNotNull(metadata.getThemes(),
@@ -270,8 +286,8 @@ public class MetadataUtils {
             Preconditions.checkArgument(!metadata.getThemes().isEmpty(),
                     "Metadata dcat:theme must not be empty.");
         } catch (NullPointerException | IllegalArgumentException ex) {
-            throw(new MetadataException(ex.getMessage()));
-        }        
+            throw (new MetadataException(ex.getMessage()));
+        }
         LOGGER.info("Adding dataset metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_DATASET);
         if (metadata.getContactPoint() != null) {
@@ -283,11 +299,11 @@ public class MetadataUtils {
                     metadata.getLandingPage());
         }
         if (metadata.getDatasetIssued() != null) {
-            model.add(metadata.getUri(), DCTERMS.ISSUED, 
+            model.add(metadata.getUri(), DCTERMS.ISSUED,
                     metadata.getDatasetIssued());
         }
         if (metadata.getDatasetModified() != null) {
-            model.add(metadata.getUri(), DCTERMS.MODIFIED, 
+            model.add(metadata.getUri(), DCTERMS.MODIFIED,
                     metadata.getDatasetModified());
         }
         metadata.getThemes().stream().forEach((theme) -> {
@@ -313,8 +329,8 @@ public class MetadataUtils {
      */
     private static List<Statement> getStatements(Model model,
             DistributionMetadata metadata)
-            throws MetadataException {        
-        
+            throws MetadataException {
+
         if (metadata.getAccessURL() == null
                 && metadata.getDownloadURL() == null) {
             String errMsg
@@ -332,11 +348,11 @@ public class MetadataUtils {
                     metadata.getDownloadURL());
         }
         if (metadata.getDistributionIssued() != null) {
-            model.add(metadata.getUri(), DCTERMS.ISSUED, 
+            model.add(metadata.getUri(), DCTERMS.ISSUED,
                     metadata.getDistributionIssued());
         }
         if (metadata.getDistributionModified() != null) {
-            model.add(metadata.getUri(), DCTERMS.MODIFIED, 
+            model.add(metadata.getUri(), DCTERMS.MODIFIED,
                     metadata.getDistributionModified());
         }
         if (metadata.getByteSize() != null) {
@@ -364,14 +380,14 @@ public class MetadataUtils {
      */
     private static List<Statement> getStatements(Model model,
             DataRecordMetadata metadata)
-            throws MetadataException {        
+            throws MetadataException {
         try {
-             Preconditions.checkNotNull(metadata.getRmlURI(),
-                    "Metadata rml mapping uri must not be null.");            
+            Preconditions.checkNotNull(metadata.getRmlURI(),
+                    "Metadata rml mapping uri must not be null.");
         } catch (NullPointerException | IllegalArgumentException ex) {
-            throw(new MetadataException(ex.getMessage()));
+            throw (new MetadataException(ex.getMessage()));
         }
-        
+
         LOGGER.info("Adding dataRecord metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_DISTRIBUTION);
         if (metadata.getRmlURI() != null) {
@@ -382,11 +398,11 @@ public class MetadataUtils {
                     metadata.getDistributionURI());
         }
         if (metadata.getDataRecordIssued() != null) {
-            model.add(metadata.getUri(), DCTERMS.ISSUED, 
+            model.add(metadata.getUri(), DCTERMS.ISSUED,
                     metadata.getDataRecordIssued());
         }
         if (metadata.getDataRecordModified() != null) {
-            model.add(metadata.getUri(), DCTERMS.MODIFIED, 
+            model.add(metadata.getUri(), DCTERMS.MODIFIED,
                     metadata.getDataRecordModified());
         }
         return getStatements(model);
@@ -416,7 +432,7 @@ public class MetadataUtils {
         model.add(metadata.getUri(), DCTERMS.HAS_VERSION,
                 metadata.getVersion());
         if (metadata.getIssued() != null) {
-            model.add(metadata.getUri(), FDP.METADATA_ISSUED, 
+            model.add(metadata.getUri(), FDP.METADATA_ISSUED,
                     metadata.getIssued());
         }
         if (metadata.getIdentifier() != null) {
@@ -437,11 +453,11 @@ public class MetadataUtils {
             Agent agent = metadata.getPublisher();
             model.add(metadata.getUri(), DCTERMS.PUBLISHER, agent.getUri());
             model.add(agent.getUri(), RDF.TYPE, agent.getType());
-            if(agent.getName() == null) {
+            if (agent.getName() == null) {
                 String errMsg = "No publisher name provided";
                 LOGGER.debug(errMsg);
             } else {
-               model.add(agent.getUri(), FOAF.NAME, agent.getName()); 
+                model.add(agent.getUri(), FOAF.NAME, agent.getName());
             }
         }
         if (metadata.getLanguage() != null) {
@@ -469,7 +485,7 @@ public class MetadataUtils {
      * property is missing
      */
     private static void checkMandatoryProperties(Metadata metadata)
-            throws MetadataException {                
+            throws MetadataException {
         Preconditions.checkNotNull(metadata.getIdentifier(),
                 "Metadata ID must not be null.");
         Preconditions.checkNotNull(metadata.getIdentifier().getIdentifier(),
@@ -488,7 +504,7 @@ public class MetadataUtils {
                 "Metadata modified date must not be null.");
     }
 
-    private static void propagateToHandler(List<Statement> statements, 
+    private static void propagateToHandler(List<Statement> statements,
             RDFHandler handler)
             throws RDFHandlerException, RepositoryException {
         handler.startRDF();

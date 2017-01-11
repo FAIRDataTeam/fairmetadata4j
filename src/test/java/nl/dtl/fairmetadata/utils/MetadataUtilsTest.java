@@ -473,6 +473,5 @@ public class MetadataUtilsTest {
         DistributionMetadata metadata = parser.parse(stmts , disURI);             
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE);
         assertFalse(out.isEmpty());
-    }
-    
+    }    
 }
