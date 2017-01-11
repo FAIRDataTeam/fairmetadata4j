@@ -459,6 +459,10 @@ public class MetadataUtils {
         if (metadata.getRights() != null) {
             model.add(metadata.getUri(), DCTERMS.RIGHTS, metadata.getRights());
         }
+        if (metadata.getParentURI() != null) {
+            model.add(metadata.getUri(), DCTERMS.IS_PART_OF, 
+                    metadata.getParentURI());
+        }
     }
 
     /**
