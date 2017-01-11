@@ -27,18 +27,11 @@
  */
 package nl.dtl.fairmetadata.utils;
 
-import com.github.jknack.handlebars.Handlebars;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import java.io.IOException;
 import java.io.StringWriter;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.io.MetadataException;
 import nl.dtl.fairmetadata.model.Agent;
@@ -53,13 +46,6 @@ import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import nl.dtl.fairmetadata.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata.utils.vocabulary.R3D;
 import org.apache.logging.log4j.LogManager;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Statement;
@@ -78,8 +64,6 @@ import org.eclipse.rdf4j.rio.RDFHandler;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFWriter;
 import org.eclipse.rdf4j.rio.Rio;
-import org.springframework.beans.MethodInvocationException;
-import org.springframework.http.MediaType;
 
 /**
  * Meatadata util class to convert Metadata object to RDF statements and RDF
