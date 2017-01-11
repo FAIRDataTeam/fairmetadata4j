@@ -27,19 +27,34 @@
  */
 package nl.dtl.fairmetadata.io;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import javax.annotation.Nonnull;
+import nl.dtl.fairmetadata.model.DistributionMetadata;
 import nl.dtl.fairmetadata.model.FDPMetadata;
+import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import nl.dtl.fairmetadata.utils.vocabulary.R3D;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /**
  *
@@ -48,6 +63,9 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
  * @version 0.1
  */
 public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
+    
+    private static final org.apache.logging.log4j.Logger LOGGER
+            = LogManager.getLogger(DatasetMetadataParser.class);
     
     @Override
     protected FDPMetadata createMetadata() {
@@ -92,5 +110,56 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
             metadata.setCatalogs(catalogs);
         }
         return metadata;
+    }
+    
+    /**
+     * Parse RDF string to dataset fdpMetadata object
+     *
+     * @param fdpMetadata FDP fdpMetadata as a RDF string
+     * @param baseURI
+     * @param format RDF string's RDF format
+     * @return FDPMetadata object
+     * @throws MetadataParserException
+     */
+    public FDPMetadata parse(@Nonnull String fdpMetadata,
+            IRI baseURI, @Nonnull RDFFormat format)
+            throws MetadataParserException {
+        Preconditions.checkNotNull(fdpMetadata,
+                "FDP metadata string must not be null.");
+        Preconditions.checkNotNull(format, "RDF format must not be null.");
+
+        Preconditions.checkArgument(!fdpMetadata.isEmpty(),
+                "The fdp metadata content can't be EMPTY");
+        try {
+            Model modelFDP;
+            if (baseURI != null) {
+                modelFDP = Rio.parse(new StringReader(fdpMetadata),
+                        baseURI.stringValue(), format);
+            } else {
+                String dummyURI = "http://example.com/dummyResource";
+                modelFDP = Rio.parse(new StringReader(
+                        fdpMetadata), dummyURI, format);
+            }
+            Iterator<Statement> it = modelFDP.iterator();
+            List<Statement> statements = ImmutableList.copyOf(it);
+            IRI fdpURI = (IRI) statements.get(0).getSubject();
+            FDPMetadata metadata = this.parse(statements, fdpURI);
+            metadata.setUri(null);
+            return metadata;
+        } catch (IOException ex) {
+            String errMsg = "Error reading fdp metadata content"
+                    + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        } catch (RDFParseException ex) {
+            String errMsg = "Error parsing fdp metadata content. "
+                    + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        } catch (UnsupportedRDFormatException ex) {
+            String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        }
     }
 }
