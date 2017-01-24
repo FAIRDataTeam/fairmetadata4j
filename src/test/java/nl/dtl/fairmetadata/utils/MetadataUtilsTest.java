@@ -237,7 +237,7 @@ public class MetadataUtilsTest {
                         ExampleFilesUtils.CATALOG_URI.toString());
         IRI cURI = ExampleFilesUtils.CATALOG_URI;
         CatalogMetadata metadata = parser.parse(stmts , cURI);
-        metadata.setThemeTaxonomy(null);
+        metadata.setThemeTaxonomys(null);
         MetadataUtils.getStatements(metadata);
         fail("This test is execpeted to throw an error");
     }
@@ -257,7 +257,7 @@ public class MetadataUtilsTest {
                         ExampleFilesUtils.CATALOG_URI.toString());
         IRI cURI = ExampleFilesUtils.CATALOG_URI;
         CatalogMetadata metadata = parser.parse(stmts , cURI);
-        metadata.setThemeTaxonomy(new ArrayList());
+        metadata.setThemeTaxonomys(new ArrayList());
         MetadataUtils.getStatements(metadata);
         fail("This test is execpeted to throw an error");
     }

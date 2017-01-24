@@ -102,7 +102,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
                 if (predicate.equals(FOAF.HOMEPAGE)) {
                     metadata.setHomepage((IRI) object);
                 } else if (predicate.equals(DCAT.THEME_TAXONOMY)) {
-                    metadata.getThemeTaxonomy().add((IRI) object);
+                    metadata.getThemeTaxonomys().add((IRI) object);
                 } else if (predicate.equals(DCAT.DATASET)) {
                     datasets.add((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {

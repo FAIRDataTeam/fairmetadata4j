@@ -44,7 +44,7 @@ public final class CatalogMetadata extends Metadata {
     
     private IRI homepage;
     private List<IRI> datasets = new ArrayList();
-    private List<IRI> themeTaxonomy = new ArrayList();
+    private List<IRI> themeTaxonomys = new ArrayList();
     private Literal catalogIssued;
     private Literal catalogModified;    
     /**
@@ -62,10 +62,10 @@ public final class CatalogMetadata extends Metadata {
     }
 
     /**
-     * @param themeTaxonomy the themeTaxonomy to set
+     * @param themeTaxonomys the themeTaxonomys to set
      */
-    public void setThemeTaxonomy(List<IRI> themeTaxonomy) {
-        this.themeTaxonomy = themeTaxonomy;
+    public void setThemeTaxonomys(List<IRI> themeTaxonomys) {
+        this.themeTaxonomys = themeTaxonomys;
     }    
 
     /**
@@ -83,10 +83,10 @@ public final class CatalogMetadata extends Metadata {
     }
 
     /**
-     * @return the themeTaxonomy
+     * @return the themeTaxonomys
      */
-    public List<IRI> getThemeTaxonomy() {
-        return themeTaxonomy;
+    public List<IRI> getThemeTaxonomys() {
+        return themeTaxonomys;
     }
 
     /**

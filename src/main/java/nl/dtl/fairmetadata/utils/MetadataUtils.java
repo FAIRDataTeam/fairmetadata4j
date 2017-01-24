@@ -221,9 +221,9 @@ public class MetadataUtils {
         try {
             Preconditions.checkNotNull(metadata.getPublisher(),
                     "Metadata publisher must not be null.");
-            Preconditions.checkNotNull(metadata.getThemeTaxonomy(),
+            Preconditions.checkNotNull(metadata.getThemeTaxonomys(),
                     "Metadata dcat:themeTaxonomy must not be null.");
-            Preconditions.checkArgument(!metadata.getThemeTaxonomy().isEmpty(),
+            Preconditions.checkArgument(!metadata.getThemeTaxonomys().isEmpty(),
                     "Metadata dcat:themeTaxonomy must not be empty.");
         } catch (NullPointerException | IllegalArgumentException ex) {
             throw (new MetadataException(ex.getMessage()));
@@ -241,7 +241,7 @@ public class MetadataUtils {
             model.add(metadata.getUri(), DCTERMS.MODIFIED,
                     metadata.getCatalogModified());
         }
-        metadata.getThemeTaxonomy().stream().forEach((themeTax) -> {
+        metadata.getThemeTaxonomys().stream().forEach((themeTax) -> {
             model.add(metadata.getUri(), DCAT.THEME_TAXONOMY, themeTax);
         });
         metadata.getDatasets().stream().forEach((dataset) -> {
