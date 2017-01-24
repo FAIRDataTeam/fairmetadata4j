@@ -53,7 +53,7 @@ public final class DatasetMetadata extends Metadata {
     /**
      * @param distribution the distributions to set
      */
-    public void setDistribution(List<IRI> distribution) {
+    public void setDistributions(List<IRI> distribution) {
         this.distributions = distribution;
     }
 
@@ -88,7 +88,7 @@ public final class DatasetMetadata extends Metadata {
     /**
      * @return the distributions
      */
-    public List<IRI> getDistribution() {
+    public List<IRI> getDistributions() {
         return distributions;
     }
 

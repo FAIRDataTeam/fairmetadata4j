@@ -296,7 +296,7 @@ public class MetadataUtils {
         metadata.getKeywords().stream().forEach((keyword) -> {
             model.add(metadata.getUri(), DCAT.KEYWORD, keyword);
         });
-        metadata.getDistribution().stream().forEach((distribution) -> {
+        metadata.getDistributions().stream().forEach((distribution) -> {
             model.add(metadata.getUri(), DCAT.DISTRIBUTION, distribution);
         });
         return getStatements(model);

@@ -115,7 +115,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
         }
         
         if(!distributions.isEmpty()) {
-            metadata.setDistribution(distributions);
+            metadata.setDistributions(distributions);
         }
         
         return metadata;
