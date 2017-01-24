@@ -42,7 +42,7 @@ import org.eclipse.rdf4j.model.Literal;
  */
 public final class DatasetMetadata extends Metadata {
     
-    private List<IRI> distribution = new ArrayList();
+    private List<IRI> distributions = new ArrayList();
     private List<IRI> themes = new ArrayList();
     private IRI contactPoint;
     private List<Literal> keywords = new ArrayList();
@@ -51,10 +51,10 @@ public final class DatasetMetadata extends Metadata {
     private Literal datasetModified;
 
     /**
-     * @param distribution the distribution to set
+     * @param distribution the distributions to set
      */
     public void setDistribution(List<IRI> distribution) {
-        this.distribution = distribution;
+        this.distributions = distribution;
     }
 
     /**
@@ -86,10 +86,10 @@ public final class DatasetMetadata extends Metadata {
     }
     
     /**
-     * @return the distribution
+     * @return the distributions
      */
     public List<IRI> getDistribution() {
-        return distribution;
+        return distributions;
     }
 
     /**
