@@ -43,7 +43,7 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
  */
 public class DataCite {
     
-    static final ValueFactory f = SimpleValueFactory.getInstance();
+    private static final ValueFactory f = SimpleValueFactory.getInstance();
     public static final String PREFIX = "dataCite";        
     public static final String NAMESPACE = "http://purl.org/spar/datacite/";
     public static final IRI IDENTIFIER = f.createIRI(NAMESPACE + "Identifier");

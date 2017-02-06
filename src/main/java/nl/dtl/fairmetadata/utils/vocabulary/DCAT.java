@@ -44,7 +44,7 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
  * @version 0.1
  */
 public class DCAT {
-    static final ValueFactory f = SimpleValueFactory.getInstance();
+    private static final ValueFactory f = SimpleValueFactory.getInstance();
     public static final String PREFIX = "dcat";
     public static final String NAMESPACE = "http://www.w3.org/ns/dcat#";
     public static final IRI THEME_TAXONOMY = f.createIRI(NAMESPACE + "themeTaxonomy");

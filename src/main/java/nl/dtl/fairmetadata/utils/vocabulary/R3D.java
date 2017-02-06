@@ -41,7 +41,7 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
  * @version 0.1
  */
 public class R3D {
-    static final ValueFactory f = SimpleValueFactory.getInstance();    
+    private static final ValueFactory f = SimpleValueFactory.getInstance();    
     public static final String PREFIX = "r3d";
     public static final String NAMESPACE =  
             "http://www.re3data.org/schema/3-0#";
