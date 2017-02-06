@@ -1,0 +1,2 @@
+# FairMetadata
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4da11eadd7034bf6acc1b0e8ca43a469)](https://www.codacy.com/app/burger-github/FairMetadata?utm_source=github.com&utm_medium=referral&utm_content=DTL-FAIRData/FairMetadata&utm_campaign=badger)
