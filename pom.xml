@@ -38,11 +38,12 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>        
-        <jackson.version>2.8.0</jackson.version>
+        <jackson.version>2.8.6</jackson.version>
         <rdf4j.version>2.1.4</rdf4j.version>
         <junit.version>4.12</junit.version>
-        <mockit-core.version>1.10.19</mockit-core.version>
-        <logging_log4j.version>2.5</logging_log4j.version>
+        <mockit-core.version>2.6.2</mockit-core.version>
+        <logging_log4j.version>2.7</logging_log4j.version>
+        <jsr305.version>3.0.1</jsr305.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -51,7 +52,7 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.0.1</version>
+            <version>${logging_log4j.version}</version>
         </dependency>
         <dependency>            
             <groupId>org.apache.logging.log4j</groupId>
@@ -100,26 +101,9 @@
             <version>${mockit-core.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.jknack</groupId>
-            <artifactId>handlebars</artifactId>
-            <version>4.0.6</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>2.0.1</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>4.3.1.RELEASE</version>
-            <type>jar</type>
+            <version>${jsr305.version}</version>
         </dependency>
     </dependencies>
     
