@@ -47,7 +47,6 @@ import static org.junit.Assert.*;
 public class DatasetMetadataParserTest {
     
     private final DatasetMetadataParser parser = new DatasetMetadataParser();
-    private final ValueFactory f = SimpleValueFactory.getInstance();
     
     /**
      * Test null RDF string, this test is expected to throw exception
