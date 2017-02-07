@@ -100,21 +100,19 @@ public class MetadataUtils {
         LOGGER.info("Creating metadata rdf model");
         setCommonProperties(model, metadata);
         LOGGER.info("Adding specific metadata properties to the rdf model");
+        List<Statement> stms = null;
         if (metadata instanceof FDPMetadata) {
-            return getStatements(model, (FDPMetadata) metadata);
+            stms = getStatements(model, (FDPMetadata) metadata);
         } else if (metadata instanceof CatalogMetadata) {
-            return getStatements(model, (CatalogMetadata) metadata);
+            stms = getStatements(model, (CatalogMetadata) metadata);
         } else if (metadata instanceof DatasetMetadata) {
-            return getStatements(model, (DatasetMetadata) metadata);
+            stms = getStatements(model, (DatasetMetadata) metadata);
         } else if (metadata instanceof DistributionMetadata) {
-            return getStatements(model, (DistributionMetadata) metadata);
+            stms = getStatements(model, (DistributionMetadata) metadata);
         } else if (metadata instanceof DataRecordMetadata) {
-            return getStatements(model, (DataRecordMetadata) metadata);
-        } else {
-            String msg = "Unknown metadata object";
-            LOGGER.error(msg);
-            throw (new MetadataException(msg));
-        }
+            stms = getStatements(model, (DataRecordMetadata) metadata);
+        } 
+        return stms;
     }
 
     /**
@@ -169,11 +167,11 @@ public class MetadataUtils {
         addStatement(model, metadata.getUri(), RDF.TYPE, R3D.TYPE_REPOSTORY);
         IRI swaggerURL = f.createIRI(
                 metadata.getUri().toString() + "/swagger-ui.html");
-        addStatement(model, metadata.getUri(), RDFS.SEEALSO, swaggerURL);
+        metadata.setSwaggerDoc(swaggerURL);
+        addStatement(model, metadata.getUri(), RDFS.SEEALSO, 
+                metadata.getSwaggerDoc());
         addIdStatements(model, metadata.getUri(), R3D.REPO_IDENTIFIER, 
                 metadata.getRepostoryIdentifier());
-        addStatement(model, metadata.getUri(), FOAF.HOMEPAGE, 
-                metadata.getHomepage());
         addStatement(model, metadata.getUri(), R3D.INSTITUTION_COUNTRY,
                     metadata.getInstitutionCountry());
         addStatement(model,metadata.getUri(), R3D.REPO_LAST_UPDATE,

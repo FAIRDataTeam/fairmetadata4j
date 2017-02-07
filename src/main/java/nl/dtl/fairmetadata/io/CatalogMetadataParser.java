@@ -27,9 +27,6 @@
  */
 package nl.dtl.fairmetadata.io;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -37,13 +34,12 @@ import javax.annotation.Nonnull;
 import org.apache.logging.log4j.LogManager;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 
 import nl.dtl.fairmetadata.model.CatalogMetadata;
+import nl.dtl.fairmetadata.utils.RDFUtils;
 import nl.dtl.fairmetadata.utils.vocabulary.DCAT;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
@@ -53,9 +49,6 @@ import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
-import org.eclipse.rdf4j.rio.RDFParseException;
-import org.eclipse.rdf4j.rio.Rio;
-import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /**
  * Parser for catalog metadata
@@ -124,7 +117,6 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      * Parse RDF string to catalog metadata object
      *
      * @param catalogMetadata Catalog metadata as a RDF string
-     * @param catalogID Catalog ID
      * @param catalogURI Catalog URI
      * @param fdpURI FairDataPoint URI
      * @param format RDF string's RDF format
@@ -132,47 +124,22 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      * @throws MetadataParserException
      */
     public CatalogMetadata parse(@Nonnull String catalogMetadata,
-            @Nonnull String catalogID,
             @Nonnull IRI catalogURI, IRI fdpURI, @Nonnull RDFFormat format)
             throws MetadataParserException {
         Preconditions.checkNotNull(catalogMetadata,
                 "Catalog metadata string must not be null.");
-        Preconditions.checkNotNull(catalogID, "Catalog ID must not be null.");
         Preconditions.checkNotNull(catalogURI, "Catalog URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
 
         Preconditions.checkArgument(!catalogMetadata.isEmpty(),
                 "The catalog metadata content can't be EMPTY");
-        Preconditions.checkArgument(!catalogID.isEmpty(),
-                "The catalog id content can't be EMPTY");
-
-        try {
-            Model modelCatalog = Rio.parse(new StringReader(catalogMetadata),
-                    catalogURI.stringValue(), format);
-            Iterator<Statement> it = modelCatalog.iterator();
-            List<Statement> statements = ImmutableList.copyOf(it);
+        List<Statement> statements = RDFUtils.getStatements(catalogMetadata,
+                catalogURI, format);
 
             CatalogMetadata metadata = this.parse(statements, catalogURI);
-//            metadata.setIdentifier(new LiteralImpl(catalogID,
-//                    XMLSchema.STRING));
             metadata.setParentURI(fdpURI);
 
             return metadata;
-        } catch (IOException ex) {
-            String errMsg = "Error reading catalog metadata content"
-                    + ex.getMessage();
-            LOGGER.error(errMsg);
-            throw (new MetadataParserException(errMsg));
-        } catch (RDFParseException ex) {
-            String errMsg = "Error parsing catalog metadata content. "
-                    + ex.getMessage();
-            LOGGER.error(errMsg);
-            throw (new MetadataParserException(errMsg));
-        } catch (UnsupportedRDFormatException ex) {
-            String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
-            LOGGER.error(errMsg);
-            throw (new MetadataParserException(errMsg));
-        }
     }
 
     /**
@@ -193,37 +160,12 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
 
         Preconditions.checkArgument(!catalogMetadata.isEmpty(),
                 "The catalog metadata content can't be EMPTY");
-        try {
-            Model modelCatalog;
-            if (baseURI != null) {
-                modelCatalog = Rio.parse(new StringReader(catalogMetadata),
-                        baseURI.stringValue(), format);
-            } else {
-                String dummyURI = "http://example.com/dummyResource";
-                modelCatalog = Rio.parse(new StringReader(catalogMetadata), 
-                        dummyURI, format);
-            }
-            Iterator<Statement> it = modelCatalog.iterator();
-            List<Statement> statements = ImmutableList.copyOf(it);
+            List<Statement> statements = RDFUtils.getStatements(catalogMetadata,
+                baseURI, format);
             IRI catalogURI = (IRI) statements.get(0).getSubject();
             CatalogMetadata metadata = this.parse(statements, catalogURI);
             metadata.setUri(null);
             return metadata;
-        } catch (IOException ex) {
-            String errMsg = "Error reading catalog metadata content"
-                    + ex.getMessage();
-            LOGGER.error(errMsg);
-            throw (new MetadataParserException(errMsg));
-        } catch (RDFParseException ex) {
-            String errMsg = "Error parsing catalog metadata content. "
-                    + ex.getMessage();
-            LOGGER.error(errMsg);
-            throw (new MetadataParserException(errMsg));
-        } catch (UnsupportedRDFormatException ex) {
-            String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
-            LOGGER.error(errMsg);
-            throw (new MetadataParserException(errMsg));
-        }
     }
 
 }

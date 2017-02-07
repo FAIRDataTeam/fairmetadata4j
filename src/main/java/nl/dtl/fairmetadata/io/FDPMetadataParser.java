@@ -45,7 +45,6 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -80,9 +79,7 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
             Value object = st.getObject();
             
             if (subject.equals(fdpURI)) {
-                if (predicate.equals(FOAF.HOMEPAGE)) {
-                    metadata.setHomepage((IRI) object);
-                } else if (predicate.equals(RDFS.SEEALSO)) {
+                if (predicate.equals(RDFS.SEEALSO)) {
                     metadata.setSwaggerDoc((IRI) object);
                 } else if (predicate.equals(R3D.DATA_CATALOG)) {
                     catalogs.add((IRI) object);
@@ -100,7 +97,7 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
                 } else if (predicate.equals(R3D.INSTITUTION)) {
                     metadata.setInstitution(AgentParser.parse(
                             statements, (IRI)object));
-                }
+                } 
             }
         }
         if(!catalogs.isEmpty()) {

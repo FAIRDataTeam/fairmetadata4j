@@ -22,7 +22,9 @@
 	<http://www.re3data.org/schema/3-0#startDate> "2016-10-27"^^xsd:date ;
 	a <http://www.re3data.org/schema/3-0#Repository> ;
 	rdfs:label "DTL FAIR Data Point"@en ;
-        dct:identifier "fdp-metadataID" .
+        dct:identifier "fdp-metadataID";
+        dct:rights <http://dummy.com/rights>;
+        rdfs:seeAlso <http://dummy.com/swagger-ui.html> .
 
 <http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID> a <http://purl.org/spar/datacite/ResourceIdentifier> ;
 	dct:identifier "fdp-metadataID" .
@@ -30,5 +32,4 @@
 <http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-repositoryID> a <http://purl.org/spar/datacite/Identifier> ;
 	dct:identifier "fdp-repositoryID" .
 
-<http://dtls.nl> a <http://xmlns.com/foaf/0.1/Organization> ;
-	<http://xmlns.com/foaf/0.1/name> "DTLS"@en .
+<http://dtls.nl> a <http://xmlns.com/foaf/0.1/Organization> .

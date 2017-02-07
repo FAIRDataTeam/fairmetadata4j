@@ -40,8 +40,6 @@ import org.eclipse.rdf4j.model.Literal;
  * @version 0.1
  */
 public final class FDPMetadata extends Metadata {
-    
-    private IRI homepage;
     private IRI swaggerDoc;  
     private List<IRI> catalogs = new ArrayList();
     private Identifier repostoryIdentifier;
@@ -49,26 +47,12 @@ public final class FDPMetadata extends Metadata {
     private Literal lastUpdate;
     private Literal startDate;
     private Agent institution;
-    
-    /**
-     * @param homepage the homepage to set
-     */
-    public void setHomepage(IRI homepage) {
-        this.homepage = homepage;
-    }
 
     /**
      * @param swaggerDoc the swaggerDoc to set
      */
     public void setSwaggerDoc(IRI swaggerDoc) {
         this.swaggerDoc = swaggerDoc;
-    }
-
-    /**
-     * @return the homepage
-     */
-    public IRI getHomepage() {
-        return homepage;
     }
 
     /**

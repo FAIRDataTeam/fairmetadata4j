@@ -55,8 +55,7 @@ public class CatalogMetadataParserTest {
         System.out.println("Test : Parse invalid catalog content");
         IRI cURI = ExampleFilesUtils.CATALOG_URI;
         IRI fURI = ExampleFilesUtils.FDP_URI;
-        parser.parse(null, ExampleFilesUtils.CATALOG_ID, cURI, fURI, 
-                ExampleFilesUtils.FILE_FORMAT);
+        parser.parse(null, cURI, fURI, ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
     }
     
@@ -69,40 +68,9 @@ public class CatalogMetadataParserTest {
         System.out.println("Test : Parse invalid catalog content");
         IRI cURI = ExampleFilesUtils.CATALOG_URI;
         IRI fURI = ExampleFilesUtils.FDP_URI;
-        parser.parse("", ExampleFilesUtils.CATALOG_ID, cURI, fURI, 
-                ExampleFilesUtils.FILE_FORMAT);
+        parser.parse("", cURI, fURI, ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
-    }
-    
-    /**
-     * Test null catalog ID, this test is expected to throw exception
-     * @throws Exception 
-     */
-    @Test(expected = NullPointerException.class)
-    public void testParseNullCatalogID() throws Exception {
-        System.out.println("Test : Parse invalid catalog content");
-        IRI cURI = ExampleFilesUtils.CATALOG_URI;
-        IRI fURI = ExampleFilesUtils.FDP_URI;
-        parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.CATALOG_METADATA_FILE), null, cURI, fURI, 
-                ExampleFilesUtils.FILE_FORMAT);
-        fail("This test is execpeted to throw an error");
-    }
-    
-    /**
-     * Test empty catalog ID, this test is expected to throw exception
-     * @throws Exception 
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testParseEmptyCatalogID() throws Exception {
-        System.out.println("Test : Parse invalid catalog content");
-        IRI cURI = ExampleFilesUtils.CATALOG_URI;
-        IRI fURI = ExampleFilesUtils.FDP_URI;
-        parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.CATALOG_METADATA_FILE), "", cURI, fURI, 
-                ExampleFilesUtils.FILE_FORMAT);
-        fail("This test is execpeted to throw an error");
-    }    
+    } 
     /**
      * Test null RDFFormat, this test is expected to throw exception
      * @throws Exception 
@@ -113,8 +81,7 @@ public class CatalogMetadataParserTest {
         IRI cURI = ExampleFilesUtils.CATALOG_URI;
         IRI fURI = ExampleFilesUtils.FDP_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.CATALOG_METADATA_FILE), 
-                ExampleFilesUtils.CATALOG_ID, cURI, fURI, null);
+                ExampleFilesUtils.CATALOG_METADATA_FILE), cURI, fURI, null);
         fail("This test is execpeted to throw an error");
     }
     /**
@@ -128,8 +95,7 @@ public class CatalogMetadataParserTest {
         IRI fURI = ExampleFilesUtils.FDP_URI;
         CatalogMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.CATALOG_METADATA_FILE), 
-                ExampleFilesUtils.CATALOG_ID, cURI, fURI, 
+                ExampleFilesUtils.CATALOG_METADATA_FILE), cURI, fURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata);
     }

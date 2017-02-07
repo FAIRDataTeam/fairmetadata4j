@@ -32,61 +32,64 @@ import nl.dtl.fairmetadata.io.DataRecordMetadataParser;
 import nl.dtl.fairmetadata.io.DatasetMetadataParser;
 import nl.dtl.fairmetadata.io.DistributionMetadataParser;
 import nl.dtl.fairmetadata.io.FDPMetadataParser;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * Provides metadata parser instances 
- * 
- * @author Rajaram Kaliyaperumal
- * @since 2016-09-13
- * @version 0.1
+ *
+ * @author rajaram
  */
-public class MetadataParserUtils {
-    
-    private MetadataParserUtils(){}
-    
-    private static final FDPMetadataParser fdpParser = new FDPMetadataParser();
-    private static final CatalogMetadataParser catalogParser = 
-            new CatalogMetadataParser();
-    private static final DatasetMetadataParser datasetParser = 
-            new DatasetMetadataParser();
-    private static final DistributionMetadataParser distributionParser = 
-            new DistributionMetadataParser();
-    private static final DataRecordMetadataParser dataRecordParser = 
-            new DataRecordMetadataParser();
+public class MetadataParserUtilsTest {
 
     /**
-     * @return the fdpParser
+     * Test of getFdpParser method, of class MetadataParserUtils.
      */
-    public static FDPMetadataParser getFdpParser() {
-        return fdpParser;
+    @Test
+    public void testGetFdpParser() {
+        System.out.println("getFdpParser");
+        assertThat(MetadataParserUtils.getFdpParser(), 
+                instanceOf(FDPMetadataParser.class));
     }
 
     /**
-     * @return the catalogParser
+     * Test of getCatalogParser method, of class MetadataParserUtils.
      */
-    public static CatalogMetadataParser getCatalogParser() {
-        return catalogParser;
+    @Test
+    public void testGetCatalogParser() {
+        System.out.println("getCatalogParser");
+        assertThat(MetadataParserUtils.getCatalogParser(), 
+                instanceOf(CatalogMetadataParser.class));
     }
 
     /**
-     * @return the datasetParser
+     * Test of getDatasetParser method, of class MetadataParserUtils.
      */
-    public static DatasetMetadataParser getDatasetParser() {
-        return datasetParser;
+    @Test
+    public void testGetDatasetParser() {
+        System.out.println("getDatasetParser");
+        assertThat(MetadataParserUtils.getDatasetParser(), 
+                instanceOf(DatasetMetadataParser.class));
     }
 
     /**
-     * @return the distributionParser
+     * Test of getDistributionParser method, of class MetadataParserUtils.
      */
-    public static DistributionMetadataParser getDistributionParser() {
-        return distributionParser;
+    @Test
+    public void testGetDistributionParser() {
+        System.out.println("getDistributionParser");
+        assertThat(MetadataParserUtils.getDistributionParser(), 
+                instanceOf(DistributionMetadataParser.class));
     }
-    
+
     /**
-     * @return the dataRecordParser
+     * Test of getDataRecordParser method, of class MetadataParserUtils.
      */
-    public static DataRecordMetadataParser getDataRecordParser() {
-        return dataRecordParser;
+    @Test
+    public void testGetDataRecordParser() {
+        System.out.println("getDataRecordParser");
+        assertThat(MetadataParserUtils.getDataRecordParser(), 
+                instanceOf(DataRecordMetadataParser.class));
     }
     
 }

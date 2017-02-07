@@ -27,15 +27,27 @@
  */
 package nl.dtl.fairmetadata.utils;
 
+import com.google.common.collect.ImmutableList;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import nl.dtl.fairmetadata.io.MetadataParserException;
+import org.apache.logging.log4j.LogManager;
+import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.Rio;
 
 /**
  *
@@ -43,7 +55,13 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
  * @since 2016-09-06
  * @version 0.1
  */
-public class RDFUtils {
+public class RDFUtils {   
+
+    private static final org.apache.logging.log4j.Logger LOGGER
+            = LogManager.getLogger(RDFUtils.class);
+    
+    private RDFUtils(){
+    }
     
     public static Literal getCurrentTime() throws 
             DatatypeConfigurationException {
@@ -56,6 +74,27 @@ public class RDFUtils {
         Literal currentTime = f.createLiteral(xmlDate.toXMLFormat(),
                     XMLSchema.DATETIME);
         return currentTime;
+    }
+    
+    public static List<Statement> getStatements(String rdfString, IRI baseUri,
+            RDFFormat format) throws MetadataParserException {
+        if (baseUri == null) {
+            ValueFactory f = SimpleValueFactory.getInstance();
+            baseUri = f.createIRI("http://example.com/dummyResource");
+        }
+        try {
+            Model model = Rio.parse(new StringReader(rdfString),
+                    baseUri.stringValue(), format);
+            Iterator<Statement> it = model.iterator();
+            List<Statement> statements = ImmutableList.copyOf(it);
+            return statements;
+        } catch (IOException ex) {
+            String errMsg = "Error reading dataset metadata content"
+                    + ex.getMessage();
+            LOGGER.error(errMsg);
+            throw (new MetadataParserException(errMsg));
+        }
+
     }
     
 }

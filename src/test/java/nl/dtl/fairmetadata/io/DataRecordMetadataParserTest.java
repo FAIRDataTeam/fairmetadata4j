@@ -55,8 +55,7 @@ public class DataRecordMetadataParserTest {
         System.out.println("Test : Parse invalid datarecord content");
         IRI drURI = ExampleFilesUtils.DATARECORD_URI;
         IRI dURI = ExampleFilesUtils.DATASET_URI;
-        parser.parse(null, ExampleFilesUtils.DISTRIBUTION_ID, drURI, dURI, 
-                ExampleFilesUtils.FILE_FORMAT);
+        parser.parse(null, drURI, dURI, ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
     }
     
@@ -69,40 +68,9 @@ public class DataRecordMetadataParserTest {
         System.out.println("Test : Parse invalid datarecord content");
         IRI drURI = ExampleFilesUtils.DATARECORD_URI;
         IRI dURI = ExampleFilesUtils.DATASET_URI;
-        parser.parse("", ExampleFilesUtils.DISTRIBUTION_ID, drURI, dURI, 
-                ExampleFilesUtils.FILE_FORMAT);
+        parser.parse("", drURI, dURI, ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
-    }
-    
-    /**
-     * Test null datarecord ID, this test is expected to throw exception
-     * @throws Exception 
-     */
-    @Test(expected = NullPointerException.class)
-    public void testParseNullDistributionID() throws Exception {        
-        System.out.println("Test : Parse invalid datarecord content");
-        IRI drURI = ExampleFilesUtils.DATARECORD_URI;
-        IRI dURI = ExampleFilesUtils.DATASET_URI;
-        parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), null, drURI, 
-                dURI, ExampleFilesUtils.FILE_FORMAT);
-        fail("This test is execpeted to throw an error");
-    }
-    
-    /**
-     * Test empty datarecord ID, this test is expected to throw exception
-     * @throws Exception 
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testParseEmptyDistributionID() throws Exception {
-        System.out.println("Test : Parse invalid datarecord content");
-        IRI drURI = ExampleFilesUtils.DATARECORD_URI;
-        IRI dURI = ExampleFilesUtils.DATASET_URI;
-        parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), "", drURI, 
-                dURI, ExampleFilesUtils.FILE_FORMAT);
-        fail("This test is execpeted to throw an error");
-    }    
+    }   
     /**
      * Test null RDFFormat, this test is expected to throw exception
      * @throws Exception 
@@ -113,8 +81,8 @@ public class DataRecordMetadataParserTest {
         IRI drURI = ExampleFilesUtils.DATARECORD_URI;
         IRI dURI = ExampleFilesUtils.DATASET_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), 
-                ExampleFilesUtils.DISTRIBUTION_ID, drURI, dURI, null);
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), drURI, dURI, 
+                null);
         fail("This test is execpeted to throw an error");
     }
     /**
@@ -128,8 +96,7 @@ public class DataRecordMetadataParserTest {
         IRI dURI = ExampleFilesUtils.DATASET_URI;
         DataRecordMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), 
-                ExampleFilesUtils.DISTRIBUTION_ID, drURI, dURI, 
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), drURI, dURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata);
     }

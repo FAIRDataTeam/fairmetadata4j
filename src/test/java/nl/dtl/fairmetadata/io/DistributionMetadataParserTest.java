@@ -34,6 +34,7 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Statement;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  * Unit tests for DistributionMetadataParser.
@@ -56,7 +57,7 @@ public class DistributionMetadataParserTest {
         System.out.println("Test : Parse invalid distribution content");
         IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         IRI dURI = ExampleFilesUtils.DATASET_URI;
-        parser.parse(null, ExampleFilesUtils.DISTRIBUTION_ID, disURI, dURI, 
+        parser.parse(null, disURI, dURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
     }
@@ -70,40 +71,10 @@ public class DistributionMetadataParserTest {
         System.out.println("Test : Parse invalid distribution content");
         IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         IRI dURI = ExampleFilesUtils.DATASET_URI;
-        parser.parse("", ExampleFilesUtils.DISTRIBUTION_ID, disURI, dURI, 
+        parser.parse("", disURI, dURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         fail("This test is execpeted to throw an error");
-    }
-    
-    /**
-     * Test null distribution ID, this test is expected to throw exception
-     * @throws Exception 
-     */
-    @Test(expected = NullPointerException.class)
-    public void testParseNullDistributionID() throws Exception {        
-        System.out.println("Test : Parse invalid distribution content");
-        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
-        IRI dURI = ExampleFilesUtils.DATASET_URI;
-        parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), null, disURI, 
-                dURI, ExampleFilesUtils.FILE_FORMAT);
-        fail("This test is execpeted to throw an error");
-    }
-    
-    /**
-     * Test empty distribution ID, this test is expected to throw exception
-     * @throws Exception 
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testParseEmptyDistributionID() throws Exception {
-        System.out.println("Test : Parse invalid distribution content");
-        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
-        IRI dURI = ExampleFilesUtils.DATASET_URI;
-        parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), "", disURI, 
-                dURI, ExampleFilesUtils.FILE_FORMAT);
-        fail("This test is execpeted to throw an error");
-    }    
+    }   
     /**
      * Test null RDFFormat, this test is expected to throw exception
      * @throws Exception 
@@ -115,7 +86,7 @@ public class DistributionMetadataParserTest {
         IRI dURI = ExampleFilesUtils.DATASET_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
                 ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), 
-                ExampleFilesUtils.DISTRIBUTION_ID, disURI, dURI, null);
+                disURI, dURI, null);
         fail("This test is execpeted to throw an error");
     }
     /**
@@ -129,8 +100,7 @@ public class DistributionMetadataParserTest {
         IRI dURI = ExampleFilesUtils.DATASET_URI;
         DistributionMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), 
-                ExampleFilesUtils.DISTRIBUTION_ID, disURI, dURI, 
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), disURI, dURI, 
                 ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata);
     }
