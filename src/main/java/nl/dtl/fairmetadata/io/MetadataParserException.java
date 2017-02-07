@@ -34,14 +34,6 @@ package nl.dtl.fairmetadata.io;
  * @version 0.1
  */
 public class MetadataParserException extends MetadataException {
-
-    /**
-     * Creates a new instance of <code>MetadataParserException</code> without
-     * detail message.
-     */
-    public MetadataParserException() {
-    }
-
     /**
      * Constructs an instance of <code>MetadataParserException</code> with the
      * specified detail message.

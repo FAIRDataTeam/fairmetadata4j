@@ -27,6 +27,8 @@
  */
 package nl.dtl.fairmetadata.utils;
 
+import nl.dtl.fairmetadata.io.MetadataParserException;
+import org.eclipse.rdf4j.rio.RDFFormat;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -46,4 +48,25 @@ public class RDFUtilsTest {
         assertNotNull(RDFUtils.getCurrentTime());
     }
     
+    /**
+     * Invalid rdf string 
+     * @throws java.lang.Exception
+     */
+    @Test(expected = MetadataParserException.class)
+    public void testInvalidRdfStr() throws Exception {
+        String input = "<sub> pred> <obj> .";
+        System.out.println("Invalid rdf string");
+        RDFUtils.getStatements(input, null, RDFFormat.TURTLE);
+    }
+    
+    /**
+     * Valid rdf string 
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testValidRdfStr() throws Exception {
+        String input = "<sub> <pred> <obj> .";
+        System.out.println("Valid rdf string");
+        assertNotNull(RDFUtils.getStatements(input, null, RDFFormat.TURTLE));
+    }
 }

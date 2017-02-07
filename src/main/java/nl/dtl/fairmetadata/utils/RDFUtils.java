@@ -47,7 +47,9 @@ import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /**
  *
@@ -78,23 +80,24 @@ public class RDFUtils {
     
     public static List<Statement> getStatements(String rdfString, IRI baseUri,
             RDFFormat format) throws MetadataParserException {
+        String uri;
         if (baseUri == null) {
-            ValueFactory f = SimpleValueFactory.getInstance();
-            baseUri = f.createIRI("http://example.com/dummyResource");
+            uri = "http://example.com/dummyResource";
+        } else {
+            uri = baseUri.stringValue();
         }
         try {
-            Model model = Rio.parse(new StringReader(rdfString),
-                    baseUri.stringValue(), format);
+            Model model = Rio.parse(new StringReader(rdfString), uri , format);
             Iterator<Statement> it = model.iterator();
             List<Statement> statements = ImmutableList.copyOf(it);
             return statements;
-        } catch (IOException ex) {
+        } catch (RDFParseException | UnsupportedRDFormatException | 
+                IOException ex) {
             String errMsg = "Error reading dataset metadata content"
                     + ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
         }
-
     }
     
 }

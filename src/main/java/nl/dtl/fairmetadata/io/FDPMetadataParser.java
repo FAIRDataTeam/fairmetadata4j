@@ -28,18 +28,14 @@
 package nl.dtl.fairmetadata.io;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata.model.FDPMetadata;
+import nl.dtl.fairmetadata.utils.RDFUtils;
 import nl.dtl.fairmetadata.utils.vocabulary.R3D;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
@@ -48,9 +44,6 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
-import org.eclipse.rdf4j.rio.RDFParseException;
-import org.eclipse.rdf4j.rio.Rio;
-import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /**
  *
@@ -59,17 +52,23 @@ import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
  * @version 0.1
  */
 public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
-    
+
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(DatasetMetadataParser.class);
-    
+
     @Override
     protected FDPMetadata createMetadata() {
         return new FDPMetadata();
     }
-    
+
     @Override
     public FDPMetadata parse(List<Statement> statements, IRI fdpURI) {
+        Preconditions.checkNotNull(fdpURI,
+                "FDP URI must not be null.");
+        Preconditions.checkNotNull(statements,
+                "FDP statements must not be null.");
+        LOGGER.info("Parsing fdp metadata");
+        
         FDPMetadata metadata = super.parse(statements, fdpURI);
         List<IRI> catalogs = new ArrayList();
         ValueFactory f = SimpleValueFactory.getInstance();
@@ -77,7 +76,7 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
             Value object = st.getObject();
-            
+
             if (subject.equals(fdpURI)) {
                 if (predicate.equals(RDFS.SEEALSO)) {
                     metadata.setSwaggerDoc((IRI) object);
@@ -85,7 +84,7 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
                     catalogs.add((IRI) object);
                 } else if (predicate.equals(R3D.REPO_IDENTIFIER)) {
                     metadata.setRepostoryIdentifier(IdentifierParser.parse(
-                            statements, (IRI)object));
+                            statements, (IRI) object));
                 } else if (predicate.equals(R3D.INSTITUTION_COUNTRY)) {
                     metadata.setInstitutionCountry((IRI) object);
                 } else if (predicate.equals(R3D.REPO_START_DATE)) {
@@ -96,16 +95,16 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
                             stringValue(), XMLSchema.DATETIME)));
                 } else if (predicate.equals(R3D.INSTITUTION)) {
                     metadata.setInstitution(AgentParser.parse(
-                            statements, (IRI)object));
-                } 
+                            statements, (IRI) object));
+                }
             }
         }
-        if(!catalogs.isEmpty()) {
+        if (!catalogs.isEmpty()) {
             metadata.setCatalogs(catalogs);
         }
         return metadata;
     }
-    
+
     /**
      * Parse RDF string to dataset fdpMetadata object
      *
@@ -124,36 +123,11 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
 
         Preconditions.checkArgument(!fdpMetadata.isEmpty(),
                 "The fdp metadata content can't be EMPTY");
-        try {
-            Model modelFDP;
-            if (baseURI != null) {
-                modelFDP = Rio.parse(new StringReader(fdpMetadata),
-                        baseURI.stringValue(), format);
-            } else {
-                String dummyURI = "http://example.com/dummyResource";
-                modelFDP = Rio.parse(new StringReader(
-                        fdpMetadata), dummyURI, format);
-            }
-            Iterator<Statement> it = modelFDP.iterator();
-            List<Statement> statements = ImmutableList.copyOf(it);
-            IRI fdpURI = (IRI) statements.get(0).getSubject();
-            FDPMetadata metadata = this.parse(statements, fdpURI);
-            metadata.setUri(null);
-            return metadata;
-        } catch (IOException ex) {
-            String errMsg = "Error reading fdp metadata content"
-                    + ex.getMessage();
-            LOGGER.error(errMsg);
-            throw (new MetadataParserException(errMsg));
-        } catch (RDFParseException ex) {
-            String errMsg = "Error parsing fdp metadata content. "
-                    + ex.getMessage();
-            LOGGER.error(errMsg);
-            throw (new MetadataParserException(errMsg));
-        } catch (UnsupportedRDFormatException ex) {
-            String errMsg = "Unsuppoerted RDF format. " + ex.getMessage();
-            LOGGER.error(errMsg);
-            throw (new MetadataParserException(errMsg));
-        }
+        List<Statement> statements = RDFUtils.getStatements(
+                fdpMetadata, baseURI, format);
+        IRI fdpURI = (IRI) statements.get(0).getSubject();
+        FDPMetadata metadata = this.parse(statements, fdpURI);
+        metadata.setUri(null);
+        return metadata;
     }
 }

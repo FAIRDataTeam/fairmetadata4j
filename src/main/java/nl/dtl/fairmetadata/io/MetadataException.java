@@ -36,14 +36,6 @@ package nl.dtl.fairmetadata.io;
  * @version 0.1
  */
 public class MetadataException extends Exception {
-
-    /**
-     * Creates a new instance of <code>CatalogMetadataExeception</code> without
-     * detail message.
-     */
-    public MetadataException() {
-    }
-
     /**
      * Constructs an instance of <code>CatalogMetadataExeception</code> with the
      * specified detail message.
