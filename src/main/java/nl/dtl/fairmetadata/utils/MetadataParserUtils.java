@@ -42,8 +42,6 @@ import nl.dtl.fairmetadata.io.FDPMetadataParser;
  */
 public class MetadataParserUtils {
     
-    private MetadataParserUtils(){}
-    
     private static final FDPMetadataParser fdpParser = new FDPMetadataParser();
     private static final CatalogMetadataParser catalogParser = 
             new CatalogMetadataParser();
@@ -53,6 +51,9 @@ public class MetadataParserUtils {
             new DistributionMetadataParser();
     private static final DataRecordMetadataParser dataRecordParser = 
             new DataRecordMetadataParser();
+    
+    
+    private MetadataParserUtils(){}
 
     /**
      * @return the fdpParser

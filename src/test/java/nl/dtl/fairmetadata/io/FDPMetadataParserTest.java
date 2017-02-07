@@ -90,7 +90,6 @@ public class FDPMetadataParserTest {
     @Test
     public void testParseVaildFDPFile() throws Exception {
         System.out.println("Test : Parse valid fdp content");
-        IRI cURI = ExampleFilesUtils.CATALOG_URI;
         IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = parser.parse(
                 ExampleFilesUtils.getFileContentAsString(
