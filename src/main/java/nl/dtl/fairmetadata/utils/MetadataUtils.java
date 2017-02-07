@@ -49,6 +49,7 @@ import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.LinkedHashModel;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
@@ -324,33 +325,35 @@ public class MetadataUtils {
         }
         LOGGER.info("Adding distrubution metadata properties to the rdf model");
         model.add(metadata.getUri(), RDF.TYPE, DCAT.TYPE_DISTRIBUTION);
-        if (metadata.getAccessURL() != null) {
-            model.add(metadata.getUri(), DCAT.ACCESS_URL,
-                    metadata.getAccessURL());
-        } else if (metadata.getDownloadURL() != null) {
-            model.add(metadata.getUri(), DCAT.DOWNLOAD_URL,
+        addStatements(model, metadata.getUri(), DCAT.ACCESS_URL, 
+                metadata.getAccessURL());
+        addStatements(model, metadata.getUri(), DCAT.DOWNLOAD_URL,
                     metadata.getDownloadURL());
-        }
-        if (metadata.getDistributionIssued() != null) {
-            model.add(metadata.getUri(), DCTERMS.ISSUED,
+        addStatements(model, metadata.getUri(), DCTERMS.ISSUED,
                     metadata.getDistributionIssued());
-        }
-        if (metadata.getDistributionModified() != null) {
-            model.add(metadata.getUri(), DCTERMS.MODIFIED,
+        addStatements(model, metadata.getUri(), DCTERMS.MODIFIED,
                     metadata.getDistributionModified());
-        }
-        if (metadata.getByteSize() != null) {
-            model.add(metadata.getUri(), DCAT.BYTE_SIZE,
+        addStatements(model,metadata.getUri(), DCAT.BYTE_SIZE,
                     metadata.getByteSize());
-        }
-        if (metadata.getFormat() != null) {
-            model.add(metadata.getUri(), DCAT.FORMAT, metadata.getFormat());
-        }
-        if (metadata.getMediaType() != null) {
-            model.add(metadata.getUri(), DCAT.MEDIA_TYPE,
+        addStatements(model, metadata.getUri(), DCAT.FORMAT, 
+                metadata.getFormat());
+        addStatements(model, metadata.getUri(), DCAT.MEDIA_TYPE,
                     metadata.getMediaType());
-        }
         return getStatements(model);
+    }
+    
+    // We are using this method to reduce the NPath complexity 
+    /**
+     * Add rdf statement
+     * @param model
+     * @param subj
+     * @param pred
+     * @param objc 
+     */
+    private static void addStatements(Model model, IRI subj, IRI pred, Value objc) {
+        if (objc != null) {
+            model.add(subj, pred, objc);
+        }        
     }
 
     /**
