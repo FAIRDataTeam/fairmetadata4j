@@ -35,8 +35,10 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
 /**
- *
- * @author Rajaram Kaliyaperumal
+ * Catalog metadata object
+ * 
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
  * @version 0.1
  */

@@ -52,8 +52,10 @@ import org.eclipse.rdf4j.rio.Rio;
 import org.eclipse.rdf4j.rio.UnsupportedRDFormatException;
 
 /**
- *
- * @author Rajaram Kaliyaperumal
+ * Utils class for manipulating rdf statements
+ * 
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
  * @version 0.1
  */
@@ -65,6 +67,11 @@ public class RDFUtils {
     private RDFUtils(){
     }
     
+    /**
+     * Create date literal based on current time
+     * @return  Literal object
+     * @throws DatatypeConfigurationException 
+     */
     public static Literal getCurrentTime() throws 
             DatatypeConfigurationException {
         Date date = new Date();
@@ -78,6 +85,15 @@ public class RDFUtils {
         return currentTime;
     }
     
+    /**
+     * Create List<Statements> from rdf string
+     * 
+     * @param rdfString     RDF string
+     * @param baseUri       Base uri
+     * @param format        RDF format
+     * @return
+     * @throws MetadataParserException 
+     */
     public static List<Statement> getStatements(String rdfString, IRI baseUri,
             RDFFormat format) throws MetadataParserException {
         String uri;

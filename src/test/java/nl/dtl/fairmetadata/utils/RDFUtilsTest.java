@@ -33,8 +33,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author rajaram
+ * Unit tests for RDFUtils class
+ * 
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  */
 public class RDFUtilsTest {
     

@@ -43,8 +43,10 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
- *
- * @author Rajaram Kaliyaperumal
+ * Parser for indetifier object
+ * 
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-30
  * @version 0.1
  */
@@ -52,7 +54,14 @@ public class IdentifierParser {
 
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(IdentifierParser.class);
-
+    
+    /**
+     * Parse rdf statements to create identifer object
+     * 
+     * @param statements        List of rdf statements
+     * @param identifierURI     Identifier uri
+     * @return                  Identifier object
+     */
     public static Identifier parse(@Nonnull List<Statement> statements,
             @Nonnull IRI identifierURI) {
         Preconditions.checkNotNull(identifierURI,

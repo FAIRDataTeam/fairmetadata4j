@@ -46,8 +46,10 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
- *
- * @author Rajaram Kaliyaperumal
+ * Parser for repository metadata object
+ * 
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-07
  * @version 0.1
  */
@@ -60,7 +62,14 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
     protected FDPMetadata createMetadata() {
         return new FDPMetadata();
     }
-
+    
+    /**
+     * Parse RDF statements to create repository metadata
+     * 
+     * @param statements    List of rdf statements
+     * @param fdpURI        Repository uri
+     * @return              FDPMetadata object 
+     */
     @Override
     public FDPMetadata parse(List<Statement> statements, IRI fdpURI) {
         Preconditions.checkNotNull(fdpURI,
@@ -106,7 +115,7 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
     }
 
     /**
-     * Parse RDF string to dataset fdpMetadata object
+     * Parse RDF string to create repository metadata object
      *
      * @param fdpMetadata FDP fdpMetadata as a RDF string
      * @param baseURI

@@ -67,10 +67,11 @@ import org.eclipse.rdf4j.rio.RDFWriter;
 import org.eclipse.rdf4j.rio.Rio;
 
 /**
- * Meatadata util class to convert Metadata object to RDF statements and RDF
- * String.
+ * Utils class to convert metadata object to RDF statements or string and 
+ * vice-verse
  *
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-12
  * @version 0.1
  */
@@ -80,7 +81,7 @@ public class MetadataUtils {
             = LogManager.getLogger(MetadataUtils.class);
 
     /**
-     * Get RDF statements from metadata object
+     * Get RDF statements from Metadata object
      *
      * @param <T>
      * @param metadata Subclass of metadata object
@@ -116,7 +117,7 @@ public class MetadataUtils {
     }
 
     /**
-     * Convert metadata object to RDF string
+     * Convert Metadata object to RDF string
      *
      * @param <T>
      * @param metadata Subclass of metadata object
@@ -144,7 +145,7 @@ public class MetadataUtils {
     }
 
     /**
-     * Get RDF statements from FDP metadata object
+     * Get RDF statements from Repository metadata object
      *
      * @param model RDF model with common metadata properties
      * @param metadata FDPMetadata object

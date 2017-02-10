@@ -30,7 +30,7 @@
         </developer>
         <developer>
             <name>Kees Burger</name>
-            <email>kees.burger@dtls.nl </email>
+            <email>kees.burger@dtls.nl</email>
             <organization>DTLS</organization>
             <organizationUrl>http://www.dtls.nl/</organizationUrl>
         </developer>
@@ -121,6 +121,7 @@
                     <excludes>
                         <exclude>pom.xml</exclude>
                         <exclude>**/*.ttl</exclude>
+                        <exclude>**/*.xml</exclude>
                     </excludes>
                 </configuration>
                 <executions>

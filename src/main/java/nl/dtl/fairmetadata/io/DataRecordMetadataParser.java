@@ -45,9 +45,10 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
- * Parser for datarecord metadata
+ * Parser for datarecord metadata object
  *
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-10-25
  * @version 0.1
  */
@@ -63,7 +64,7 @@ public class DataRecordMetadataParser extends
     }
 
     /**
-     * Parse RDF statements to datarecord metadata object
+     * Parse RDF statements to create datarecord metadata object
      *
      * @param statements List of RDF statement list
      * @param dataRecordURI Datarecord URI
@@ -103,7 +104,7 @@ public class DataRecordMetadataParser extends
     }
 
     /**
-     * Parse RDF string to datarecord metadata object
+     * Parse RDF string to create datarecord metadata object
      *
      * @param dataRecordMetadata Datarecord metadata as a RDF string
      * @param dataRecordURI Datarecord URI
@@ -134,7 +135,7 @@ public class DataRecordMetadataParser extends
     }
 
     /**
-     * Parse RDF string to dataset dataRecordMetadata object
+     * Parse RDF string to create dataset dataRecordMetadata object
      *
      * @param dataRecordMetadata Datarecord metadata as a RDF string
      * @param baseURI

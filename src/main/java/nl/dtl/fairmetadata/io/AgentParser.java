@@ -43,8 +43,10 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
- *
- * @author Rajaram Kaliyaperumal
+ * Parser for agent object
+ * 
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-30
  * @version 0.1
  */
@@ -52,7 +54,13 @@ public class AgentParser {
     
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(IdentifierParser.class);
-
+    /**
+     * Create agent object
+     * 
+     * @param statements    List of rdf statements
+     * @param agentURI      Agent uri
+     * @return 
+     */
     public static Agent parse(@Nonnull List<Statement> statements,
             @Nonnull IRI agentURI) {
         Preconditions.checkNotNull(agentURI,

@@ -38,7 +38,8 @@ import static org.junit.Assert.*;
 /**
  * Unit tests for CatalogMetadataParser.
  * 
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-08
  * @version 0.1
  */

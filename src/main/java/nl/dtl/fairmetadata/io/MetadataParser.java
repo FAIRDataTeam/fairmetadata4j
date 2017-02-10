@@ -44,8 +44,10 @@ import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
- *
- * @author Rajaram Kaliyaperumal
+ * An abstract class for metadata parser
+ * 
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @param <T>
  * @since 2016-09-07
  * @version 0.1
@@ -57,6 +59,13 @@ public abstract class MetadataParser<T extends Metadata>  {
     
     protected abstract T createMetadata();
     
+    /**
+     * Parse common metadata properties
+     * 
+     * @param statements    List of rdf statements
+     * @param metadataUri   Metadata uri
+     * @return 
+     */
     protected T parse(List<Statement> statements, IRI metadataUri)  {
         T metadata = createMetadata();
         

@@ -47,9 +47,10 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
- * Parser for dataset metadata
+ * Parser for dataset metadata object
  *
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-07
  * @version 0.1
  */
@@ -64,7 +65,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
     }
 
     /**
-     * Parse RDF statements to dataset metadata object
+     * Parse RDF statements to create dataset metadata object
      *
      * @param statements List of RDF statement list
      * @param datasetURI Dataset URI
@@ -113,7 +114,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
     }
 
     /**
-     * Parse RDF string to dataset metadata object
+     * Parse RDF string to create dataset metadata object
      *
      * @param datasetMetadata Dataset metadata as a RDF string
      * @param datasetURI Dataset URI
@@ -141,7 +142,7 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
     }
 
     /**
-     * Parse RDF string to dataset metadata object
+     * Parse RDF string to create dataset metadata object
      *
      * @param datasetMetadata Catalog metadata as a RDF string
      * @param baseURI

@@ -39,7 +39,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
  * DCAT vocabulary.
  * See {@link <a href="https://www.w3.org/TR/vocab-dcat/">DCAT Vocabulary</a>}.
  * 
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
  * @version 0.1
  */

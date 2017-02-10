@@ -52,7 +52,8 @@ import static org.junit.Assert.*;
 /**
  * Unit tests for MetadataUtils.
  * 
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-12
  * @version 0.1
  */

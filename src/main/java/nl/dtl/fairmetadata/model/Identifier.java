@@ -32,8 +32,10 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
 /**
- *
- * @author Rajaram Kaliyaperumal
+ * Identifier object
+ * 
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-29
  * @version 0.1
  */

@@ -36,7 +36,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
  * R3d vocabulary.
  * See {@link <a href="https://github.com/re3data/ontology/blob/master/r3dOntology.ttl">R3D vacobulary</a>}. 
  * 
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-10-20
  * @version 0.1
  */

@@ -37,7 +37,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
  * DataCite vocabulary.
  * See {@link <a href="http://www.sparontologies.net/ontologies/datacite/source.html">DataCite Vocabulary</a>}.
  * 
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-29
  * @version 0.1
  */

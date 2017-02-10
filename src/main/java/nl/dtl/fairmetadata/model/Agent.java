@@ -34,8 +34,10 @@ import org.eclipse.rdf4j.model.vocabulary.FOAF;
 
 
 /**
- *
- * @author Rajaram Kaliyaperumal
+ * Agent object
+ * 
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-30
  * @version 0.1
  */

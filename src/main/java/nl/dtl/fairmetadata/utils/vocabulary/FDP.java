@@ -39,7 +39,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
  * FairDataPoint vocabulary.
  * See {@link <a href="https://github.com/DTL-FAIRData/FDP-O">FDP vacobulary</a>}. 
  * 
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
  * @version 0.1
  */

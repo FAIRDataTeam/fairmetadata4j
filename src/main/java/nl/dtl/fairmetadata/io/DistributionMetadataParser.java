@@ -45,9 +45,10 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
- * Parser for distribution metadata
+ * Parser for distribution metadata object
  *
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-07
  * @version 0.1
  */
@@ -62,7 +63,7 @@ public class DistributionMetadataParser extends MetadataParser<DistributionMetad
     }
 
     /**
-     * Parse RDF statements to distribution metadata object
+     * Parse RDF statements to create distribution metadata object
      *
      * @param statements List of RDF statement list
      * @param distributionURI Distribution URI
@@ -111,7 +112,7 @@ public class DistributionMetadataParser extends MetadataParser<DistributionMetad
     }
 
     /**
-     * Parse RDF string to distribution metadata object
+     * Parse RDF string to create distribution metadata object
      *
      * @param distributionMetadata Distribution metadata as a RDF string
      * @param distributionURI Distribution URI
@@ -142,7 +143,7 @@ public class DistributionMetadataParser extends MetadataParser<DistributionMetad
     }
 
     /**
-     * Parse RDF string to dataset distributionMetadata object
+     * Parse RDF string to create dataset distributionMetadata object
      *
      * @param distributionMetadata Distribution metadata as a RDF string
      * @param baseURI

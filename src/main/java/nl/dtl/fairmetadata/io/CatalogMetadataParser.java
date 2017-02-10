@@ -51,9 +51,10 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
- * Parser for catalog metadata
+ * Parser for catalog metadata object
  *
- * @author Rajaram Kaliyaperumal
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-07
  * @version 0.1
  */
@@ -68,7 +69,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
     }
 
     /**
-     * Parse RDF statements to catalog metadata object
+     * Parse RDF statements to create catalog metadata object
      *
      * @param statements List of RDF statement list
      * @param catalogURI Catalog URI
@@ -114,7 +115,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
     }
 
     /**
-     * Parse RDF string to catalog metadata object
+     * Parse RDF string to create catalog metadata object
      *
      * @param catalogMetadata Catalog metadata as a RDF string
      * @param catalogURI Catalog URI
@@ -143,7 +144,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
     }
 
     /**
-     * Parse RDF string to catalog metadata object
+     * Parse RDF string to create catalog metadata object
      *
      * @param catalogMetadata Catalog metadata as a RDF string
      * @param baseURI
