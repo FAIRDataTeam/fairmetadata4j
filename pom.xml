@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>nl.dtl</groupId>
-    <artifactId>FairMetadata</artifactId>
+    <artifactId>fairmetadata4j</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     
-    <name>FAIR Metadata</name>
-    <inceptionYear>2016</inceptionYear>
+    <name>fairmetadata4j</name>
+    <inceptionYear>2017</inceptionYear>
     <description>
         A reference implementation of FAIR metadata library
     </description>
