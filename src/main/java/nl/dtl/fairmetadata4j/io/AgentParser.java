@@ -53,7 +53,7 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 public class AgentParser {
     
     private static final org.apache.logging.log4j.Logger LOGGER
-            = LogManager.getLogger(IdentifierParser.class);
+            = LogManager.getLogger(AgentParser.class);
     /**
      * Create agent object
      * 
