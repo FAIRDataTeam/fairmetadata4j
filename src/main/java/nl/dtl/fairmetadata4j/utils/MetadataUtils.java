@@ -34,7 +34,9 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata4j.io.MetadataException;
+import nl.dtl.fairmetadata4j.model.AccessRights;
 import nl.dtl.fairmetadata4j.model.Agent;
+import nl.dtl.fairmetadata4j.model.Authorization;
 import nl.dtl.fairmetadata4j.model.CatalogMetadata;
 import nl.dtl.fairmetadata4j.model.DataRecordMetadata;
 import nl.dtl.fairmetadata4j.model.DatasetMetadata;
@@ -45,8 +47,10 @@ import nl.dtl.fairmetadata4j.model.Metadata;
 import nl.dtl.fairmetadata4j.utils.vocabulary.DCAT;
 import nl.dtl.fairmetadata4j.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata4j.utils.vocabulary.R3D;
+import nl.dtl.fairmetadata4j.utils.vocabulary.WebAccessControl;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
@@ -373,6 +377,8 @@ public class MetadataUtils {
                     metadata.getIssued());
         addIdStatements(model, metadata.getUri(), FDP.METADATA_IDENTIFIER, 
                 metadata.getIdentifier());
+        addAccessRightsStatements(model, metadata.getUri(), 
+                DCTERMS.ACCESS_RIGHTS, metadata.getAccessRights());
         addStatement(model, metadata.getUri(), FDP.METADATA_MODIFIED,
                     metadata.getModified());
         addStatement(model,metadata.getUri(), DCTERMS.LANGUAGE,
@@ -453,6 +459,49 @@ public class MetadataUtils {
             addStatement(model, objc.getUri(), RDF.TYPE, objc.getType());
             addStatement(model, objc.getUri(), DCTERMS.IDENTIFIER, 
                     objc.getIdentifier());
+        }        
+    }
+    
+    // We are using this method to reduce the NPath complexity 
+    /**
+     * Add accessRights rdf statements
+     * @param model
+     * @param subj
+     * @param pred
+     * @param objc 
+     */
+    private static void addAccessRightsStatements(Model model, IRI subj, 
+            IRI pred, AccessRights objc) {
+        if (objc != null) {
+            addStatement(model, subj, pred, objc.getUri());
+            addStatement(model, objc.getUri(), RDF.TYPE, 
+                    DCTERMS.RIGHTS_STATEMENT);
+            addAuthorizationStatements(model, objc.getUri(), DCTERMS.IS_PART_OF, 
+                    objc.getAuthorization());
+        }        
+    }
+    
+    // We are using this method to reduce the NPath complexity 
+    /**
+     * Add authorization rdf statements
+     * @param model
+     * @param subj
+     * @param pred
+     * @param objc 
+     */
+    private static void addAuthorizationStatements(Model model, IRI subj, 
+            IRI pred, Authorization objc) {
+        if (objc != null) {
+            addStatement(model, subj, pred, objc.getUri());
+            addStatement(model, objc.getUri(), RDF.TYPE, 
+                    WebAccessControl.AUTHORIZATION);
+            objc.getAccessMode().stream().forEach((mode) -> {
+                addStatement(model, objc.getUri(), DCTERMS.IS_PART_OF, mode);
+            });
+            objc.getAuthorizedAgent().stream().forEach((agent) -> {
+                addAgentStatements(model, objc.getUri(), 
+                        WebAccessControl.ACCESS_AGENT, agent);
+            });
         }        
     }
     
