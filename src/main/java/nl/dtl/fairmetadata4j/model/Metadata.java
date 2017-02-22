@@ -51,6 +51,7 @@ public class Metadata {
     private Literal description;
     private IRI license;
     private IRI rights;
+    private IRI accessRights;
     private IRI uri;
     private IRI parentURI;
     private IRI language;
@@ -221,5 +222,19 @@ public class Metadata {
      */
     public void setPublisher(Agent publisher) {
         this.publisher = publisher;
+    }
+
+    /**
+     * @return the accessRights
+     */
+    public IRI getAccessRights() {
+        return accessRights;
+    }
+
+    /**
+     * @param accessRights the accessRights to set
+     */
+    public void setAccessRights(IRI accessRights) {
+        this.accessRights = accessRights;
     }
 }
