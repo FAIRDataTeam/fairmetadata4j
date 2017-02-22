@@ -515,7 +515,7 @@ public class MetadataUtilsTest {
     }    
     
     /**
-     * Test missing distribution rdf statement, this test is excepted to pass
+     * This test is excepted to pass
      * 
      * @throws Exception 
      */

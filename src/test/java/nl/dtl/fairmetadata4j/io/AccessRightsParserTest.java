@@ -8,9 +8,14 @@ package nl.dtl.fairmetadata4j.io;
 import java.util.ArrayList;
 import java.util.List;
 import nl.dtl.fairmetadata4j.model.AccessRights;
+import nl.dtl.fairmetadata4j.model.DatasetMetadata;
+import nl.dtl.fairmetadata4j.model.DistributionMetadata;
 import nl.dtl.fairmetadata4j.utils.ExampleFilesUtils;
+import nl.dtl.fairmetadata4j.utils.MetadataUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.rio.RDFFormat;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -69,7 +74,7 @@ public class AccessRightsParserTest {
      * Test valid accessRights.
      */
     @Test
-    public void testValidMetadataID() {
+    public void testValidMetadataAccessRights() {
         System.out.println("Parse dataset accessRights");
         List<Statement> statements = ExampleFilesUtils.
                 getFileContentAsStatements(ExampleFilesUtils.
@@ -78,6 +83,24 @@ public class AccessRightsParserTest {
         IRI uri = ExampleFilesUtils.BIOSEM_ACCESS_RIGHTS_URI;
         AccessRights result = AccessRightsParser.parse(statements, uri);
         assertNotNull(result);
+    }
+    
+    /**
+     * Test existence of rights rdf statement, this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testGetRDFString() throws Exception {        
+        System.out.println("Test : Valid dataset metadata with accessRights");
+        DatasetMetadataParser parser = new DatasetMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DATASET_METADATA_FILE, 
+                        ExampleFilesUtils.DATASET_URI.toString());
+        IRI disURI = ExampleFilesUtils.DATASET_URI;
+        DatasetMetadata metadata = parser.parse(stmts , disURI);             
+        String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE);
+        assertTrue(out.contains("accessRights"));
     }
     
 }
