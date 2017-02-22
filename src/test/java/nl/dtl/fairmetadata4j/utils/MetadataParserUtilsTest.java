@@ -27,7 +27,6 @@
  */
 package nl.dtl.fairmetadata4j.utils;
 
-import nl.dtl.fairmetadata4j.utils.MetadataParserUtils;
 import nl.dtl.fairmetadata4j.io.CatalogMetadataParser;
 import nl.dtl.fairmetadata4j.io.DataRecordMetadataParser;
 import nl.dtl.fairmetadata4j.io.DatasetMetadataParser;

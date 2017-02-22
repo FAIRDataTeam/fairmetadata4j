@@ -27,7 +27,6 @@
  */
 package nl.dtl.fairmetadata4j.utils;
 
-import nl.dtl.fairmetadata4j.utils.MetadataUtils;
 import java.util.ArrayList;
 import java.util.List;
 import nl.dtl.fairmetadata4j.io.CatalogMetadataParser;

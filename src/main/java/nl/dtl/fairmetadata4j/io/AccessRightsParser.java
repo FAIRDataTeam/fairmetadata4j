@@ -31,18 +31,12 @@ import com.google.common.base.Preconditions;
 import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata4j.model.AccessRights;
-import nl.dtl.fairmetadata4j.model.Agent;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.model.ValueFactory;
-import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
-import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
  * Parser for accessRights object

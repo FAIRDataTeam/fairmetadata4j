@@ -27,7 +27,6 @@
  */
 package nl.dtl.fairmetadata4j.utils;
 
-import nl.dtl.fairmetadata4j.utils.RDFUtils;
 import nl.dtl.fairmetadata4j.io.MetadataParserException;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.junit.Test;

@@ -50,7 +50,6 @@ import nl.dtl.fairmetadata4j.utils.vocabulary.R3D;
 import nl.dtl.fairmetadata4j.utils.vocabulary.WebAccessControl;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;

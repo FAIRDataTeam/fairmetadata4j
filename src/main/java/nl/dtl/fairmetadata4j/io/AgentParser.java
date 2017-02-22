@@ -40,6 +40,7 @@ import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
@@ -80,7 +81,8 @@ public class AgentParser {
             if (subject.equals(agentURI)) {
                 if (predicate.equals(RDF.TYPE)) {
                     agent.setType((IRI) object);
-                } else if (predicate.equals(FOAF.NAME)) {
+                } else if (predicate.equals(FOAF.NAME) || 
+                        predicate.equals(RDFS.LABEL)) {
                     ValueFactory f = SimpleValueFactory.getInstance();
                     agent.setName(f.createLiteral(object.stringValue(),
                             XMLSchema.STRING));
