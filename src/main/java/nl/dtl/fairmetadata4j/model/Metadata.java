@@ -51,7 +51,7 @@ public class Metadata {
     private Literal description;
     private IRI license;
     private IRI rights;
-    private IRI accessRights;
+    private AccessRights accessRights;
     private IRI uri;
     private IRI parentURI;
     private IRI language;
@@ -227,14 +227,14 @@ public class Metadata {
     /**
      * @return the accessRights
      */
-    public IRI getAccessRights() {
+    public AccessRights getAccessRights() {
         return accessRights;
     }
 
     /**
      * @param accessRights the accessRights to set
      */
-    public void setAccessRights(IRI accessRights) {
+    public void setAccessRights(AccessRights accessRights) {
         this.accessRights = accessRights;
     }
 }
