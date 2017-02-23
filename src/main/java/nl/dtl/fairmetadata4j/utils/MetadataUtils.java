@@ -70,7 +70,7 @@ import org.eclipse.rdf4j.rio.RDFWriter;
 import org.eclipse.rdf4j.rio.Rio;
 
 /**
- * Utils class to convert metadata object to RDF statements or string and 
+ * Utils class to convert metadata object to RDF statements or string and
  * vice-verse
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
@@ -115,7 +115,7 @@ public class MetadataUtils {
             stms = getStatements(model, (DistributionMetadata) metadata);
         } else if (metadata instanceof DataRecordMetadata) {
             stms = getStatements(model, (DataRecordMetadata) metadata);
-        } 
+        }
         return stms;
     }
 
@@ -134,7 +134,7 @@ public class MetadataUtils {
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-        
+
         StringWriter sw = new StringWriter();
         RDFWriter writer = Rio.createWriter(format, sw);
         List<Statement> statement = getStatements(metadata);
@@ -172,20 +172,23 @@ public class MetadataUtils {
         IRI swaggerURL = f.createIRI(
                 metadata.getUri().toString() + "/swagger-ui.html");
         metadata.setSwaggerDoc(swaggerURL);
-        addStatement(model, metadata.getUri(), RDFS.SEEALSO, 
+        addStatement(model, metadata.getUri(), RDFS.SEEALSO,
                 metadata.getSwaggerDoc());
-        addIdStatements(model, metadata.getUri(), R3D.REPO_IDENTIFIER, 
+        addIdStatements(model, metadata.getUri(), R3D.REPO_IDENTIFIER,
                 metadata.getRepostoryIdentifier());
         addStatement(model, metadata.getUri(), R3D.INSTITUTION_COUNTRY,
-                    metadata.getInstitutionCountry());
-        addStatement(model,metadata.getUri(), R3D.REPO_LAST_UPDATE,
-                    metadata.getLastUpdate());
-        addStatement(model,metadata.getUri(), R3D.REPO_START_DATE,
-                    metadata.getStartDate());
-        metadata.getCatalogs().stream().forEach((catalog) -> {
-            addStatement(model, metadata.getUri(), R3D.DATA_CATALOG, catalog);
-        });
-        addAgentStatements(model, metadata.getUri(), R3D.INSTITUTION, 
+                metadata.getInstitutionCountry());
+        addStatement(model, metadata.getUri(), R3D.REPO_LAST_UPDATE,
+                metadata.getLastUpdate());
+        addStatement(model, metadata.getUri(), R3D.REPO_START_DATE,
+                metadata.getStartDate());
+        if (metadata.getCatalogs() != null) {
+            metadata.getCatalogs().stream().forEach((catalog) -> {
+                addStatement(model, metadata.getUri(), R3D.DATA_CATALOG,
+                        catalog);
+            });
+        }
+        addAgentStatements(model, metadata.getUri(), R3D.INSTITUTION,
                 metadata.getInstitution());
         return getStatements(model);
     }
@@ -214,19 +217,22 @@ public class MetadataUtils {
         }
         LOGGER.info("Adding catalogy metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.TYPE_CATALOG);
-        addStatement(model,metadata.getUri(), FOAF.HOMEPAGE, 
+        addStatement(model, metadata.getUri(), FOAF.HOMEPAGE,
                 metadata.getHomepage());
-        addStatement(model,metadata.getUri(), DCTERMS.ISSUED,
-                    metadata.getCatalogIssued());
-        addStatement(model,metadata.getUri(), DCTERMS.MODIFIED,
-                    metadata.getCatalogModified());
+        addStatement(model, metadata.getUri(), DCTERMS.ISSUED,
+                metadata.getCatalogIssued());
+        addStatement(model, metadata.getUri(), DCTERMS.MODIFIED,
+                metadata.getCatalogModified());
         metadata.getThemeTaxonomys().stream().forEach((themeTax) -> {
-            addStatement(model, metadata.getUri(), DCAT.THEME_TAXONOMY, 
+            addStatement(model, metadata.getUri(), DCAT.THEME_TAXONOMY,
                     themeTax);
         });
-        metadata.getDatasets().stream().forEach((dataset) -> {
-            addStatement(model, metadata.getUri(), DCAT.DATASET, dataset);
-        });
+        if (metadata.getDatasets() != null) {
+            metadata.getDatasets().stream().forEach((dataset) -> {
+                addStatement(model, metadata.getUri(), DCAT.DATASET, dataset);
+            });
+        }
+
         return getStatements(model);
     }
 
@@ -254,24 +260,27 @@ public class MetadataUtils {
         }
         LOGGER.info("Adding dataset metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.TYPE_DATASET);
-        addStatement(model,metadata.getUri(), DCAT.CONTACT_POINT,
-                    metadata.getContactPoint());
-        addStatement(model,metadata.getUri(), DCAT.LANDING_PAGE,
-                    metadata.getLandingPage());
-        addStatement(model,metadata.getUri(), DCTERMS.ISSUED,
-                    metadata.getDatasetIssued());
-        addStatement(model,metadata.getUri(), DCTERMS.MODIFIED,
-                    metadata.getDatasetModified());
+        addStatement(model, metadata.getUri(), DCAT.CONTACT_POINT,
+                metadata.getContactPoint());
+        addStatement(model, metadata.getUri(), DCAT.LANDING_PAGE,
+                metadata.getLandingPage());
+        addStatement(model, metadata.getUri(), DCTERMS.ISSUED,
+                metadata.getDatasetIssued());
+        addStatement(model, metadata.getUri(), DCTERMS.MODIFIED,
+                metadata.getDatasetModified());
         metadata.getThemes().stream().forEach((theme) -> {
             addStatement(model, metadata.getUri(), DCAT.THEME, theme);
         });
         metadata.getKeywords().stream().forEach((keyword) -> {
             addStatement(model, metadata.getUri(), DCAT.KEYWORD, keyword);
         });
-        metadata.getDistributions().stream().forEach((distribution) -> {
-            addStatement(model, metadata.getUri(), DCAT.DISTRIBUTION, 
-                    distribution);
-        });
+        if (metadata.getDistributions() != null) {
+            metadata.getDistributions().stream().forEach((distribution) -> {
+                addStatement(model, metadata.getUri(), DCAT.DISTRIBUTION,
+                        distribution);
+            });
+        }
+
         return getStatements(model);
     }
 
@@ -296,22 +305,22 @@ public class MetadataUtils {
             throw (new MetadataException(errMsg));
         }
         LOGGER.info("Adding distrubution metadata properties to the rdf model");
-        addStatement(model, metadata.getUri(), RDF.TYPE, 
+        addStatement(model, metadata.getUri(), RDF.TYPE,
                 DCAT.TYPE_DISTRIBUTION);
-        addStatement(model, metadata.getUri(), DCAT.ACCESS_URL, 
+        addStatement(model, metadata.getUri(), DCAT.ACCESS_URL,
                 metadata.getAccessURL());
         addStatement(model, metadata.getUri(), DCAT.DOWNLOAD_URL,
-                    metadata.getDownloadURL());
+                metadata.getDownloadURL());
         addStatement(model, metadata.getUri(), DCTERMS.ISSUED,
-                    metadata.getDistributionIssued());
+                metadata.getDistributionIssued());
         addStatement(model, metadata.getUri(), DCTERMS.MODIFIED,
-                    metadata.getDistributionModified());
-        addStatement(model,metadata.getUri(), DCAT.BYTE_SIZE,
-                    metadata.getByteSize());
-        addStatement(model, metadata.getUri(), DCAT.FORMAT, 
+                metadata.getDistributionModified());
+        addStatement(model, metadata.getUri(), DCAT.BYTE_SIZE,
+                metadata.getByteSize());
+        addStatement(model, metadata.getUri(), DCAT.FORMAT,
                 metadata.getFormat());
         addStatement(model, metadata.getUri(), DCAT.MEDIA_TYPE,
-                    metadata.getMediaType());
+                metadata.getMediaType());
         return getStatements(model);
     }
 
@@ -335,16 +344,16 @@ public class MetadataUtils {
         }
 
         LOGGER.info("Adding dataRecord metadata properties to the rdf model");
-        addStatement(model, metadata.getUri(), RDF.TYPE, 
+        addStatement(model, metadata.getUri(), RDF.TYPE,
                 DCAT.TYPE_DISTRIBUTION);
-        addStatement(model,metadata.getUri(), FDP.RML_MAPPING, 
+        addStatement(model, metadata.getUri(), FDP.RML_MAPPING,
                 metadata.getRmlURI());
-        addStatement(model,metadata.getUri(), FDP.REFERS_TO,
-                    metadata.getDistributionURI());
-        addStatement(model,metadata.getUri(), DCTERMS.ISSUED,
-                    metadata.getDataRecordIssued());
-        addStatement(model,metadata.getUri(), DCTERMS.MODIFIED,
-                    metadata.getDataRecordModified());
+        addStatement(model, metadata.getUri(), FDP.REFERS_TO,
+                metadata.getDistributionURI());
+        addStatement(model, metadata.getUri(), DCTERMS.ISSUED,
+                metadata.getDataRecordIssued());
+        addStatement(model, metadata.getUri(), DCTERMS.MODIFIED,
+                metadata.getDataRecordModified());
         return getStatements(model);
     }
 
@@ -367,33 +376,33 @@ public class MetadataUtils {
      */
     private static void setCommonProperties(Model model, Metadata metadata) {
         LOGGER.info("Adding common metadata properties to the  rdf model");
-        addStatement(model, metadata.getUri(), DCTERMS.TITLE, 
+        addStatement(model, metadata.getUri(), DCTERMS.TITLE,
                 metadata.getTitle());
         addStatement(model, metadata.getUri(), RDFS.LABEL, metadata.getTitle());
         addStatement(model, metadata.getUri(), DCTERMS.HAS_VERSION,
                 metadata.getVersion());
         addStatement(model, metadata.getUri(), FDP.METADATA_ISSUED,
-                    metadata.getIssued());
-        addIdStatements(model, metadata.getUri(), FDP.METADATA_IDENTIFIER, 
+                metadata.getIssued());
+        addIdStatements(model, metadata.getUri(), FDP.METADATA_IDENTIFIER,
                 metadata.getIdentifier());
-        addAccessRightsStatements(model, metadata.getUri(), 
+        addAccessRightsStatements(model, metadata.getUri(),
                 DCTERMS.ACCESS_RIGHTS, metadata.getAccessRights());
         addStatement(model, metadata.getUri(), FDP.METADATA_MODIFIED,
-                    metadata.getModified());
-        addStatement(model,metadata.getUri(), DCTERMS.LANGUAGE,
-                    metadata.getLanguage());
-        addAgentStatements(model, metadata.getUri(), DCTERMS.PUBLISHER, 
+                metadata.getModified());
+        addStatement(model, metadata.getUri(), DCTERMS.LANGUAGE,
+                metadata.getLanguage());
+        addAgentStatements(model, metadata.getUri(), DCTERMS.PUBLISHER,
                 metadata.getPublisher());
         addStatement(model, metadata.getUri(), DCTERMS.LANGUAGE,
-                    metadata.getLanguage());
+                metadata.getLanguage());
         addStatement(model, metadata.getUri(), DCTERMS.DESCRIPTION,
-                    metadata.getDescription());
+                metadata.getDescription());
         addStatement(model, metadata.getUri(), DCTERMS.LICENSE,
-                    metadata.getLicense());
-        addStatement(model, metadata.getUri(), DCTERMS.RIGHTS, 
+                metadata.getLicense());
+        addStatement(model, metadata.getUri(), DCTERMS.RIGHTS,
                 metadata.getRights());
-        addStatement(model, metadata.getUri(), DCTERMS.IS_PART_OF, 
-                    metadata.getParentURI());
+        addStatement(model, metadata.getUri(), DCTERMS.IS_PART_OF,
+                metadata.getParentURI());
     }
 
     /**
@@ -442,79 +451,81 @@ public class MetadataUtils {
         }
         handler.endRDF();
     }
-    
+
     // We are using this method to reduce the NPath complexity 
     /**
      * Add id instance's rdf statements
+     *
      * @param model
      * @param subj
      * @param pred
-     * @param objc 
+     * @param objc
      */
     private static void addIdStatements(Model model, IRI subj, IRI pred,
             Identifier objc) {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
             addStatement(model, objc.getUri(), RDF.TYPE, objc.getType());
-            addStatement(model, objc.getUri(), DCTERMS.IDENTIFIER, 
+            addStatement(model, objc.getUri(), DCTERMS.IDENTIFIER,
                     objc.getIdentifier());
-        }        
+        }
     }
-    
+
     // We are using this method to reduce the NPath complexity 
     /**
      * Add accessRights rdf statements
+     *
      * @param model
      * @param subj
      * @param pred
-     * @param objc 
+     * @param objc
      */
-    private static void addAccessRightsStatements(Model model, IRI subj, 
+    private static void addAccessRightsStatements(Model model, IRI subj,
             IRI pred, AccessRights objc) {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
-            addStatement(model, objc.getUri(), RDF.TYPE, 
+            addStatement(model, objc.getUri(), RDF.TYPE,
                     DCTERMS.RIGHTS_STATEMENT);
-            addAuthorizationStatements(model, objc.getUri(), DCTERMS.IS_PART_OF, 
+            addAuthorizationStatements(model, objc.getUri(), DCTERMS.IS_PART_OF,
                     objc.getAuthorization());
-        }        
+        }
     }
-    
+
     // We are using this method to reduce the NPath complexity 
     /**
      * Add authorization rdf statements
+     *
      * @param model
      * @param subj
      * @param pred
-     * @param objc 
+     * @param objc
      */
-    private static void addAuthorizationStatements(Model model, IRI subj, 
+    private static void addAuthorizationStatements(Model model, IRI subj,
             IRI pred, Authorization objc) {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
-            addStatement(model, objc.getUri(), RDF.TYPE, 
+            addStatement(model, objc.getUri(), RDF.TYPE,
                     WebAccessControl.AUTHORIZATION);
             objc.getAccessMode().stream().forEach((mode) -> {
                 addStatement(model, objc.getUri(), DCTERMS.IS_PART_OF, mode);
             });
             objc.getAuthorizedAgent().stream().forEach((agent) -> {
-                addAgentStatements(model, objc.getUri(), 
+                addAgentStatements(model, objc.getUri(),
                         WebAccessControl.ACCESS_AGENT, agent);
             });
-        }        
+        }
     }
-    
-    
-    
+
     // We are using this method to reduce the NPath complexity 
     /**
      * Add agent instance's rdf statements
+     *
      * @param model
      * @param subj
      * @param pred
-     * @param objc 
+     * @param objc
      */
-    private static void addAgentStatements(Model model, IRI subj, IRI pred, 
+    private static void addAgentStatements(Model model, IRI subj, IRI pred,
             Agent objc) {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
@@ -525,23 +536,22 @@ public class MetadataUtils {
             } else {
                 addStatement(model, objc.getUri(), FOAF.NAME, objc.getName());
             }
-        }        
+        }
     }
-    
-    
-    
+
     // We are using this method to reduce the NPath complexity 
     /**
      * Add rdf statement
+     *
      * @param model
      * @param subj
      * @param pred
-     * @param objc 
+     * @param objc
      */
     private static void addStatement(Model model, IRI subj, IRI pred, Value objc) {
         if (objc != null) {
             model.add(subj, pred, objc);
-        }        
+        }
     }
 
 }
