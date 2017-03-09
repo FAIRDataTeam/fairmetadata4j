@@ -44,6 +44,7 @@ import org.eclipse.rdf4j.model.vocabulary.FOAF;
 public class Agent {
     
     private IRI uri;
+    private IRI mbox;
     private IRI type = FOAF.AGENT;
     private Literal name;
 
@@ -87,6 +88,20 @@ public class Agent {
      */
     public void setName(Literal name) {
         this.name = name;
+    }
+
+    /**
+     * @return the mbox
+     */
+    public IRI getMbox() {
+        return mbox;
+    }
+
+    /**
+     * @param mbox the mbox to set
+     */
+    public void setMbox(IRI mbox) {
+        this.mbox = mbox;
     }
 
     

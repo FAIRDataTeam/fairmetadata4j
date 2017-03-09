@@ -536,6 +536,12 @@ public class MetadataUtils {
             } else {
                 addStatement(model, objc.getUri(), FOAF.NAME, objc.getName());
             }
+            if (objc.getMbox() == null) {
+                String errMsg = "No mailbox is provided";
+                LOGGER.info(errMsg);
+            } else {
+                addStatement(model, objc.getUri(), FOAF.MBOX, objc.getMbox());
+            }
         }
     }
 

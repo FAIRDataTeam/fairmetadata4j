@@ -86,6 +86,8 @@ public class AgentParser {
                     ValueFactory f = SimpleValueFactory.getInstance();
                     agent.setName(f.createLiteral(object.stringValue(),
                             XMLSchema.STRING));
+                } else if (predicate.equals(FOAF.MBOX)){
+                    agent.setMbox((IRI) object);
                 }
             }
         }
