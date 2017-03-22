@@ -27,7 +27,7 @@
  */
 package nl.dtl.fairmetadata4j.model;
 
-import nl.dtl.fairmetadata4j.utils.vocabulary.DataCite;
+import nl.dtl.fairmetadata4j.utils.vocabulary.DATACITE;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
@@ -41,7 +41,7 @@ import org.eclipse.rdf4j.model.Literal;
  */
 public class Identifier {
     private IRI uri;
-    private IRI type = DataCite.IDENTIFIER;
+    private IRI type = DATACITE.IDENTIFIER;
     private Literal identifier;
 
     /**

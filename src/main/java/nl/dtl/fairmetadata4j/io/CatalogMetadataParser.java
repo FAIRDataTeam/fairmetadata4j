@@ -38,13 +38,13 @@ import java.util.ArrayList;
 
 import nl.dtl.fairmetadata4j.model.CatalogMetadata;
 import nl.dtl.fairmetadata4j.utils.RDFUtils;
-import nl.dtl.fairmetadata4j.utils.vocabulary.DCAT;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCAT;
 import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
@@ -97,7 +97,7 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
                     metadata.setHomepage((IRI) object);
                 } else if (predicate.equals(DCAT.THEME_TAXONOMY)) {
                     metadata.getThemeTaxonomys().add((IRI) object);
-                } else if (predicate.equals(DCAT.DATASET)) {
+                } else if (predicate.equals(DCAT.HAS_DATASET)) {
                     datasets.add((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
                     metadata.setCatalogIssued(f.createLiteral(object.

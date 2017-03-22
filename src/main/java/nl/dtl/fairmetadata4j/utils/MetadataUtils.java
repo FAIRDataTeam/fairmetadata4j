@@ -42,7 +42,6 @@ import nl.dtl.fairmetadata4j.model.DistributionMetadata;
 import nl.dtl.fairmetadata4j.model.FDPMetadata;
 import nl.dtl.fairmetadata4j.model.Identifier;
 import nl.dtl.fairmetadata4j.model.Metadata;
-import nl.dtl.fairmetadata4j.utils.vocabulary.DCAT;
 import nl.dtl.fairmetadata4j.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata4j.utils.vocabulary.R3D;
 import org.apache.logging.log4j.LogManager;
@@ -53,6 +52,7 @@ import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.LinkedHashModel;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCAT;
 import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.OWL;
@@ -76,10 +76,19 @@ import org.eclipse.rdf4j.rio.Rio;
  * @version 0.1
  */
 public class MetadataUtils {
-
-    private static final org.apache.logging.log4j.Logger LOGGER
-            = LogManager.getLogger(MetadataUtils.class);
-
+    public static IRI R3D_INSTITUTIONCOUNTRY = SimpleValueFactory.getInstance()
+            .createIRI(R3D.NAMESPACE, "institutionCountry");
+    public static IRI R3D_LASTUPDATE = SimpleValueFactory.getInstance()
+            .createIRI(R3D.NAMESPACE, "lastUpdate");
+    public static IRI FDP_METADATAISSUED = SimpleValueFactory.getInstance()
+            .createIRI(FDP.NAMESPACE, "metadataIssued");
+    public static IRI FDP_METADATAMODIFIED = SimpleValueFactory.getInstance()
+            .createIRI(FDP.NAMESPACE, "metadataModified");
+    public static IRI FDP_METADATAIDENTIFIER = SimpleValueFactory.getInstance()
+            .createIRI(FDP.NAMESPACE, "metadataIdentifier");
+    
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            LogManager.getLogger(MetadataUtils.class);
     /**
      * Get RDF statements from Metadata object
      *
@@ -165,24 +174,24 @@ public class MetadataUtils {
             throw (new MetadataException(ex.getMessage()));
         }
         ValueFactory f = SimpleValueFactory.getInstance();
-        addStatement(model, metadata.getUri(), RDF.TYPE, R3D.TYPE_REPOSTORY);
+        addStatement(model, metadata.getUri(), RDF.TYPE, R3D.REPOSITORY);
         IRI swaggerURL = f.createIRI(
                 metadata.getUri().toString() + "/swagger-ui.html");
         metadata.setSwaggerDoc(swaggerURL);
         addStatement(model, metadata.getUri(), RDFS.SEEALSO, 
                 metadata.getSwaggerDoc());
-        addIdStatements(model, metadata.getUri(), R3D.REPO_IDENTIFIER, 
+        addIdStatements(model, metadata.getUri(), R3D.REPOSITORYIDENTIFIER, 
                 metadata.getRepostoryIdentifier());
-        addStatement(model, metadata.getUri(), R3D.INSTITUTION_COUNTRY,
+        addStatement(model, metadata.getUri(), R3D_INSTITUTIONCOUNTRY,
                     metadata.getInstitutionCountry());
-        addStatement(model,metadata.getUri(), R3D.REPO_LAST_UPDATE,
+        addStatement(model,metadata.getUri(), R3D_LASTUPDATE,
                     metadata.getLastUpdate());
-        addStatement(model,metadata.getUri(), R3D.REPO_START_DATE,
+        addStatement(model,metadata.getUri(), R3D.STARTDATE,
                     metadata.getStartDate());
         metadata.getCatalogs().stream().forEach((catalog) -> {
-            addStatement(model, metadata.getUri(), R3D.DATA_CATALOG, catalog);
+            addStatement(model, metadata.getUri(), R3D.DATACATALOG, catalog);
         });
-        addAgentStatements(model, metadata.getUri(), R3D.INSTITUTION, 
+        addAgentStatements(model, metadata.getUri(), R3D.HAS_INSTITUTION, 
                 metadata.getInstitution());
         return getStatements(model);
     }
@@ -210,7 +219,7 @@ public class MetadataUtils {
             throw (new MetadataException(ex.getMessage()));
         }
         LOGGER.info("Adding catalogy metadata properties to the rdf model");
-        addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.TYPE_CATALOG);
+        addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.CATALOG);
         addStatement(model,metadata.getUri(), FOAF.HOMEPAGE, 
                 metadata.getHomepage());
         addStatement(model,metadata.getUri(), DCTERMS.ISSUED,
@@ -250,7 +259,7 @@ public class MetadataUtils {
             throw (new MetadataException(ex.getMessage()));
         }
         LOGGER.info("Adding dataset metadata properties to the rdf model");
-        addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.TYPE_DATASET);
+        addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.DATASET);
         addStatement(model,metadata.getUri(), DCAT.CONTACT_POINT,
                     metadata.getContactPoint());
         addStatement(model,metadata.getUri(), DCAT.LANDING_PAGE,
@@ -294,7 +303,7 @@ public class MetadataUtils {
         }
         LOGGER.info("Adding distrubution metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE, 
-                DCAT.TYPE_DISTRIBUTION);
+                DCAT.DISTRIBUTION);
         addStatement(model, metadata.getUri(), DCAT.ACCESS_URL, 
                 metadata.getAccessURL());
         addStatement(model, metadata.getUri(), DCAT.DOWNLOAD_URL,
@@ -305,7 +314,7 @@ public class MetadataUtils {
                     metadata.getDistributionModified());
         addStatement(model,metadata.getUri(), DCAT.BYTE_SIZE,
                     metadata.getByteSize());
-        addStatement(model, metadata.getUri(), DCAT.FORMAT, 
+        addStatement(model, metadata.getUri(), DCTERMS.FORMAT, 
                 metadata.getFormat());
         addStatement(model, metadata.getUri(), DCAT.MEDIA_TYPE,
                     metadata.getMediaType());
@@ -333,10 +342,10 @@ public class MetadataUtils {
 
         LOGGER.info("Adding dataRecord metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE, 
-                DCAT.TYPE_DISTRIBUTION);
-        addStatement(model,metadata.getUri(), FDP.RML_MAPPING, 
+                DCAT.DISTRIBUTION);
+        addStatement(model,metadata.getUri(), FDP.RMLMAPPING, 
                 metadata.getRmlURI());
-        addStatement(model,metadata.getUri(), FDP.REFERS_TO,
+        addStatement(model,metadata.getUri(), FDP.REFERSTO,
                     metadata.getDistributionURI());
         addStatement(model,metadata.getUri(), DCTERMS.ISSUED,
                     metadata.getDataRecordIssued());
@@ -369,11 +378,11 @@ public class MetadataUtils {
         addStatement(model, metadata.getUri(), RDFS.LABEL, metadata.getTitle());
         addStatement(model, metadata.getUri(), DCTERMS.HAS_VERSION,
                 metadata.getVersion());
-        addStatement(model, metadata.getUri(), FDP.METADATA_ISSUED,
+        addStatement(model, metadata.getUri(), FDP_METADATAISSUED,
                     metadata.getIssued());
-        addIdStatements(model, metadata.getUri(), FDP.METADATA_IDENTIFIER, 
+        addIdStatements(model, metadata.getUri(), FDP_METADATAIDENTIFIER, 
                 metadata.getIdentifier());
-        addStatement(model, metadata.getUri(), FDP.METADATA_MODIFIED,
+        addStatement(model, metadata.getUri(), FDP_METADATAMODIFIED,
                     metadata.getModified());
         addStatement(model,metadata.getUri(), DCTERMS.LANGUAGE,
                     metadata.getLanguage());

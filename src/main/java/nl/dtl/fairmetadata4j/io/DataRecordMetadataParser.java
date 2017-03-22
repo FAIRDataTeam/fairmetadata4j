@@ -40,6 +40,7 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCAT;
 import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -87,9 +88,9 @@ public class DataRecordMetadataParser extends
             Value object = st.getObject();
 
             if (subject.equals(dataRecordURI)) {
-                if (predicate.equals(FDP.RML_MAPPING)) {
+                if (predicate.equals(FDP.RMLMAPPING)) {
                     metadata.setRmlURI((IRI) object);
-                } else if (predicate.equals(FDP.REFERS_TO)) {
+                } else if (predicate.equals(FDP.REFERSTO)) {
                     metadata.setDistributionURI((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
                     metadata.setDataRecordIssued(f.createLiteral(object.

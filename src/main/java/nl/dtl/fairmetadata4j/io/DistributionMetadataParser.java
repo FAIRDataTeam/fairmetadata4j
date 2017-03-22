@@ -32,7 +32,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata4j.model.DistributionMetadata;
 import nl.dtl.fairmetadata4j.utils.RDFUtils;
-import nl.dtl.fairmetadata4j.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
@@ -40,6 +39,7 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCAT;
 import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -90,7 +90,7 @@ public class DistributionMetadataParser extends MetadataParser<DistributionMetad
                     metadata.setAccessURL((IRI) object);
                 } else if (predicate.equals(DCAT.DOWNLOAD_URL)) {
                     metadata.setDownloadURL((IRI) object);
-                } else if (predicate.equals(DCAT.FORMAT)) {
+                } else if (predicate.equals(DCTERMS.FORMAT)) {
                     metadata.setFormat(f.createLiteral(object.stringValue(),
                             XMLSchema.STRING));
                 } else if (predicate.equals(DCAT.BYTE_SIZE)) {
