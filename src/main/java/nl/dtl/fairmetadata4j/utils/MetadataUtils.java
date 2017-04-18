@@ -398,6 +398,8 @@ public class MetadataUtils {
                 metadata.getRights());
         addStatement(model, metadata.getUri(), DCTERMS.IS_PART_OF, 
                     metadata.getParentURI());
+        addStatement(model, metadata.getUri(), DCTERMS.CONFORMS_TO, 
+                    metadata.getSpecification());
     }
 
     /**
