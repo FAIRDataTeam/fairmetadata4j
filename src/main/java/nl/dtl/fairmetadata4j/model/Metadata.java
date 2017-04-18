@@ -43,20 +43,6 @@ import org.eclipse.rdf4j.model.Literal;
  */
 public class Metadata {
 
-    /**
-     * @return the specification
-     */
-    public IRI getSpecification() {
-        return specification;
-    }
-
-    /**
-     * @param specification the specification to set
-     */
-    public void setSpecification(IRI specification) {
-        this.specification = specification;
-    }
-
     private Literal title;
     private Identifier identifier;
     private Literal issued;
@@ -236,5 +222,21 @@ public class Metadata {
      */
     public void setPublisher(Agent publisher) {
         this.publisher = publisher;
+    }
+    
+    
+
+    /**
+     * @return the specification
+     */
+    public IRI getSpecification() {
+        return specification;
+    }
+
+    /**
+     * @param specification the specification to set
+     */
+    public void setSpecification(IRI specification) {
+        this.specification = specification;
     }
 }
