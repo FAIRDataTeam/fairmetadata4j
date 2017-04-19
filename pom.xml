@@ -153,7 +153,7 @@
                             <url>https://raw.githubusercontent.com/re3data/ontology/master/r3dOntology.ttl</url>
                         </vocabulary>
                         <vocabulary>
-                            <url>https://raw.githubusercontent.com/DTL-FAIRData/FDP-O/master/fdp-ontology.owl</url>
+                            <url>https://raw.githubusercontent.com/DTL-FAIRData/FDP-O/develop/fdp-ontology.owl</url>
                             <namespace>http://rdf.biosemantics.org/ontologies/fdp-o#</namespace>
                             <prefix>fdp</prefix>
                         </vocabulary>
