@@ -213,7 +213,7 @@ public class MetadataUtils {
         } else if (metadata instanceof CatalogMetadata) {
             stms = getStatements(model, (CatalogMetadata) metadata);
         } else if (metadata instanceof DatasetMetadata) {
-            getStatements((DatasetMetadata) metadata,
+            getStatements(model, (DatasetMetadata) metadata,
                     metadataModel);
         } else if (metadata instanceof DistributionMetadata) {
             stms = getStatements(model, (DistributionMetadata) metadata, 
@@ -226,7 +226,7 @@ public class MetadataUtils {
 
     private static List<Statement> getStatements(Model model, 
             DatasetMetadata metadata, int metadataModel) {
-        if (metadataModel == MetadataModels.SCHEMA_DOC_ORG) {
+        if (metadataModel == MetadataModels.SCHEMA_DOT_ORG) {
             LOGGER.info("Adding schema.org based dataset metadata "
                     + "properties to the rdf model");
             addStatement(model, metadata.getUri(), RDF.TYPE, SCHEMAORG.DATASET);
@@ -254,7 +254,7 @@ public class MetadataUtils {
     
     private static List<Statement> getStatements(Model model, 
             DistributionMetadata metadata, int metadataModel) {
-        if (metadataModel == MetadataModels.SCHEMA_DOC_ORG) {
+        if (metadataModel == MetadataModels.SCHEMA_DOT_ORG) {
             LOGGER.info("Adding schema.org based distribution metadata "
                     + "properties to the rdf model");
             // Add type later on
@@ -607,7 +607,8 @@ public class MetadataUtils {
             Agent objc, int... metadataModel) {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
-            if (metadataModel[0] == MetadataModels.SCHEMA_DOC_ORG) {
+            if (metadataModel.length > 0 && metadataModel[0] == 
+                    MetadataModels.SCHEMA_DOT_ORG) {
                 addStatement(model, objc.getUri(), SCHEMAORG.URL,
                         objc.getUri());
                 if (objc.getName() != null) {

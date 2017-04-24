@@ -37,6 +37,6 @@ package nl.dtl.fairmetadata4j.utils;
  */
 public class MetadataModels {
     
-    public static int SCHEMA_DOC_ORG = 1;
+    public static int SCHEMA_DOT_ORG = 1;
     
 }
