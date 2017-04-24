@@ -89,7 +89,11 @@ public class MetadataUtils {
     public static IRI FDP_METADATAIDENTIFIER = SimpleValueFactory.getInstance()
             .createIRI(FDP.NAMESPACE, "metadataIdentifier");
     public static IRI SCHEMAORG_FILE_FORMAT = SimpleValueFactory.getInstance()
-            .createIRI(SCHEMAORG.NAMESPACE, "encodingFormat");
+            .createIRI(SCHEMAORG.NAMESPACE, "encodingFormat");    
+    public static IRI SCHEMAORG_PERSON = SimpleValueFactory.getInstance()
+            .createIRI(SCHEMAORG.NAMESPACE, "Person");;
+    public static IRI SCHEMAORG_ORGANIZATION = SimpleValueFactory.getInstance()
+            .createIRI(SCHEMAORG.NAMESPACE, "Organization");;
 
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataUtils.class);
@@ -613,6 +617,14 @@ public class MetadataUtils {
                 if (objc.getName() != null) {
                     addStatement(model, objc.getUri(), SCHEMAORG.NAME,
                             objc.getName());
+                }
+                if (objc.getType() == FOAF.PERSON) {
+                    addStatement(model, objc.getUri(), RDF.TYPE,
+                            SCHEMAORG_PERSON);
+                }
+                else if (objc.getType() == FOAF.ORGANIZATION) {
+                    addStatement(model, objc.getUri(), RDF.TYPE,
+                            SCHEMAORG_ORGANIZATION);
                 }
             } else {
                 addStatement(model, objc.getUri(), RDF.TYPE, objc.getType());

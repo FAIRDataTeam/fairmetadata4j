@@ -549,7 +549,7 @@ public class MetadataUtilsTest {
         DatasetMetadata metadata = parser.parse(stmts , dURI);
         String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
                 MetadataModels.SCHEMA_DOT_ORG);
-        assertTrue(out.isEmpty());
+        assertTrue(!out.isEmpty());
     }
     
     /**
@@ -568,6 +568,6 @@ public class MetadataUtilsTest {
         DistributionMetadata metadata = parser.parse(stmts , disURI);             
         String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
                 MetadataModels.SCHEMA_DOT_ORG);
-        assertTrue(out.isEmpty());
+        assertTrue(!out.isEmpty());
     }   
 }
