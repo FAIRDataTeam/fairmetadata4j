@@ -213,7 +213,7 @@ public class MetadataUtils {
         } else if (metadata instanceof CatalogMetadata) {
             stms = getStatements(model, (CatalogMetadata) metadata);
         } else if (metadata instanceof DatasetMetadata) {
-            getStatements(model, (DatasetMetadata) metadata,
+            stms = getStatements(model, (DatasetMetadata) metadata,
                     metadataModel);
         } else if (metadata instanceof DistributionMetadata) {
             stms = getStatements(model, (DistributionMetadata) metadata, 
