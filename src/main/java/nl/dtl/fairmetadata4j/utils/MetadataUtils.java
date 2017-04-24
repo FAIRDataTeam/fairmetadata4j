@@ -176,8 +176,7 @@ public class MetadataUtils {
         Preconditions.checkNotNull(format, "RDF format must not be null.");
         StringWriter sw = new StringWriter();
         RDFWriter writer = Rio.createWriter(format, sw);
-        List<Statement> statement = getStatements((DatasetMetadata) metadata,
-                metadataModel);
+        List<Statement> statement = getStatements(metadata, metadataModel);
         try {
             propagateToHandler(statement, writer);
         } catch (RepositoryException | RDFHandlerException ex) {
@@ -243,7 +242,7 @@ public class MetadataUtils {
             addStatement(model, metadata.getUri(),
                     SCHEMAORG.INCLUDEDINDATACATALOG, metadata.getRights());
             addAgentStatements(model, metadata.getUri(), SCHEMAORG.CREATOR,
-                    metadata.getPublisher());
+                    metadata.getPublisher(), metadataModel);
             metadata.getDistributions().stream().forEach((distribution) -> {
                 addStatement(model, metadata.getUri(), SCHEMAORG.DISTRIBUTION,
                         distribution);
@@ -273,7 +272,7 @@ public class MetadataUtils {
             addStatement(model, metadata.getUri(), SCHEMAORG.CONTENTLOCATION,
                     contentLocation);
             addAgentStatements(model, metadata.getUri(), SCHEMAORG.CREATOR,
-                    metadata.getPublisher());
+                    metadata.getPublisher(), metadataModel);
         }
         return getStatements(model);
     }

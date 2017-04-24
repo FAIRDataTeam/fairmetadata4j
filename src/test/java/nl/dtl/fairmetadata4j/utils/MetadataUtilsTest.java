@@ -532,4 +532,42 @@ public class MetadataUtilsTest {
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE);
         assertFalse(out.isEmpty());
     }    
+    
+    /**
+     * This test is excepted to pass 
+     *
+     * @throws Exception 
+     */
+    @Test
+    public void testGetDatasetSchemaDotOrgString() throws Exception {
+        System.out.println("Test : Valid dataset metadata tranformation");
+        DatasetMetadataParser parser = new DatasetMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DATASET_METADATA_FILE, 
+                        ExampleFilesUtils.DATASET_URI.toString());        
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
+        DatasetMetadata metadata = parser.parse(stmts , dURI);
+        String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
+                MetadataModels.SCHEMA_DOT_ORG);
+        assertTrue(out.isEmpty());
+    }
+    
+    /**
+     * This test is excepted to pass 
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testGetDIstributionSchemaDotOrgString() throws Exception {        
+        System.out.println("Test : Valid distribution metadata");
+        DistributionMetadataParser parser = new DistributionMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
+        DistributionMetadata metadata = parser.parse(stmts , disURI);             
+        String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
+                MetadataModels.SCHEMA_DOT_ORG);
+        assertTrue(out.isEmpty());
+    }   
 }
