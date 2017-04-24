@@ -82,21 +82,12 @@ public class MetadataUtils {
             .createIRI(R3D.NAMESPACE, "institutionCountry");
     public static IRI R3D_LASTUPDATE = SimpleValueFactory.getInstance()
             .createIRI(R3D.NAMESPACE, "lastUpdate");
-    public static IRI FDP_METADATAISSUED = SimpleValueFactory.getInstance()
-            .createIRI(FDP.NAMESPACE, "metadataIssued");
-    public static IRI FDP_METADATAMODIFIED = SimpleValueFactory.getInstance()
-            .createIRI(FDP.NAMESPACE, "metadataModified");
-    public static IRI FDP_METADATAIDENTIFIER = SimpleValueFactory.getInstance()
-            .createIRI(FDP.NAMESPACE, "metadataIdentifier");
     public static IRI SCHEMAORG_FILE_FORMAT = SimpleValueFactory.getInstance()
             .createIRI(SCHEMAORG.NAMESPACE, "encodingFormat");
     public static IRI SCHEMAORG_PERSON = SimpleValueFactory.getInstance()
             .createIRI(SCHEMAORG.NAMESPACE, "Person");
-    ;
     public static IRI SCHEMAORG_ORGANIZATION = SimpleValueFactory.getInstance()
             .createIRI(SCHEMAORG.NAMESPACE, "Organization");
-    ;
-
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataUtils.class);
 
@@ -464,11 +455,11 @@ public class MetadataUtils {
         addStatement(model, metadata.getUri(), RDFS.LABEL, metadata.getTitle());
         addStatement(model, metadata.getUri(), DCTERMS.HAS_VERSION,
                 metadata.getVersion());
-        addStatement(model, metadata.getUri(), FDP_METADATAISSUED,
+        addStatement(model, metadata.getUri(), FDP.METADATAISSUED,
                 metadata.getIssued());
-        addIdStatements(model, metadata.getUri(), FDP_METADATAIDENTIFIER,
+        addIdStatements(model, metadata.getUri(), FDP.METADATAIDENTIFIER,
                 metadata.getIdentifier());
-        addStatement(model, metadata.getUri(), FDP_METADATAMODIFIED,
+        addStatement(model, metadata.getUri(), FDP.METADATAMODIFIED,
                 metadata.getModified());
         addStatement(model, metadata.getUri(), DCTERMS.LANGUAGE,
                 metadata.getLanguage());

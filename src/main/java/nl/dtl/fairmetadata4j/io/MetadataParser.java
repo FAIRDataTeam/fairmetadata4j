@@ -26,16 +26,10 @@
  * and open the template in the editor.
  */
 package nl.dtl.fairmetadata4j.io;
-
-import static nl.dtl.fairmetadata4j.utils.MetadataUtils.FDP_METADATAIDENTIFIER;
-import static nl.dtl.fairmetadata4j.utils.MetadataUtils.FDP_METADATAISSUED;
-import static nl.dtl.fairmetadata4j.utils.MetadataUtils.FDP_METADATAMODIFIED;
-
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
-
 import nl.dtl.fairmetadata4j.model.Metadata;
+import nl.dtl.fairmetadata4j.utils.vocabulary.FDP;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
@@ -101,14 +95,14 @@ public abstract class MetadataParser<T extends Metadata> {
                 } else if (predicate.equals(DCTERMS.PUBLISHER)) {
                     metadata.setPublisher(AgentParser.parse(statements,
                             (IRI) object));
-                } else if (predicate.equals(FDP_METADATAIDENTIFIER)) {
+                } else if (predicate.equals(FDP.METADATAIDENTIFIER)) {
                     metadata.setIdentifier(IdentifierParser.parse(statements,
                             (IRI) object));
-                } else if (predicate.equals(FDP_METADATAISSUED)
+                } else if (predicate.equals(FDP.METADATAISSUED)
                         && metadata.getIssued() == null) {
                     metadata.setIssued(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
-                } else if (predicate.equals(FDP_METADATAMODIFIED)
+                } else if (predicate.equals(FDP.METADATAMODIFIED)
                         && metadata.getModified() == null) {
                     metadata.setModified(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
