@@ -89,78 +89,16 @@ public class MetadataUtils {
     public static IRI FDP_METADATAIDENTIFIER = SimpleValueFactory.getInstance()
             .createIRI(FDP.NAMESPACE, "metadataIdentifier");
     public static IRI SCHEMAORG_FILE_FORMAT = SimpleValueFactory.getInstance()
-            .createIRI(SCHEMAORG.NAMESPACE, "encodingFormat");    
+            .createIRI(SCHEMAORG.NAMESPACE, "encodingFormat");
     public static IRI SCHEMAORG_PERSON = SimpleValueFactory.getInstance()
-            .createIRI(SCHEMAORG.NAMESPACE, "Person");;
+            .createIRI(SCHEMAORG.NAMESPACE, "Person");
+    ;
     public static IRI SCHEMAORG_ORGANIZATION = SimpleValueFactory.getInstance()
-            .createIRI(SCHEMAORG.NAMESPACE, "Organization");;
+            .createIRI(SCHEMAORG.NAMESPACE, "Organization");
+    ;
 
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataUtils.class);
-
-    /**
-     * Get RDF statements from Metadata object
-     *
-     * @param <T>
-     * @param metadata Subclass of metadata object
-     * @return List of RDF statements
-     * @throws MetadataException
-     */
-    public static <T extends Metadata> List<Statement> getStatements(
-            @Nonnull T metadata) throws MetadataException {
-        Preconditions.checkNotNull(metadata,
-                "Metadata object must not be null.");
-        try {
-            checkMandatoryProperties(metadata);
-        } catch (NullPointerException ex) {
-            throw (new MetadataException(ex.getMessage()));
-        }
-        Model model = new LinkedHashModel();
-        LOGGER.info("Creating metadata rdf model");
-        setCommonProperties(model, metadata);
-        LOGGER.info("Adding specific metadata properties to the rdf model");
-        List<Statement> stms = null;
-        if (metadata instanceof FDPMetadata) {
-            stms = getStatements(model, (FDPMetadata) metadata);
-        } else if (metadata instanceof CatalogMetadata) {
-            stms = getStatements(model, (CatalogMetadata) metadata);
-        } else if (metadata instanceof DatasetMetadata) {
-            stms = getStatements(model, (DatasetMetadata) metadata);
-        } else if (metadata instanceof DistributionMetadata) {
-            stms = getStatements(model, (DistributionMetadata) metadata);
-        } else if (metadata instanceof DataRecordMetadata) {
-            stms = getStatements(model, (DataRecordMetadata) metadata);
-        }
-        return stms;
-    }
-
-    /**
-     * Convert Metadata object to RDF string
-     *
-     * @param <T>
-     * @param metadata Subclass of metadata object
-     * @param format RDF format
-     * @return RDF string
-     * @throws MetadataException
-     */
-    public static <T extends Metadata> String getString(@Nonnull T metadata,
-            @Nonnull RDFFormat format)
-            throws MetadataException {
-        Preconditions.checkNotNull(metadata,
-                "Metadata object must not be null.");
-        Preconditions.checkNotNull(format, "RDF format must not be null.");
-
-        StringWriter sw = new StringWriter();
-        RDFWriter writer = Rio.createWriter(format, sw);
-        List<Statement> statement = getStatements(metadata);
-        try {
-            propagateToHandler(statement, writer);
-        } catch (RepositoryException | RDFHandlerException ex) {
-            LOGGER.error("Error reading RDF statements");
-            throw (new MetadataException(ex.getMessage()));
-        }
-        return sw.toString();
-    }
 
     /**
      * Convert Metadata object to RDF string for specific model
@@ -173,7 +111,7 @@ public class MetadataUtils {
      * @throws MetadataException
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata,
-            @Nonnull RDFFormat format, int metadataModel)
+            @Nonnull RDFFormat format, int... metadataModel)
             throws MetadataException {
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
@@ -200,7 +138,8 @@ public class MetadataUtils {
      * @throws MetadataException
      */
     public static <T extends Metadata> List<Statement> getStatements(
-            @Nonnull T metadata, int metadataModel) throws MetadataException {
+            @Nonnull T metadata, int... metadataModel) throws 
+            MetadataException {
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
         try {
@@ -211,23 +150,41 @@ public class MetadataUtils {
         Model model = new LinkedHashModel();
         LOGGER.info("Creating metadata rdf model");
         List<Statement> stms = null;
-        if (metadata instanceof FDPMetadata) {
-            stms = getStatements(model, (FDPMetadata) metadata);
-        } else if (metadata instanceof CatalogMetadata) {
-            stms = getStatements(model, (CatalogMetadata) metadata);
-        } else if (metadata instanceof DatasetMetadata) {
-            stms = getStatements(model, (DatasetMetadata) metadata,
-                    metadataModel);
-        } else if (metadata instanceof DistributionMetadata) {
-            stms = getStatements(model, (DistributionMetadata) metadata, 
-                    metadataModel);
-        } else if (metadata instanceof DataRecordMetadata) {
-            stms = getStatements(model, (DataRecordMetadata) metadata);
+        if (metadataModel.length > 0 && metadataModel[0]
+                == MetadataModels.SCHEMA_DOT_ORG) {
+            if (metadata instanceof FDPMetadata) {
+                stms = getStatements(model, (FDPMetadata) metadata);
+            } else if (metadata instanceof CatalogMetadata) {
+                stms = getStatements(model, (CatalogMetadata) metadata);
+            } else if (metadata instanceof DatasetMetadata) {
+                stms = getStatements(model, (DatasetMetadata) metadata,
+                        MetadataModels.SCHEMA_DOT_ORG);
+            } else if (metadata instanceof DistributionMetadata) {
+                stms = getStatements(model, (DistributionMetadata) metadata,
+                        MetadataModels.SCHEMA_DOT_ORG);
+            } else if (metadata instanceof DataRecordMetadata) {
+                stms = getStatements(model, (DataRecordMetadata) metadata);
+            }
+        } else {
+            setCommonProperties(model, metadata);
+            LOGGER.info("Adding specific metadata properties to the rdf model");
+            if (metadata instanceof FDPMetadata) {
+                stms = getStatements(model, (FDPMetadata) metadata);
+            } else if (metadata instanceof CatalogMetadata) {
+                stms = getStatements(model, (CatalogMetadata) metadata);
+            } else if (metadata instanceof DatasetMetadata) {
+                stms = getStatements(model, (DatasetMetadata) metadata);
+            } else if (metadata instanceof DistributionMetadata) {
+                stms = getStatements(model, (DistributionMetadata) metadata);
+            } else if (metadata instanceof DataRecordMetadata) {
+                stms = getStatements(model, (DataRecordMetadata) metadata);
+            }
+
         }
         return stms;
     }
 
-    private static List<Statement> getStatements(Model model, 
+    private static List<Statement> getStatements(Model model,
             DatasetMetadata metadata, int metadataModel) {
         if (metadataModel == MetadataModels.SCHEMA_DOT_ORG) {
             LOGGER.info("Adding schema.org based dataset metadata "
@@ -254,8 +211,8 @@ public class MetadataUtils {
         }
         return getStatements(model);
     }
-    
-    private static List<Statement> getStatements(Model model, 
+
+    private static List<Statement> getStatements(Model model,
             DistributionMetadata metadata, int metadataModel) {
         if (metadataModel == MetadataModels.SCHEMA_DOT_ORG) {
             LOGGER.info("Adding schema.org based distribution metadata "
@@ -270,7 +227,7 @@ public class MetadataUtils {
             addStatement(model, metadata.getUri(), SCHEMAORG_FILE_FORMAT,
                     metadata.getMediaType());
             IRI contentLocation = metadata.getDownloadURL();
-            if(metadata.getAccessURL() != null) {
+            if (metadata.getAccessURL() != null) {
                 contentLocation = metadata.getAccessURL();
             }
             addStatement(model, metadata.getUri(), SCHEMAORG.CONTENTLOCATION,
@@ -610,8 +567,8 @@ public class MetadataUtils {
             Agent objc, int... metadataModel) {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
-            if (metadataModel.length > 0 && metadataModel[0] == 
-                    MetadataModels.SCHEMA_DOT_ORG) {
+            if (metadataModel.length > 0 && metadataModel[0]
+                    == MetadataModels.SCHEMA_DOT_ORG) {
                 addStatement(model, objc.getUri(), SCHEMAORG.URL,
                         objc.getUri());
                 if (objc.getName() != null) {
@@ -621,8 +578,7 @@ public class MetadataUtils {
                 if (objc.getType() == FOAF.PERSON) {
                     addStatement(model, objc.getUri(), RDF.TYPE,
                             SCHEMAORG_PERSON);
-                }
-                else if (objc.getType() == FOAF.ORGANIZATION) {
+                } else if (objc.getType() == FOAF.ORGANIZATION) {
                     addStatement(model, objc.getUri(), RDF.TYPE,
                             SCHEMAORG_ORGANIZATION);
                 }
