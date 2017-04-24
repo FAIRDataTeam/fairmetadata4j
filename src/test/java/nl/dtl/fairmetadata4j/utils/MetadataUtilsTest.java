@@ -548,7 +548,7 @@ public class MetadataUtilsTest {
         IRI dURI = ExampleFilesUtils.DATASET_URI;
         DatasetMetadata metadata = parser.parse(stmts , dURI);
         String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
-                MetadataModels.SCHEMA_DOT_ORG);
+                MetadataUtils.SCHEMA_DOT_ORG);
         assertTrue(!out.isEmpty());
     }
     
@@ -567,7 +567,7 @@ public class MetadataUtilsTest {
         IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         DistributionMetadata metadata = parser.parse(stmts , disURI);             
         String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
-                MetadataModels.SCHEMA_DOT_ORG);
+                MetadataUtils.SCHEMA_DOT_ORG);
         assertTrue(!out.isEmpty());
     }   
 }

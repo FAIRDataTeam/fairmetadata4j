@@ -90,6 +90,10 @@ public class MetadataUtils {
             .createIRI(SCHEMAORG.NAMESPACE, "Organization");
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataUtils.class);
+    /**
+     * To get metadata content according to schema.org vocabary
+     */
+    public static final int SCHEMA_DOT_ORG = 1;
 
     /**
      * Convert Metadata object to RDF string for specific model
@@ -142,17 +146,17 @@ public class MetadataUtils {
         LOGGER.info("Creating metadata rdf model");
         List<Statement> stms = null;
         if (metadataModel.length > 0 && metadataModel[0]
-                == MetadataModels.SCHEMA_DOT_ORG) {
+                == MetadataUtils.SCHEMA_DOT_ORG) {
             if (metadata instanceof FDPMetadata) {
                 stms = getStatements(model, (FDPMetadata) metadata);
             } else if (metadata instanceof CatalogMetadata) {
                 stms = getStatements(model, (CatalogMetadata) metadata);
             } else if (metadata instanceof DatasetMetadata) {
                 stms = getStatements(model, (DatasetMetadata) metadata,
-                        MetadataModels.SCHEMA_DOT_ORG);
+                        MetadataUtils.SCHEMA_DOT_ORG);
             } else if (metadata instanceof DistributionMetadata) {
                 stms = getStatements(model, (DistributionMetadata) metadata,
-                        MetadataModels.SCHEMA_DOT_ORG);
+                        MetadataUtils.SCHEMA_DOT_ORG);
             } else if (metadata instanceof DataRecordMetadata) {
                 stms = getStatements(model, (DataRecordMetadata) metadata);
             }
@@ -177,7 +181,7 @@ public class MetadataUtils {
 
     private static List<Statement> getStatements(Model model,
             DatasetMetadata metadata, int metadataModel) {
-        if (metadataModel == MetadataModels.SCHEMA_DOT_ORG) {
+        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG) {
             LOGGER.info("Adding schema.org based dataset metadata "
                     + "properties to the rdf model");
             addStatement(model, metadata.getUri(), RDF.TYPE, SCHEMAORG.DATASET);
@@ -205,7 +209,7 @@ public class MetadataUtils {
 
     private static List<Statement> getStatements(Model model,
             DistributionMetadata metadata, int metadataModel) {
-        if (metadataModel == MetadataModels.SCHEMA_DOT_ORG) {
+        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG) {
             LOGGER.info("Adding schema.org based distribution metadata "
                     + "properties to the rdf model");
             // Add type later on
@@ -559,7 +563,7 @@ public class MetadataUtils {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
             if (metadataModel.length > 0 && metadataModel[0]
-                    == MetadataModels.SCHEMA_DOT_ORG) {
+                    == MetadataUtils.SCHEMA_DOT_ORG) {
                 addStatement(model, objc.getUri(), SCHEMAORG.URL,
                         objc.getUri());
                 if (objc.getName() != null) {
