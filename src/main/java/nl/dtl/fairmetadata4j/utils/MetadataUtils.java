@@ -77,17 +77,6 @@ import org.eclipse.rdf4j.rio.Rio;
  * @version 0.1
  */
 public class MetadataUtils {
-
-    public static IRI R3D_INSTITUTIONCOUNTRY = SimpleValueFactory.getInstance()
-            .createIRI(R3D.NAMESPACE, "institutionCountry");
-    public static IRI R3D_LASTUPDATE = SimpleValueFactory.getInstance()
-            .createIRI(R3D.NAMESPACE, "lastUpdate");
-    public static IRI SCHEMAORG_FILE_FORMAT = SimpleValueFactory.getInstance()
-            .createIRI(SCHEMAORG.NAMESPACE, "encodingFormat");
-    public static IRI SCHEMAORG_PERSON = SimpleValueFactory.getInstance()
-            .createIRI(SCHEMAORG.NAMESPACE, "Person");
-    public static IRI SCHEMAORG_ORGANIZATION = SimpleValueFactory.getInstance()
-            .createIRI(SCHEMAORG.NAMESPACE, "Organization");
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataUtils.class);
     /**
@@ -219,7 +208,8 @@ public class MetadataUtils {
                     metadata.getDescription());
             addStatement(model, metadata.getUri(), SCHEMAORG.URL,
                     metadata.getUri());
-            addStatement(model, metadata.getUri(), SCHEMAORG_FILE_FORMAT,
+            addStatement(model, metadata.getUri(), 
+                    nl.dtl.fairmetadata4j.utils.SCHEMAORG.FILE_FORMAT,
                     metadata.getMediaType());
             IRI contentLocation = metadata.getDownloadURL();
             if (metadata.getAccessURL() != null) {
@@ -262,9 +252,11 @@ public class MetadataUtils {
                 metadata.getSwaggerDoc());
         addIdStatements(model, metadata.getUri(), R3D.REPOSITORYIDENTIFIER,
                 metadata.getRepostoryIdentifier());
-        addStatement(model, metadata.getUri(), R3D_INSTITUTIONCOUNTRY,
+        addStatement(model, metadata.getUri(), 
+                nl.dtl.fairmetadata4j.utils.R3D.INSTITUTIONCOUNTRY,
                 metadata.getInstitutionCountry());
-        addStatement(model, metadata.getUri(), R3D_LASTUPDATE,
+        addStatement(model, metadata.getUri(), 
+                nl.dtl.fairmetadata4j.utils.R3D.LASTUPDATE,
                 metadata.getLastUpdate());
         addStatement(model, metadata.getUri(), R3D.STARTDATE,
                 metadata.getStartDate());
@@ -572,10 +564,10 @@ public class MetadataUtils {
                 }
                 if (objc.getType() == FOAF.PERSON) {
                     addStatement(model, objc.getUri(), RDF.TYPE,
-                            SCHEMAORG_PERSON);
+                            nl.dtl.fairmetadata4j.utils.SCHEMAORG.PERSON);
                 } else if (objc.getType() == FOAF.ORGANIZATION) {
                     addStatement(model, objc.getUri(), RDF.TYPE,
-                            SCHEMAORG_ORGANIZATION);
+                            nl.dtl.fairmetadata4j.utils.SCHEMAORG.ORGANIZATION);
                 }
             } else {
                 addStatement(model, objc.getUri(), RDF.TYPE, objc.getType());
