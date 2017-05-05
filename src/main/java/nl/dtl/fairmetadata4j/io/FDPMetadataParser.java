@@ -27,9 +27,6 @@
  */
 package nl.dtl.fairmetadata4j.io;
 
-import static nl.dtl.fairmetadata4j.utils.MetadataUtils.R3D_INSTITUTIONCOUNTRY;
-import static nl.dtl.fairmetadata4j.utils.MetadataUtils.R3D_LASTUPDATE;
-
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,12 +94,14 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
                 } else if (predicate.equals(R3D.REPOSITORYIDENTIFIER)) {
                     metadata.setRepostoryIdentifier(IdentifierParser.parse(
                             statements, (IRI) object));
-                } else if (predicate.equals(R3D_INSTITUTIONCOUNTRY)) {
+                } else if (predicate.equals(nl.dtl.fairmetadata4j.utils.R3D.
+                        INSTITUTIONCOUNTRY)) {
                     metadata.setInstitutionCountry((IRI) object);
                 } else if (predicate.equals(R3D.STARTDATE)) {
                     metadata.setStartDate((f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME)));
-                } else if (predicate.equals(R3D_LASTUPDATE)) {
+                } else if (predicate.equals(nl.dtl.fairmetadata4j.utils.R3D.
+                        LASTUPDATE)) {
                     metadata.setLastUpdate((f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME)));
                 } else if (predicate.equals(R3D.INSTITUTION)) {

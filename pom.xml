@@ -157,6 +157,12 @@
                             <namespace>http://rdf.biosemantics.org/ontologies/fdp-o#</namespace>
                             <prefix>fdp</prefix>
                         </vocabulary>
+                        <vocabulary>
+                            <url>https://schema.org/Dataset.ttl</url>
+                            <namespace>http://schema.org/</namespace>
+                            <prefix>schemaOrg</prefix>
+                        </vocabulary>
+                        
                     </vocabularies>
                 </configuration>
             </plugin>
