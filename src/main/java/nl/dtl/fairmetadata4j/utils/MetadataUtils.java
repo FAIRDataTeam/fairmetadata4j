@@ -303,7 +303,7 @@ public class MetadataUtils {
                     themeTax);
         });
         metadata.getDatasets().stream().forEach((dataset) -> {
-            addStatement(model, metadata.getUri(), DCAT.DATASET, dataset);
+            addStatement(model, metadata.getUri(), DCAT.HAS_DATASET, dataset);
         });
         return getStatements(model);
     }
@@ -348,7 +348,7 @@ public class MetadataUtils {
             addStatement(model, metadata.getUri(), DCAT.KEYWORD, keyword);
         });
         metadata.getDistributions().stream().forEach((distribution) -> {
-            addStatement(model, metadata.getUri(), DCAT.DISTRIBUTION,
+            addStatement(model, metadata.getUri(), DCAT.HAS_DISTRIBUTION,
                     distribution);
         });
         return getStatements(model);
