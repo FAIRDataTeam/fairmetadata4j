@@ -418,8 +418,8 @@ public class MetadataUtils {
                 DCAT.DISTRIBUTION);
         addStatement(model, metadata.getUri(), FDP.RMLMAPPING,
                 metadata.getRmlURI());
-        addStatement(model, metadata.getUri(), FDP.REFERSTO,
-                metadata.getDistributionURI());
+        addStatement(model, metadata.getUri(), FDP.RMLINPUTSOURCE,
+                metadata.getRmlInputSourceURI());
         addStatement(model, metadata.getUri(), DCTERMS.ISSUED,
                 metadata.getDataRecordIssued());
         addStatement(model, metadata.getUri(), DCTERMS.MODIFIED,

@@ -381,6 +381,23 @@ public class MetadataUtilsTest {
     }
     
     
+    /**
+     * Test missing rdf statement, this test is excepted to  pass
+     * 
+     */
+    public void testGetDataRecordNoRMLSource() throws Exception {        
+        System.out.println("Test : Missing rml source for  datarecord metadata");
+        DataRecordMetadataParser parser = new DataRecordMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DATARECORD_METADATA_FILE, 
+                        ExampleFilesUtils.DATARECORD_URI.toString());
+        IRI drURI = ExampleFilesUtils.DATARECORD_URI;
+        DataRecordMetadata metadata = parser.parse(stmts , drURI);  
+        metadata.setRmlInputSourceURI(null);
+        MetadataUtils.getStatements(metadata);
+    }
+    
+    
     
     /**
      * Test missing distribution rdf statement, this test is excepted to pass
