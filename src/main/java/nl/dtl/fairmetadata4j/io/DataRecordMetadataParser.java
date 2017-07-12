@@ -90,8 +90,8 @@ public class DataRecordMetadataParser extends
             if (subject.equals(dataRecordURI)) {
                 if (predicate.equals(FDP.RMLMAPPING)) {
                     metadata.setRmlURI((IRI) object);
-                } else if (predicate.equals(FDP.REFERSTO)) {
-                    metadata.setDistributionURI((IRI) object);
+                } else if (predicate.equals(FDP.RMLINPUTSOURCE)) {
+                    metadata.setRmlInputSourceURI((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
                     metadata.setDataRecordIssued(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
