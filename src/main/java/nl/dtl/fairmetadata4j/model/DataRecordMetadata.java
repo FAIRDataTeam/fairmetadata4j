@@ -43,7 +43,7 @@ import org.eclipse.rdf4j.model.Literal;
 public class DataRecordMetadata extends Metadata {
     
     private IRI rmlURI;
-    private IRI distributionURI;
+    private IRI rmlInputSource;
     private Literal dataRecordIssued;
     private Literal dataRecordModified;
 
@@ -62,17 +62,17 @@ public class DataRecordMetadata extends Metadata {
     }
 
     /**
-     * @return the distributionURI
+     * @return the rmlInputSource
      */
-    public IRI getDistributionURI() {
-        return distributionURI;
+    public IRI getRmlInputSourceURI() {
+        return rmlInputSource;
     }
 
     /**
-     * @param distributionURI the distributionURI to set
+     * @param rmlInputSource the rmlInputSource to set
      */
-    public void setDistributionURI(IRI distributionURI) {
-        this.distributionURI = distributionURI;
+    public void setRmlInputSourceURI(IRI rmlInputSource) {
+        this.rmlInputSource = rmlInputSource;
     }
 
     /**
