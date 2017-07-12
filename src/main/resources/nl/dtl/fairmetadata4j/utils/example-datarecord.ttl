@@ -13,8 +13,12 @@
     dct:identifier "dataRecord" ;
     dct:language lang:en  ;
     dct:hasVersion "1.0" ;
+    dct:publisher	<http://dtls.nl> ;
     fdp:rmlMapping <https://git.lumc.nl/biosemantics/ring14-fdp-metadata/raw/bd01b84fb792ae3860fdda646e9cb96a1a11205c/rml/biobank/RING_14_biobank_mapping.ttl> ;
-    fdp:refersTo <http://localhost.com/an-example-distribution>  .
+    fdp:rmlInputSource <http://localhost.com/an-example-distribution>  .
 
 <http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/dataRecord-metadataID> a <http://purl.org/spar/datacite/ResourceIdentifier> ;
 	dct:identifier "dataRecord-metadataID" .
+
+<http://dtls.nl> a foaf:Organization;
+	foaf:name "DTLS"@en.
