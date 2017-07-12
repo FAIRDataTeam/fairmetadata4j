@@ -78,7 +78,7 @@ public class DataRecordMetadataParser extends
                 "Datarecord URI must not be null.");
         Preconditions.checkNotNull(statements,
                 "Datarecord statements must not be null.");
-        LOGGER.info("Parsing distribution metadata");
+        LOGGER.info("Parsing datarecord metadata");
         DataRecordMetadata metadata = super.parse(statements,
                 dataRecordURI);
         ValueFactory f = SimpleValueFactory.getInstance();
