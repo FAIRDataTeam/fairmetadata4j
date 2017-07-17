@@ -79,7 +79,12 @@ public class AgentParser {
 
             if (subject.equals(agentURI)) {
                 if (predicate.equals(RDF.TYPE)) {
-                    agent.setType((IRI) object);
+                    if(object.equals(FOAF.PERSON) || 
+                            object.equals(FOAF.ORGANIZATION) || 
+                            object.equals(FOAF.GROUP)) {
+                      agent.setType((IRI) object);  
+                    }
+                    
                 } else if (predicate.equals(FOAF.NAME)) {
                     ValueFactory f = SimpleValueFactory.getInstance();
                     agent.setName(f.createLiteral(object.stringValue(),
