@@ -74,6 +74,8 @@ public class ExampleFilesUtils {
     public final static IRI FDP_URI = f.createIRI("http://localhost/fdp");
     public final static IRI FDP_METADATA_ID_URI = f.createIRI(
             "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID");
+    public final static IRI FDP_METADATA_PUBLISHER_URI = f.createIRI(
+            "http://dtls.nl");    
     public final static IRI FDP_REPO_ID_URI = f.createIRI(
             "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-repositoryID");
     public final static IRI CATALOG_URI = f.createIRI(FDP_URI.toString() + "/" + 

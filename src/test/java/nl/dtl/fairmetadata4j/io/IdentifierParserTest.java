@@ -27,7 +27,6 @@
  */
 package nl.dtl.fairmetadata4j.io;
 
-import nl.dtl.fairmetadata4j.io.IdentifierParser;
 import java.util.ArrayList;
 import java.util.List;
 import nl.dtl.fairmetadata4j.model.Identifier;

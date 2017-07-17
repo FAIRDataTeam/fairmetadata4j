@@ -8,12 +8,10 @@ package nl.dtl.fairmetadata4j.io;
 import java.util.ArrayList;
 import java.util.List;
 import nl.dtl.fairmetadata4j.model.Agent;
-import nl.dtl.fairmetadata4j.model.Identifier;
 import nl.dtl.fairmetadata4j.utils.ExampleFilesUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
-import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
@@ -120,7 +118,6 @@ public class AgentParserTest {
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
-            Value object = st.getObject();
             if (subject.equals(identifierURI)) {
                 if (predicate.equals(RDF.TYPE)) {
                     ValueFactory f = SimpleValueFactory.getInstance();
