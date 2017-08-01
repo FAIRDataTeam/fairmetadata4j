@@ -162,7 +162,11 @@
                             <namespace>http://schema.org/</namespace>
                             <prefix>schemaOrg</prefix>
                         </vocabulary>
-                        
+                        <vocabulary>
+                            <url>http://schema.org/DataDownload</url>
+                            <namespace>http://schema.org/</namespace>
+                            <prefix>dataDownload</prefix>
+                        </vocabulary>
                     </vocabularies>
                 </configuration>
             </plugin>

@@ -42,6 +42,7 @@ import nl.dtl.fairmetadata4j.model.DistributionMetadata;
 import nl.dtl.fairmetadata4j.model.FDPMetadata;
 import nl.dtl.fairmetadata4j.model.Identifier;
 import nl.dtl.fairmetadata4j.model.Metadata;
+import nl.dtl.fairmetadata4j.utils.vocabulary.DATADOWNLOAD;
 import nl.dtl.fairmetadata4j.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata4j.utils.vocabulary.R3D;
 import nl.dtl.fairmetadata4j.utils.vocabulary.SCHEMAORG;
@@ -208,12 +209,16 @@ public class MetadataUtils {
                     metadata.getDescription());
             addStatement(model, metadata.getUri(), SCHEMAORG.URL,
                     metadata.getUri());
-            addStatement(model, metadata.getUri(), 
-                    nl.dtl.fairmetadata4j.utils.SCHEMAORG.FILE_FORMAT,
-                    metadata.getMediaType());
-            IRI contentLocation = metadata.getDownloadURL();
-            if (metadata.getAccessURL() != null) {
-                contentLocation = metadata.getAccessURL();
+            if (metadata.getMediaType() != null) {
+                addStatement(model, metadata.getUri(), 
+                        nl.dtl.fairmetadata4j.utils.SCHEMAORG.FILE_FORMAT,
+                        metadata.getMediaType());
+            }
+            IRI contentLocation = metadata.getAccessURL();
+            if (metadata.getDownloadURL() != null) {
+                contentLocation = metadata.getDownloadURL();
+                addStatement(model, metadata.getUri(), RDF.TYPE, 
+                        DATADOWNLOAD.DATADOWNLOAD);
             }
             addStatement(model, metadata.getUri(), SCHEMAORG.CONTENTLOCATION,
                     contentLocation);
