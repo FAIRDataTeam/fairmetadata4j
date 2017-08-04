@@ -52,6 +52,7 @@ public class Metadata {
     private IRI license;
     private IRI rights;
     private IRI uri;
+    private IRI specification;
     private IRI parentURI;
     private IRI language;
     private Agent publisher;
@@ -221,5 +222,21 @@ public class Metadata {
      */
     public void setPublisher(Agent publisher) {
         this.publisher = publisher;
+    }
+    
+    
+
+    /**
+     * @return the specification
+     */
+    public IRI getSpecification() {
+        return specification;
+    }
+
+    /**
+     * @param specification the specification to set
+     */
+    public void setSpecification(IRI specification) {
+        this.specification = specification;
     }
 }

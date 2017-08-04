@@ -26,11 +26,8 @@
  * and open the template in the editor.
  */
 package nl.dtl.fairmetadata4j.io;
-
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
-
 import nl.dtl.fairmetadata4j.model.Metadata;
 import nl.dtl.fairmetadata4j.utils.vocabulary.FDP;
 import org.eclipse.rdf4j.model.IRI;
@@ -45,46 +42,46 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
  * An abstract class for metadata parser
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @param <T>
  * @since 2016-09-07
  * @version 0.1
  */
-public abstract class MetadataParser<T extends Metadata>  {
-    
+public abstract class MetadataParser<T extends Metadata> {
+
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataParser.class);
-    
+
     protected abstract T createMetadata();
-    
+
     /**
      * Parse common metadata properties
-     * 
-     * @param statements    List of rdf statements
-     * @param metadataUri   Metadata uri
-     * @return 
+     *
+     * @param statements List of rdf statements
+     * @param metadataUri Metadata uri
+     * @return
      */
-    protected T parse(List<Statement> statements, IRI metadataUri)  {
+    protected T parse(List<Statement> statements, IRI metadataUri) {
         T metadata = createMetadata();
-        
+
         metadata.setUri(metadataUri);
-        
+
         LOGGER.info("Parse common metadata properties");
         ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
             Value object = st.getObject();
-            
+
             if (subject.equals(metadataUri)) {
                 if (predicate.equals(DCTERMS.HAS_VERSION)) {
-                    metadata.setVersion(f.createLiteral(object.stringValue(), 
+                    metadata.setVersion(f.createLiteral(object.stringValue(),
                             XMLSchema.STRING));
-                } else if (predicate.equals(RDFS.LABEL) || 
-                        predicate.equals(DCTERMS.TITLE)) {
-                    metadata.setTitle(f.createLiteral(object.stringValue(), 
+                } else if (predicate.equals(RDFS.LABEL)
+                        || predicate.equals(DCTERMS.TITLE)) {
+                    metadata.setTitle(f.createLiteral(object.stringValue(),
                             XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.DESCRIPTION)) {
                     metadata.setDescription(f.createLiteral(object.
@@ -96,21 +93,23 @@ public abstract class MetadataParser<T extends Metadata>  {
                 } else if (predicate.equals(DCTERMS.LANGUAGE)) {
                     metadata.setLanguage((IRI) object);
                 } else if (predicate.equals(DCTERMS.PUBLISHER)) {
-                    metadata.setPublisher(AgentParser.parse(statements, 
-                            (IRI)object));
-                } else if (predicate.equals(FDP.METADATA_IDENTIFIER)) {
-                    metadata.setIdentifier(IdentifierParser.parse(statements, 
-                            (IRI)object));
-                } else if (predicate.equals(FDP.METADATA_ISSUED) && 
-                        metadata.getIssued() == null) {
+                    metadata.setPublisher(AgentParser.parse(statements,
+                            (IRI) object));
+                } else if (predicate.equals(FDP.METADATAIDENTIFIER)) {
+                    metadata.setIdentifier(IdentifierParser.parse(statements,
+                            (IRI) object));
+                } else if (predicate.equals(FDP.METADATAISSUED)
+                        && metadata.getIssued() == null) {
                     metadata.setIssued(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
-                } else if (predicate.equals(FDP.METADATA_MODIFIED) && 
-                        metadata.getModified() == null) {
+                } else if (predicate.equals(FDP.METADATAMODIFIED)
+                        && metadata.getModified() == null) {
                     metadata.setModified(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.IS_PART_OF)) {
                     metadata.setParentURI((IRI) object);
+                } else if (predicate.equals(DCTERMS.CONFORMS_TO)) {
+                    metadata.setSpecification((IRI) object);
                 }
             }
         }

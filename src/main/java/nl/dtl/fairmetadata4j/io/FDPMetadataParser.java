@@ -89,17 +89,19 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
             if (subject.equals(fdpURI)) {
                 if (predicate.equals(RDFS.SEEALSO)) {
                     metadata.setSwaggerDoc((IRI) object);
-                } else if (predicate.equals(R3D.DATA_CATALOG)) {
+                } else if (predicate.equals(R3D.DATACATALOG)) {
                     catalogs.add((IRI) object);
-                } else if (predicate.equals(R3D.REPO_IDENTIFIER)) {
+                } else if (predicate.equals(R3D.REPOSITORYIDENTIFIER)) {
                     metadata.setRepostoryIdentifier(IdentifierParser.parse(
                             statements, (IRI) object));
-                } else if (predicate.equals(R3D.INSTITUTION_COUNTRY)) {
+                } else if (predicate.equals(nl.dtl.fairmetadata4j.utils.R3D.
+                        INSTITUTIONCOUNTRY)) {
                     metadata.setInstitutionCountry((IRI) object);
-                } else if (predicate.equals(R3D.REPO_START_DATE)) {
+                } else if (predicate.equals(R3D.STARTDATE)) {
                     metadata.setStartDate((f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME)));
-                } else if (predicate.equals(R3D.REPO_LAST_UPDATE)) {
+                } else if (predicate.equals(nl.dtl.fairmetadata4j.utils.R3D.
+                        LASTUPDATE)) {
                     metadata.setLastUpdate((f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME)));
                 } else if (predicate.equals(R3D.INSTITUTION)) {

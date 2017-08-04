@@ -27,7 +27,6 @@
  */
 package nl.dtl.fairmetadata4j.io;
 
-import nl.dtl.fairmetadata4j.io.DatasetMetadataParser;
 import java.util.List;
 import nl.dtl.fairmetadata4j.model.DatasetMetadata;
 import nl.dtl.fairmetadata4j.utils.ExampleFilesUtils;

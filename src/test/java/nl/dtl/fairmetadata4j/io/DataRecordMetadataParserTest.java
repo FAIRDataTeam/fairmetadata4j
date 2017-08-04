@@ -27,7 +27,6 @@
  */
 package nl.dtl.fairmetadata4j.io;
 
-import nl.dtl.fairmetadata4j.io.DataRecordMetadataParser;
 import java.util.List;
 import nl.dtl.fairmetadata4j.model.DataRecordMetadata;
 import nl.dtl.fairmetadata4j.utils.ExampleFilesUtils;
@@ -83,7 +82,7 @@ public class DataRecordMetadataParserTest {
         IRI drURI = ExampleFilesUtils.DATARECORD_URI;
         IRI dURI = ExampleFilesUtils.DATASET_URI;
         parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE), drURI, dURI, 
+                ExampleFilesUtils.DATARECORD_METADATA_FILE), drURI, dURI, 
                 null);
         fail("This test is execpeted to throw an error");
     }
@@ -110,9 +109,9 @@ public class DataRecordMetadataParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullDistributionURI() throws Exception {
-        System.out.println("Test : Missing dataset URL");
+        System.out.println("Test : Missing datarecord URL");
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
-                ExampleFilesUtils.DATASET_METADATA_FILE, 
+                ExampleFilesUtils.DATARECORD_METADATA_FILE, 
                         ExampleFilesUtils.DATASET_URI.toString());
         parser.parse(stmts , null);
        fail("This test is execpeted to throw an error");
@@ -129,7 +128,7 @@ public class DataRecordMetadataParserTest {
         IRI drURI = ExampleFilesUtils.DATARECORD_URI;
         parser.parse(null, drURI);
         fail("This test is execpeted to throw an error");
-    }
+    }    
     
     /**
      * Test valid datarecord rdf statements

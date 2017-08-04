@@ -24,6 +24,7 @@
 	rdfs:label "DTL FAIR Data Point"@en ;
         dct:identifier "fdp-metadataID";
         dct:rights <http://dummy.com/rights>;
+        dct:conformsTo <http://dummy.com/standards>;
         rdfs:seeAlso <http://dummy.com/swagger-ui.html> .
 
 <http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID> a <http://purl.org/spar/datacite/ResourceIdentifier> ;

@@ -77,7 +77,7 @@ public class DataRecordMetadataParser extends
                 "Datarecord URI must not be null.");
         Preconditions.checkNotNull(statements,
                 "Datarecord statements must not be null.");
-        LOGGER.info("Parsing distribution metadata");
+        LOGGER.info("Parsing datarecord metadata");
         DataRecordMetadata metadata = super.parse(statements,
                 dataRecordURI);
         ValueFactory f = SimpleValueFactory.getInstance();
@@ -87,10 +87,10 @@ public class DataRecordMetadataParser extends
             Value object = st.getObject();
 
             if (subject.equals(dataRecordURI)) {
-                if (predicate.equals(FDP.RML_MAPPING)) {
+                if (predicate.equals(FDP.RMLMAPPING)) {
                     metadata.setRmlURI((IRI) object);
-                } else if (predicate.equals(FDP.REFERS_TO)) {
-                    metadata.setDistributionURI((IRI) object);
+                } else if (predicate.equals(FDP.RMLINPUTSOURCE)) {
+                    metadata.setRmlInputSourceURI((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
                     metadata.setDataRecordIssued(f.createLiteral(object.
                             stringValue(), XMLSchema.DATETIME));

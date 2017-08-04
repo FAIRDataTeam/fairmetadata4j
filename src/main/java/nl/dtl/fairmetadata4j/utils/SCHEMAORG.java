@@ -25,29 +25,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.dtl.fairmetadata4j.utils.vocabulary;
+package nl.dtl.fairmetadata4j.utils;
 
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
-
-
 /**
- * DataCite vocabulary.
- * See {@link <a href="http://www.sparontologies.net/ontologies/datacite/source.html">DataCite Vocabulary</a>}.
+ * Class contains missing schema.org properties
  * 
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-29
+ * @since 2017-04-28
  * @version 0.1
  */
-public class DataCite {
+public class SCHEMAORG {    
     
-    private static final ValueFactory f = SimpleValueFactory.getInstance();
-    public static final String PREFIX = "dataCite";        
-    public static final String NAMESPACE = "http://purl.org/spar/datacite/";
-    public static final IRI IDENTIFIER = f.createIRI(NAMESPACE + "Identifier");
-    public static final IRI RESOURCE_IDENTIFIER = 
-            f.createIRI(NAMESPACE + "ResourceIdentifier");
+    public static IRI FILE_FORMAT = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.
+                    SCHEMAORG.NAMESPACE, "encodingFormat");
+    public static IRI PERSON = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.
+                    SCHEMAORG.NAMESPACE, "Person");
+    public static IRI ORGANIZATION = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.
+                    SCHEMAORG.NAMESPACE, "Organization");
+    
 }
