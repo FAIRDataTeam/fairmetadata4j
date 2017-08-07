@@ -142,9 +142,25 @@ public class MetadataUtilsTest {
         fail("This test is execpeted to throw an error");
     }    
     
-    public void testNoTitleWithFlag() {
-        
-    }
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testParseNoTitleStatementWithFlag() throws Exception {
+        System.out.println("Test : Missing title statement");
+        FDPMetadataParser fdpParser = new FDPMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.FDP_METADATA_FILE, 
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
+        FDPMetadata metadata = fdpParser.parse(stmts , fURI);
+        metadata.setTitle(null);    
+        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
+    } 
     
     /**
      * Test missing rdf statement, this test is excepted to throw 
@@ -163,6 +179,26 @@ public class MetadataUtilsTest {
         metadata.setIdentifier(null);    
         MetadataUtils.getStatements(metadata);
         fail("This test is execpeted to throw an error");
+    }
+    
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testParseNoIDStatementWithFlag() throws Exception {
+        System.out.println("Test : Missing ID statement");
+        FDPMetadataParser fdpParser = new FDPMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.FDP_METADATA_FILE, 
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
+        FDPMetadata metadata = fdpParser.parse(stmts , fURI);
+        metadata.setIdentifier(null); 
+        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
     }
     
     /**
@@ -185,6 +221,26 @@ public class MetadataUtilsTest {
     }
     
     /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testParseNoRepostoryIDStatementWithFlag() throws Exception {
+        System.out.println("Test : Missing repostiory ID statement");
+        FDPMetadataParser fdpParser = new FDPMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.FDP_METADATA_FILE, 
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
+        FDPMetadata metadata = fdpParser.parse(stmts , fURI);
+        metadata.setRepostoryIdentifier(null);    
+        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
+    }
+    
+    /**
      * Test missing rdf statement, this test is excepted to throw 
      * an exception
      * @throws Exception 
@@ -201,6 +257,27 @@ public class MetadataUtilsTest {
         metadata.setPublisher(null);    
         MetadataUtils.getStatements(metadata);
         fail("This test is execpeted to throw an error");
+    }
+    
+    
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testParseNoPublisherStatementWithFlag() throws Exception {
+        System.out.println("Test : Missing publisher statement");
+        FDPMetadataParser fdpParser = new FDPMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.FDP_METADATA_FILE, 
+                        ExampleFilesUtils.FDP_URI.toString());
+        IRI fURI = ExampleFilesUtils.FDP_URI;
+        FDPMetadata metadata = fdpParser.parse(stmts , fURI);
+        metadata.setPublisher(null);    
+        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
     }
     
     /**
@@ -305,6 +382,33 @@ public class MetadataUtilsTest {
         fail("This test is execpeted to throw an error");
     }
     
+    
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testParseNoThemeTaxonomyStatementWithFlag() throws Exception {
+        System.out.println("Test : Empty theme taxonomy statement");
+        CatalogMetadataParser parser = new CatalogMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.CATALOG_METADATA_FILE, 
+                        ExampleFilesUtils.CATALOG_URI.toString());
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
+        CatalogMetadata metadata = parser.parse(stmts , cURI);
+        metadata.setThemeTaxonomys(new ArrayList());
+        MetadataUtils.getStatements(metadata);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
+        
+        metadata.setThemeTaxonomys(null);
+        MetadataUtils.getStatements(metadata);
+        excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
+    }
+    
        
     /**
      * Test missing dataset rdf statement, this test is excepted to throw 
@@ -344,6 +448,33 @@ public class MetadataUtilsTest {
         fail("This test is execpeted to throw an error");
     }
     
+    
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testParseEmptyThemeStatementWithFlag() throws Exception {
+        System.out.println("Test : Missing theme statement");
+        DatasetMetadataParser parser = new DatasetMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DATASET_METADATA_FILE, 
+                        ExampleFilesUtils.DATASET_URI.toString());        
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
+        DatasetMetadata metadata = parser.parse(stmts , dURI);
+        metadata.setThemes(new ArrayList());
+        MetadataUtils.getStatements(metadata);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
+        
+        metadata.setThemes(null);
+        MetadataUtils.getStatements(metadata);
+        excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
+    }
+    
     /**
      * Test missing distribution rdf statement, this test is excepted to throw 
      * an exception
@@ -364,6 +495,29 @@ public class MetadataUtilsTest {
         fail("This test is execpeted to throw an error");
     }  
     
+    
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testParseNoDowloadOrAccessStatementWithFlag() throws Exception {        
+        System.out.println("Test : Missing download or access statement");
+        DistributionMetadataParser parser = new DistributionMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
+        IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
+        DistributionMetadata metadata = parser.parse(stmts , disURI);
+        metadata.setAccessURL(null);
+        metadata.setDownloadURL(null);     
+        MetadataUtils.getStatements(metadata);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
+    }  
+    
     /**
      * Test missing rdf statement, this test is excepted to throw 
      * an exception
@@ -381,6 +535,27 @@ public class MetadataUtilsTest {
         metadata.setRmlURI(null);
         MetadataUtils.getStatements(metadata);
         fail("This test is execpeted to throw an error");
+    }
+    
+    
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testGetDataRecordNoRMLURIWithFlag() throws Exception {        
+        System.out.println("Test : Missing rml uri for  datarecord metadata");
+        DataRecordMetadataParser parser = new DataRecordMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DATARECORD_METADATA_FILE, 
+                        ExampleFilesUtils.DATARECORD_URI.toString());
+        IRI drURI = ExampleFilesUtils.DATARECORD_URI;
+        DataRecordMetadata metadata = parser.parse(stmts , drURI);  
+        metadata.setRmlURI(null);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        assertNotNull(excepted);
     }
     
     
