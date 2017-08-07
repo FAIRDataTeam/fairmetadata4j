@@ -140,6 +140,10 @@ public class MetadataUtilsTest {
         metadata.setTitle(null);    
         MetadataUtils.getStatements(metadata);
         fail("This test is execpeted to throw an error");
+    }    
+    
+    public void testNoTitleWithFlag() {
+        
     }
     
     /**
