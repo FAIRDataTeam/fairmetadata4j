@@ -80,10 +80,67 @@ import org.eclipse.rdf4j.rio.Rio;
 public class MetadataUtils {
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataUtils.class);
+    
+    /**
+     * To get metadata content according to dcat vocabary
+     */
+    public static final int DCAT_MODEL = 0;
+    
+    
     /**
      * To get metadata content according to schema.org vocabary
      */
-    public static final int SCHEMA_DOT_ORG = 1;
+    public static final int SCHEMA_DOT_ORG_MODEL = 1;
+    
+    
+    
+    /**
+     * Convert Metadata object to RDF string for specific model
+     *
+     * @param <T>
+     * @param metadata Subclass of metadata object
+     * @param format RDF format
+     * @return RDF string
+     * @throws MetadataException
+     */
+    public static <T extends Metadata> String getString(@Nonnull T metadata,
+            @Nonnull RDFFormat format)
+            throws MetadataException {        
+        return getString(metadata, format, DCAT_MODEL , true);
+    }
+    
+    /**
+     * Convert Metadata object to RDF string for specific model
+     *
+     * @param <T>
+     * @param metadata Subclass of metadata object
+     * @param format RDF format
+     * @param modelType Type of metadata model, default is dcat model
+     * @return RDF string
+     * @throws MetadataException
+     */
+    public static <T extends Metadata> String getString(@Nonnull T metadata,
+            @Nonnull RDFFormat format, int modelType)
+            throws MetadataException {
+        return getString(metadata, format, modelType, true);
+    }
+    
+    /**
+     * Convert Metadata object to RDF string for specific model
+     *
+     * @param <T>
+     * @param metadata Subclass of metadata object
+     * @param format RDF format
+     * @param checkFlag To indicate if mandatory check need to be performed
+     * @return RDF string
+     * @throws MetadataException
+     */
+    public static <T extends Metadata> String getString(@Nonnull T metadata,
+            @Nonnull RDFFormat format, boolean checkFlag)
+            throws MetadataException {
+        return getString(metadata, format, DCAT_MODEL, checkFlag);
+    }
+
 
     /**
      * Convert Metadata object to RDF string for specific model
@@ -92,18 +149,19 @@ public class MetadataUtils {
      * @param metadata Subclass of metadata object
      * @param format RDF format
      * @param metadataModel Type of metadata model
+     * @param checkFlag To indicate if mandatory check need to be performed
      * @return RDF string
      * @throws MetadataException
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata,
-            @Nonnull RDFFormat format, int... metadataModel)
+            @Nonnull RDFFormat format, int metadataModel, boolean checkFlag)
             throws MetadataException {
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
         StringWriter sw = new StringWriter();
         RDFWriter writer = Rio.createWriter(format, sw);
-        List<Statement> statement = getStatements(metadata, metadataModel);
+        List<Statement> statement = getStatements(metadata);
         try {
             propagateToHandler(statement, writer);
         } catch (RepositoryException | RDFHandlerException ex) {
@@ -112,41 +170,92 @@ public class MetadataUtils {
         }
         return sw.toString();
     }
-
+    
     /**
      * Get RDF statements from Metadata object
      *
      * @param <T>
      * @param metadata Subclass of metadata object
-     * @param metadataModel Metadata transformation type
      * @return List of RDF statements
      * @throws MetadataException
      */
     public static <T extends Metadata> List<Statement> getStatements(
-            @Nonnull T metadata, int... metadataModel) throws 
+            @Nonnull T metadata) throws 
+            MetadataException {
+        return getStatements(metadata, DCAT_MODEL, true);
+    }
+    
+    /**
+     * Get RDF statements from Metadata object
+     *
+     * @param <T>
+     * @param metadata Subclass of metadata object
+     * @param metadataModel Metadata model to use
+     * @return List of RDF statements
+     * @throws MetadataException
+     */
+    public static <T extends Metadata> List<Statement> getStatements(
+            @Nonnull T metadata, int metadataModel) throws 
+            MetadataException {
+        return getStatements(metadata, metadataModel, true);
+    }
+    
+    /**
+     * Get RDF statements from Metadata object
+     *
+     * @param <T>
+     * @param metadata Subclass of metadata object
+     * @param checkFlag To indicate if mandatory fields are need to checked
+     * @return List of RDF statements
+     * @throws MetadataException
+     */
+    public static <T extends Metadata> List<Statement> getStatements(
+            @Nonnull T metadata, boolean checkFlag) throws 
+            MetadataException {
+        return getStatements(metadata, DCAT_MODEL, checkFlag);
+    }
+    
+    /**
+     * Get RDF statements from Metadata object
+     *
+     * @param <T>
+     * @param metadata Subclass of metadata object
+     * @param metadataModel Metadata model to use
+     * @param checkFields To indicate if mandatory fields are need to checked
+     * @return List of RDF statements
+     * @throws MetadataException
+     */
+    public static <T extends Metadata> List<Statement> getStatements(
+            @Nonnull T metadata, int metadataModel, boolean checkFields) throws 
             MetadataException {
         Preconditions.checkNotNull(metadata,
-                "Metadata object must not be null.");
+                "Metadata object must not be null.");        
         try {
-            checkMandatoryProperties(metadata);
+            if (checkFields) {
+               checkMandatoryProperties(metadata); 
+            } 
+            else {
+                LOGGER.warn("Mandatory fields check is skipped. The generated "
+                        + "metadata stmts might not be complete");
+            }
+            
         } catch (NullPointerException ex) {
             throw (new MetadataException(ex.getMessage()));
         }
         Model model = new LinkedHashModel();
         LOGGER.info("Creating metadata rdf model");
         List<Statement> stms = null;
-        if (metadataModel.length > 0 && metadataModel[0]
-                == MetadataUtils.SCHEMA_DOT_ORG) {
+        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
             if (metadata instanceof FDPMetadata) {
                 stms = getStatements(model, (FDPMetadata) metadata);
             } else if (metadata instanceof CatalogMetadata) {
                 stms = getStatements(model, (CatalogMetadata) metadata);
             } else if (metadata instanceof DatasetMetadata) {
                 stms = getStatements(model, (DatasetMetadata) metadata,
-                        MetadataUtils.SCHEMA_DOT_ORG);
+                        MetadataUtils.SCHEMA_DOT_ORG_MODEL);
             } else if (metadata instanceof DistributionMetadata) {
                 stms = getStatements(model, (DistributionMetadata) metadata,
-                        MetadataUtils.SCHEMA_DOT_ORG);
+                        MetadataUtils.SCHEMA_DOT_ORG_MODEL);
             } else if (metadata instanceof DataRecordMetadata) {
                 stms = getStatements(model, (DataRecordMetadata) metadata);
             }
@@ -171,7 +280,7 @@ public class MetadataUtils {
 
     private static List<Statement> getStatements(Model model,
             DatasetMetadata metadata, int metadataModel) {
-        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG) {
+        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
             LOGGER.info("Adding schema.org based dataset metadata "
                     + "properties to the rdf model");
             addStatement(model, metadata.getUri(), RDF.TYPE, SCHEMAORG.DATASET);
@@ -199,7 +308,7 @@ public class MetadataUtils {
 
     private static List<Statement> getStatements(Model model,
             DistributionMetadata metadata, int metadataModel) {
-        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG) {
+        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
             LOGGER.info("Adding schema.org based distribution metadata "
                     + "properties to the rdf model");
             // Add type later on
@@ -560,7 +669,7 @@ public class MetadataUtils {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
             if (metadataModel.length > 0 && metadataModel[0]
-                    == MetadataUtils.SCHEMA_DOT_ORG) {
+                    == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
                 addStatement(model, objc.getUri(), SCHEMAORG.URL,
                         objc.getUri());
                 if (objc.getName() != null) {
