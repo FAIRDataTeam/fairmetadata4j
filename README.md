@@ -7,4 +7,3 @@
 ### Summary
 
 Library that provides java utilities for creating and manipulating `FAIR metadata`. Refer to this project's wiki page for more details [link](https://github.com/DTL-FAIRData/fairmetadata4j/wiki)
-
