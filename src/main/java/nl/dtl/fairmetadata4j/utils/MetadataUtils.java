@@ -352,8 +352,6 @@ public class MetadataUtils {
         try {
             Preconditions.checkNotNull(metadata.getRepostoryIdentifier(),
                     "Repostory ID must not be null.");
-            Preconditions.checkNotNull(metadata.getPublisher(),
-                    "Metadata publisher must not be null.");
         } catch (NullPointerException ex) {
             throw (new MetadataException(ex.getMessage()));
         }
@@ -395,8 +393,6 @@ public class MetadataUtils {
             CatalogMetadata metadata)
             throws MetadataException {
         try {
-            Preconditions.checkNotNull(metadata.getPublisher(),
-                    "Metadata publisher must not be null.");
             Preconditions.checkNotNull(metadata.getThemeTaxonomys(),
                     "Metadata dcat:themeTaxonomy must not be null.");
             Preconditions.checkArgument(!metadata.getThemeTaxonomys().isEmpty(),
@@ -435,8 +431,6 @@ public class MetadataUtils {
             DatasetMetadata metadata)
             throws MetadataException {
         try {
-            Preconditions.checkNotNull(metadata.getPublisher(),
-                    "Metadata publisher must not be null.");
             Preconditions.checkNotNull(metadata.getThemes(),
                     "Metadata dcat:theme must not be null.");
             Preconditions.checkArgument(!metadata.getThemes().isEmpty(),
@@ -613,7 +607,9 @@ public class MetadataUtils {
         Preconditions.checkNotNull(metadata.getIssued(),
                 "Metadata issued date must not be null.");
         Preconditions.checkNotNull(metadata.getModified(),
-                "Metadata modified date must not be null.");
+                "Metadata modified date must not be null.");        
+        Preconditions.checkNotNull(metadata.getPublisher(), 
+                "Metadata publisher must not be null.");
     }
 
     private static void propagateToHandler(List<Statement> statements,
