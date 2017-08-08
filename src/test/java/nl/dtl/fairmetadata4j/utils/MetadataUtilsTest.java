@@ -157,8 +157,8 @@ public class MetadataUtilsTest {
                         ExampleFilesUtils.FDP_URI.toString());
         IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
-        metadata.setTitle(null);    
-        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        metadata.setTitle(null);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
     } 
     
@@ -197,7 +197,7 @@ public class MetadataUtilsTest {
         IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         metadata.setIdentifier(null); 
-        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
     }
     
@@ -236,7 +236,7 @@ public class MetadataUtilsTest {
         IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         metadata.setRepostoryIdentifier(null);    
-        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
     }
     
@@ -276,7 +276,7 @@ public class MetadataUtilsTest {
         IRI fURI = ExampleFilesUtils.FDP_URI;
         FDPMetadata metadata = fdpParser.parse(stmts , fURI);
         metadata.setPublisher(null);    
-        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
     }
     
@@ -399,13 +399,11 @@ public class MetadataUtilsTest {
         IRI cURI = ExampleFilesUtils.CATALOG_URI;
         CatalogMetadata metadata = parser.parse(stmts , cURI);
         metadata.setThemeTaxonomys(new ArrayList());
-        MetadataUtils.getStatements(metadata);
-        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
         
         metadata.setThemeTaxonomys(null);
-        MetadataUtils.getStatements(metadata);
-        excepted = MetadataUtils.getStatements(metadata);
+        excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
     }
     
@@ -465,13 +463,11 @@ public class MetadataUtilsTest {
         IRI dURI = ExampleFilesUtils.DATASET_URI;
         DatasetMetadata metadata = parser.parse(stmts , dURI);
         metadata.setThemes(new ArrayList());
-        MetadataUtils.getStatements(metadata);
-        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
         
         metadata.setThemes(null);
-        MetadataUtils.getStatements(metadata);
-        excepted = MetadataUtils.getStatements(metadata);
+        excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
     }
     
@@ -512,9 +508,8 @@ public class MetadataUtilsTest {
         IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         DistributionMetadata metadata = parser.parse(stmts , disURI);
         metadata.setAccessURL(null);
-        metadata.setDownloadURL(null);     
-        MetadataUtils.getStatements(metadata);
-        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        metadata.setDownloadURL(null);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
     }  
     
@@ -554,7 +549,7 @@ public class MetadataUtilsTest {
         IRI drURI = ExampleFilesUtils.DATARECORD_URI;
         DataRecordMetadata metadata = parser.parse(stmts , drURI);  
         metadata.setRmlURI(null);
-        List<Statement> excepted = MetadataUtils.getStatements(metadata);
+        List<Statement> excepted = MetadataUtils.getStatements(metadata, false);
         assertNotNull(excepted);
     }
     
@@ -743,7 +738,7 @@ public class MetadataUtilsTest {
         IRI dURI = ExampleFilesUtils.DATASET_URI;
         DatasetMetadata metadata = parser.parse(stmts , dURI);
         String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
-                MetadataUtils.SCHEMA_DOT_ORG);
+                MetadataUtils.SCHEMA_DOT_ORG_MODEL);
         assertFalse(out.isEmpty());
     }
     
@@ -762,7 +757,80 @@ public class MetadataUtilsTest {
         IRI disURI = ExampleFilesUtils.DISTRIBUTION_URI;
         DistributionMetadata metadata = parser.parse(stmts , disURI);             
         String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
-                MetadataUtils.SCHEMA_DOT_ORG);
+                MetadataUtils.SCHEMA_DOT_ORG_MODEL);
         assertFalse(out.isEmpty());
-    }   
+    }  
+    
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testGetCatalogStringNoMandatoryFileds() throws Exception {
+        System.out.println("Test : Null or empty mandatory fields");
+        CatalogMetadataParser parser = new CatalogMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.CATALOG_METADATA_FILE, 
+                        ExampleFilesUtils.CATALOG_URI.toString());
+        IRI cURI = ExampleFilesUtils.CATALOG_URI;
+        CatalogMetadata metadata = parser.parse(stmts , cURI);
+        metadata.setThemeTaxonomys(new ArrayList());     
+        metadata.setIdentifier(null);
+        metadata.setLanguage(null);
+        metadata.setLicense(null);
+        metadata.setPublisher(null);
+        String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE, false);
+        assertFalse(out.isEmpty());
+    }
+    
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testGetDatasetStringNoMandatoryFileds() throws Exception {
+        System.out.println("Test : Null or empty mandatory fields");
+        DatasetMetadataParser parser = new DatasetMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DATASET_METADATA_FILE, 
+                        ExampleFilesUtils.DATASET_URI.toString());
+        IRI dURI = ExampleFilesUtils.DATASET_URI;
+        DatasetMetadata metadata = parser.parse(stmts , dURI);
+        metadata.setThemes(new ArrayList());
+        metadata.setIdentifier(null);
+        metadata.setLanguage(null);
+        metadata.setLicense(null);
+        metadata.setPublisher(null);
+        String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE, false);
+        assertFalse(out.isEmpty());
+    }
+    
+    /**
+     * Test missing rdf statement but the mandatory check is disabled,
+     * so this test is excepted to pass
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testGetDistributionStringNoMandatoryFileds() throws Exception {
+        System.out.println("Test : Null or empty mandatory fields");
+        DistributionMetadataParser parser = new DistributionMetadataParser();
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE, 
+                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
+        IRI dURI = ExampleFilesUtils.DISTRIBUTION_URI;
+        DistributionMetadata metadata = parser.parse(stmts , dURI);
+        metadata.setAccessURL(null);
+        metadata.setDownloadURL(null);
+        metadata.setIdentifier(null);
+        metadata.setLanguage(null);
+        metadata.setLicense(null);
+        metadata.setPublisher(null);
+        String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE, false);
+        assertFalse(out.isEmpty());
+    }
 }
