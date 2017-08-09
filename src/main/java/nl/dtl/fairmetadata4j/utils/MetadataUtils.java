@@ -80,73 +80,194 @@ import org.eclipse.rdf4j.rio.Rio;
 public class MetadataUtils {
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataUtils.class);
+    
+    /**
+     * To get metadata content according to dcat vocabary
+     */
+    public static final int DCAT_MODEL = 0;
+    
+    
     /**
      * To get metadata content according to schema.org vocabary
      */
-    public static final int SCHEMA_DOT_ORG = 1;
+    public static final int SCHEMA_DOT_ORG_MODEL = 1;
+    
+    
+    
+    /**
+     * Convert Metadata object to RDF string for specific model
+     *
+     * @param <T>   Subclasses of Metadata object   
+     * @param metadata  Metadata object 
+     * @param format RDF format
+     * @return RDF string   RDF statements as a string object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
+     */
+    public static <T extends Metadata> String getString(@Nonnull T metadata,
+            @Nonnull RDFFormat format)
+            throws MetadataException {        
+        return getString(metadata, format, DCAT_MODEL , true);
+    }
+    
+    /**
+     * Convert Metadata object to RDF string for specific model
+     *
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
+     * @param format RDF format
+     * @param modelType Type of metadata model, default is dcat model
+     * @return RDF string   RDF statements as a string object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
+     */
+    public static <T extends Metadata> String getString(@Nonnull T metadata,
+            @Nonnull RDFFormat format, int modelType)
+            throws MetadataException {
+        return getString(metadata, format, modelType, true);
+    }
+    
+    /**
+     * Convert Metadata object to RDF string for specific model
+     *
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
+     * @param format RDF format
+     * @param checkFlag To indicate if mandatory check need to be performed
+     * @return RDF string   RDF statements as a string object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
+     */
+    public static <T extends Metadata> String getString(@Nonnull T metadata,
+            @Nonnull RDFFormat format, boolean checkFlag)
+            throws MetadataException {
+        return getString(metadata, format, DCAT_MODEL, checkFlag);
+    }
+
 
     /**
      * Convert Metadata object to RDF string for specific model
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
      * @param format RDF format
      * @param metadataModel Type of metadata model
-     * @return RDF string
-     * @throws MetadataException
+     * @param checkFlag To indicate if mandatory check need to be performed
+     * @return RDF string   RDF statements as a string object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata,
-            @Nonnull RDFFormat format, int... metadataModel)
+            @Nonnull RDFFormat format, int metadataModel, boolean checkFlag)
             throws MetadataException {
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
         StringWriter sw = new StringWriter();
         RDFWriter writer = Rio.createWriter(format, sw);
-        List<Statement> statement = getStatements(metadata, metadataModel);
+        List<Statement> statement = getStatements(metadata, metadataModel, 
+                checkFlag);
         try {
             propagateToHandler(statement, writer);
         } catch (RepositoryException | RDFHandlerException ex) {
             LOGGER.error("Error reading RDF statements");
-            throw (new MetadataException(ex.getMessage()));
+            String errMsg = ex.getMessage();
+            throw new MetadataException(errMsg);
         }
         return sw.toString();
     }
-
+    
     /**
      * Get RDF statements from Metadata object
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
-     * @param metadataModel Metadata transformation type
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
      * @return List of RDF statements
-     * @throws MetadataException
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
      */
     public static <T extends Metadata> List<Statement> getStatements(
-            @Nonnull T metadata, int... metadataModel) throws 
+            @Nonnull T metadata) throws 
+            MetadataException {
+        return getStatements(metadata, DCAT_MODEL, true);
+    }
+    
+    /**
+     * Get RDF statements from Metadata object
+     *
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
+     * @param metadataModel Metadata model to use
+     * @return List of RDF statements
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
+     */
+    public static <T extends Metadata> List<Statement> getStatements(
+            @Nonnull T metadata, int metadataModel) throws 
+            MetadataException {
+        return getStatements(metadata, metadataModel, true);
+    }
+    
+    /**
+     * Get RDF statements from Metadata object
+     *
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
+     * @param checkFlag To indicate if mandatory fields are need to checked
+     * @return List of RDF statements
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing    
+     */
+    public static <T extends Metadata> List<Statement> getStatements(
+            @Nonnull T metadata, boolean checkFlag) throws 
+            MetadataException {
+        return getStatements(metadata, DCAT_MODEL, checkFlag);
+    }
+    
+    /**
+     * Get RDF statements from Metadata object
+     *
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
+     * @param metadataModel Metadata model to use
+     * @param checkFields To indicate if mandatory fields are need to checked
+     * @return List of RDF statements
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing 
+     */
+    public static <T extends Metadata> List<Statement> getStatements(
+            @Nonnull T metadata, int metadataModel, boolean checkFields) throws 
             MetadataException {
         Preconditions.checkNotNull(metadata,
                 "Metadata object must not be null.");
         try {
-            checkMandatoryProperties(metadata);
+            if (checkFields) {
+               checkMandatoryProperties(metadata); 
+               checkDomainProperties(metadata);
+            } 
+            else {
+                LOGGER.warn("Fields check is skipped. The generated "
+                        + "metadata stmts might not be complete");
+            }
+            
         } catch (NullPointerException ex) {
-            throw (new MetadataException(ex.getMessage()));
+            String errMsg = ex.getMessage();
+            throw new MetadataException(errMsg);
         }
         Model model = new LinkedHashModel();
         LOGGER.info("Creating metadata rdf model");
         List<Statement> stms = null;
-        if (metadataModel.length > 0 && metadataModel[0]
-                == MetadataUtils.SCHEMA_DOT_ORG) {
+        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
             if (metadata instanceof FDPMetadata) {
                 stms = getStatements(model, (FDPMetadata) metadata);
             } else if (metadata instanceof CatalogMetadata) {
                 stms = getStatements(model, (CatalogMetadata) metadata);
             } else if (metadata instanceof DatasetMetadata) {
                 stms = getStatements(model, (DatasetMetadata) metadata,
-                        MetadataUtils.SCHEMA_DOT_ORG);
+                        MetadataUtils.SCHEMA_DOT_ORG_MODEL);
             } else if (metadata instanceof DistributionMetadata) {
                 stms = getStatements(model, (DistributionMetadata) metadata,
-                        MetadataUtils.SCHEMA_DOT_ORG);
+                        MetadataUtils.SCHEMA_DOT_ORG_MODEL);
             } else if (metadata instanceof DataRecordMetadata) {
                 stms = getStatements(model, (DataRecordMetadata) metadata);
             }
@@ -171,7 +292,7 @@ public class MetadataUtils {
 
     private static List<Statement> getStatements(Model model,
             DatasetMetadata metadata, int metadataModel) {
-        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG) {
+        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
             LOGGER.info("Adding schema.org based dataset metadata "
                     + "properties to the rdf model");
             addStatement(model, metadata.getUri(), RDF.TYPE, SCHEMAORG.DATASET);
@@ -199,7 +320,7 @@ public class MetadataUtils {
 
     private static List<Statement> getStatements(Model model,
             DistributionMetadata metadata, int metadataModel) {
-        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG) {
+        if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
             LOGGER.info("Adding schema.org based distribution metadata "
                     + "properties to the rdf model");
             // Add type later on
@@ -234,20 +355,10 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata FDPMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            FDPMetadata metadata)
-            throws MetadataException {
-        LOGGER.info("Adding FDP metadata properties to the rdf model");
-        try {
-            Preconditions.checkNotNull(metadata.getRepostoryIdentifier(),
-                    "Repostory ID must not be null.");
-            Preconditions.checkNotNull(metadata.getPublisher(),
-                    "Metadata publisher must not be null.");
-        } catch (NullPointerException ex) {
-            throw (new MetadataException(ex.getMessage()));
-        }
+            FDPMetadata metadata) {
+        LOGGER.info("Adding FDP metadata properties to the rdf model");        
         ValueFactory f = SimpleValueFactory.getInstance();
         addStatement(model, metadata.getUri(), RDF.TYPE, R3D.REPOSITORY);
         IRI swaggerURL = f.createIRI(
@@ -265,9 +376,8 @@ public class MetadataUtils {
                 metadata.getLastUpdate());
         addStatement(model, metadata.getUri(), R3D.STARTDATE,
                 metadata.getStartDate());
-        metadata.getCatalogs().stream().forEach((catalog) -> {
-            addStatement(model, metadata.getUri(), R3D.DATACATALOG, catalog);
-        });
+        addStatements(model, metadata.getUri(), R3D.DATACATALOG, 
+                metadata.getCatalogs());
         addAgentStatements(model, metadata.getUri(), R3D.HAS_INSTITUTION,
                 metadata.getInstitution());
         return getStatements(model);
@@ -280,21 +390,9 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata CatalogMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            CatalogMetadata metadata)
-            throws MetadataException {
-        try {
-            Preconditions.checkNotNull(metadata.getPublisher(),
-                    "Metadata publisher must not be null.");
-            Preconditions.checkNotNull(metadata.getThemeTaxonomys(),
-                    "Metadata dcat:themeTaxonomy must not be null.");
-            Preconditions.checkArgument(!metadata.getThemeTaxonomys().isEmpty(),
-                    "Metadata dcat:themeTaxonomy must not be empty.");
-        } catch (NullPointerException | IllegalArgumentException ex) {
-            throw (new MetadataException(ex.getMessage()));
-        }
+            CatalogMetadata metadata) {
         LOGGER.info("Adding catalogy metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.CATALOG);
         addStatement(model, metadata.getUri(), FOAF.HOMEPAGE,
@@ -303,13 +401,10 @@ public class MetadataUtils {
                 metadata.getCatalogIssued());
         addStatement(model, metadata.getUri(), DCTERMS.MODIFIED,
                 metadata.getCatalogModified());
-        metadata.getThemeTaxonomys().stream().forEach((themeTax) -> {
-            addStatement(model, metadata.getUri(), DCAT.THEME_TAXONOMY,
-                    themeTax);
-        });
-        metadata.getDatasets().stream().forEach((dataset) -> {
-            addStatement(model, metadata.getUri(), DCAT.HAS_DATASET, dataset);
-        });
+        addStatements(model, metadata.getUri(), DCAT.THEME_TAXONOMY, 
+                metadata.getThemeTaxonomys());
+        addStatements(model, metadata.getUri(), DCAT.HAS_DATASET, 
+                metadata.getDatasets());
         return getStatements(model);
     }
 
@@ -320,21 +415,9 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata DatasetMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            DatasetMetadata metadata)
-            throws MetadataException {
-        try {
-            Preconditions.checkNotNull(metadata.getPublisher(),
-                    "Metadata publisher must not be null.");
-            Preconditions.checkNotNull(metadata.getThemes(),
-                    "Metadata dcat:theme must not be null.");
-            Preconditions.checkArgument(!metadata.getThemes().isEmpty(),
-                    "Metadata dcat:theme must not be empty.");
-        } catch (NullPointerException | IllegalArgumentException ex) {
-            throw (new MetadataException(ex.getMessage()));
-        }
+            DatasetMetadata metadata) {
         LOGGER.info("Adding dcat based dataset metadata "
                 + "properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.DATASET);
@@ -346,16 +429,12 @@ public class MetadataUtils {
                 metadata.getDatasetIssued());
         addStatement(model, metadata.getUri(), DCTERMS.MODIFIED,
                 metadata.getDatasetModified());
-        metadata.getThemes().stream().forEach((theme) -> {
-            addStatement(model, metadata.getUri(), DCAT.THEME, theme);
-        });
-        metadata.getKeywords().stream().forEach((keyword) -> {
-            addStatement(model, metadata.getUri(), DCAT.KEYWORD, keyword);
-        });
-        metadata.getDistributions().stream().forEach((distribution) -> {
-            addStatement(model, metadata.getUri(), DCAT.HAS_DISTRIBUTION,
-                    distribution);
-        });
+        addStatements(model, metadata.getUri(), DCAT.KEYWORD, 
+                metadata.getKeywords());
+        addStatements(model, metadata.getUri(), DCAT.THEME, 
+                metadata.getThemes());
+        addStatements(model, metadata.getUri(), DCAT.HAS_DISTRIBUTION, 
+                metadata.getDistributions());
         return getStatements(model);
     }
 
@@ -366,19 +445,9 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata DistributionMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            DistributionMetadata metadata)
-            throws MetadataException {
-
-        if (metadata.getAccessURL() == null
-                && metadata.getDownloadURL() == null) {
-            String errMsg
-                    = "No dcat:accessURL or dcat:downloadURL URL is provided";
-            LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
-        }
+            DistributionMetadata metadata) {        
         LOGGER.info("Adding distrubution metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE,
                 DCAT.DISTRIBUTION);
@@ -406,18 +475,9 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata DataRecordMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            DataRecordMetadata metadata)
-            throws MetadataException {
-        try {
-            Preconditions.checkNotNull(metadata.getRmlURI(),
-                    "Metadata rml mapping uri must not be null.");
-        } catch (NullPointerException | IllegalArgumentException ex) {
-            throw (new MetadataException(ex.getMessage()));
-        }
-
+            DataRecordMetadata metadata) {
         LOGGER.info("Adding dataRecord metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE,
                 DCAT.DISTRIBUTION);
@@ -504,7 +564,126 @@ public class MetadataUtils {
         Preconditions.checkNotNull(metadata.getIssued(),
                 "Metadata issued date must not be null.");
         Preconditions.checkNotNull(metadata.getModified(),
-                "Metadata modified date must not be null.");
+                "Metadata modified date must not be null.");        
+        Preconditions.checkNotNull(metadata.getPublisher(), 
+                "Metadata publisher must not be null.");
+    }
+    
+    /**
+     * Check if the metadata object contains domain specific metadata 
+     * properties.
+     *
+     * @param metadata Subclass of Metadata object
+     * @throws MetadataException Throws exceptions if a mandatory metadata
+     * property is missing
+     */
+    private static <T extends Metadata> void checkDomainProperties(@Nonnull 
+            T metadata) throws MetadataException {
+        if (metadata instanceof FDPMetadata) {
+            checkFDPProperties((FDPMetadata) metadata);
+        } else if (metadata instanceof CatalogMetadata) {
+            checkCatalogProperties((CatalogMetadata) metadata);
+        } else if (metadata instanceof DatasetMetadata) {
+            checkDatasetProperties((DatasetMetadata) metadata);
+        } else if (metadata instanceof DistributionMetadata) {
+            checkDistributionProperties((DistributionMetadata) metadata);
+        } else if (metadata instanceof DataRecordMetadata) {
+            checkDatarecordProperties((DataRecordMetadata) metadata);
+        }
+    }
+    
+    /**
+     * Check fdp metadata properties
+     * 
+     * @param metadata  FDPMetadata object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing 
+     */
+    private static void checkFDPProperties(@Nonnull FDPMetadata metadata)
+            throws MetadataException {
+        try {
+            Preconditions.checkNotNull(metadata.getRepostoryIdentifier(),
+                    "Repostory ID must not be null.");
+        } catch (NullPointerException ex) {
+            String errMsg = ex.getMessage();
+            throw new MetadataException(errMsg);
+        }
+    }
+    
+    /**
+     * Check catalog metadata properties
+     * 
+     * @param metadata  CatlogMetadata object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing 
+     */
+    private static void checkCatalogProperties(@Nonnull CatalogMetadata metadata)
+            throws MetadataException {
+        try {
+            Preconditions.checkNotNull(metadata.getThemeTaxonomys(),
+                    "Metadata dcat:themeTaxonomy must not be null.");
+            Preconditions.checkArgument(!metadata.getThemeTaxonomys().isEmpty(),
+                    "Metadata dcat:themeTaxonomy must not be empty.");
+        } catch (NullPointerException | IllegalArgumentException ex) {
+            String errMsg = ex.getMessage();
+            throw new MetadataException(errMsg);
+        }
+    }
+    
+    /**
+     * Check dataset metadata properties
+     * 
+     * @param metadata  DatasetMetadata object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing 
+     */
+    private static void checkDatasetProperties(@Nonnull DatasetMetadata metadata)
+            throws MetadataException {
+        try {
+            Preconditions.checkNotNull(metadata.getThemes(),
+                    "Metadata dcat:theme must not be null.");
+            Preconditions.checkArgument(!metadata.getThemes().isEmpty(),
+                    "Metadata dcat:theme must not be empty.");
+        } catch (NullPointerException | IllegalArgumentException ex) {
+            String errMsg = ex.getMessage();
+            throw new MetadataException(errMsg);
+        }
+    }
+    
+    /**
+     * Check distribution metadata properties
+     * 
+     * @param metadata  DistributionMetadata object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing 
+     */
+    private static void checkDistributionProperties(@Nonnull 
+            DistributionMetadata metadata) throws MetadataException {
+        if (metadata.getAccessURL() == null
+                && metadata.getDownloadURL() == null) {
+            String errMsg
+                    = "No dcat:accessURL or dcat:downloadURL URL is provided";
+            LOGGER.error(errMsg);
+            throw new MetadataException(errMsg);
+        }
+    }
+    
+    /**
+     * Check datarecord metadata properties
+     * 
+     * @param metadata  DataRecordMetadata object 
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing
+     */
+    private static void checkDatarecordProperties(@Nonnull DataRecordMetadata 
+            metadata) throws MetadataException {
+        try {
+            Preconditions.checkNotNull(metadata.getRmlURI(),
+                    "Metadata rml mapping uri must not be null.");
+        } catch (NullPointerException ex) {
+            String errMsg = ex.getMessage();
+            throw new MetadataException(errMsg);
+        }    
     }
 
     private static void propagateToHandler(List<Statement> statements,
@@ -560,7 +739,7 @@ public class MetadataUtils {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
             if (metadataModel.length > 0 && metadataModel[0]
-                    == MetadataUtils.SCHEMA_DOT_ORG) {
+                    == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
                 addStatement(model, objc.getUri(), SCHEMAORG.URL,
                         objc.getUri());
                 if (objc.getName() != null) {
@@ -596,9 +775,29 @@ public class MetadataUtils {
      * @param pred
      * @param objc
      */
-    private static void addStatement(Model model, IRI subj, IRI pred, Value objc) {
+    private static void addStatement(Model model, IRI subj, IRI pred, 
+            Value objc) {
         if (objc != null) {
             model.add(subj, pred, objc);
+        }
+    }
+    
+    
+    // We are using this method to reduce the NPath complexity 
+    /**
+     * Add list of rdf statements
+     *
+     * @param model
+     * @param subj
+     * @param pred
+     * @param objcs
+     */
+    private static void addStatements(Model model, IRI subj,
+            IRI pred, List objcs) {
+        if (objcs != null) {
+            objcs.forEach((objc) -> {
+                addStatement(model, subj, pred, (Value) objc);
+            });
         }
     }
 
