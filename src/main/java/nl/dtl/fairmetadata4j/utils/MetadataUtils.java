@@ -171,7 +171,8 @@ public class MetadataUtils {
             propagateToHandler(statement, writer);
         } catch (RepositoryException | RDFHandlerException ex) {
             LOGGER.error("Error reading RDF statements");
-            throw (new MetadataException(ex.getMessage()));
+            String errMsg = ex.getMessage();
+            throw new MetadataException(errMsg);
         }
         return sw.toString();
     }
@@ -250,7 +251,8 @@ public class MetadataUtils {
             }
             
         } catch (NullPointerException ex) {
-            throw (new MetadataException(ex.getMessage()));
+            String errMsg = ex.getMessage();
+            throw new MetadataException(errMsg);
         }
         Model model = new LinkedHashModel();
         LOGGER.info("Creating metadata rdf model");
@@ -604,7 +606,7 @@ public class MetadataUtils {
                     "Repostory ID must not be null.");
         } catch (NullPointerException ex) {
             String errMsg = ex.getMessage();
-            throw (new MetadataException(errMsg));
+            throw new MetadataException(errMsg);
         }
     }
     
@@ -624,7 +626,7 @@ public class MetadataUtils {
                     "Metadata dcat:themeTaxonomy must not be empty.");
         } catch (NullPointerException | IllegalArgumentException ex) {
             String errMsg = ex.getMessage();
-            throw (new MetadataException(errMsg));
+            throw new MetadataException(errMsg);
         }
     }
     
@@ -644,7 +646,7 @@ public class MetadataUtils {
                     "Metadata dcat:theme must not be empty.");
         } catch (NullPointerException | IllegalArgumentException ex) {
             String errMsg = ex.getMessage();
-            throw (new MetadataException(errMsg));
+            throw new MetadataException(errMsg);
         }
     }
     
@@ -662,7 +664,7 @@ public class MetadataUtils {
             String errMsg
                     = "No dcat:accessURL or dcat:downloadURL URL is provided";
             LOGGER.error(errMsg);
-            throw (new MetadataException(errMsg));
+            throw new MetadataException(errMsg);
         }
     }
     
@@ -680,7 +682,7 @@ public class MetadataUtils {
                     "Metadata rml mapping uri must not be null.");
         } catch (NullPointerException ex) {
             String errMsg = ex.getMessage();
-            throw (new MetadataException(errMsg));
+            throw new MetadataException(errMsg);
         }    
     }
 
