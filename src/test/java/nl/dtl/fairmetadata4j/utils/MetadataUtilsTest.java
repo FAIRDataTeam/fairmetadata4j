@@ -618,6 +618,23 @@ public class MetadataUtilsTest {
     }  
     
     /**
+     * This test is expected to pass 
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testGetDisWithDownloadUrlSchemaDotOrg() throws Exception {        
+        LOGGER.info("Test : Valid distribution metadata");
+        DistributionMetadata metadata = getDisMetadata();  
+        metadata.setAccessURL(null);
+        metadata.setDownloadURL(f.createIRI("http://example.com/downloaduri"));
+        metadata.setFormat(f.createLiteral("text/html"));
+        String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
+                MetadataUtils.SCHEMA_DOT_ORG_MODEL);
+        assertFalse(out.isEmpty());
+    }
+    
+    /**
      * Test missing rdf statement but the mandatory check is disabled,
      * so this test is expected to pass
      * 
