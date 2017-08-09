@@ -97,11 +97,12 @@ public class MetadataUtils {
     /**
      * Convert Metadata object to RDF string for specific model
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
+     * @param <T>   Subclasses of Metadata object   
+     * @param metadata  Metadata object 
      * @param format RDF format
-     * @return RDF string
-     * @throws MetadataException
+     * @return RDF string   RDF statements as a string object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata,
             @Nonnull RDFFormat format)
@@ -112,12 +113,13 @@ public class MetadataUtils {
     /**
      * Convert Metadata object to RDF string for specific model
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
      * @param format RDF format
      * @param modelType Type of metadata model, default is dcat model
-     * @return RDF string
-     * @throws MetadataException
+     * @return RDF string   RDF statements as a string object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata,
             @Nonnull RDFFormat format, int modelType)
@@ -128,12 +130,13 @@ public class MetadataUtils {
     /**
      * Convert Metadata object to RDF string for specific model
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
      * @param format RDF format
      * @param checkFlag To indicate if mandatory check need to be performed
-     * @return RDF string
-     * @throws MetadataException
+     * @return RDF string   RDF statements as a string object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata,
             @Nonnull RDFFormat format, boolean checkFlag)
@@ -145,13 +148,14 @@ public class MetadataUtils {
     /**
      * Convert Metadata object to RDF string for specific model
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
      * @param format RDF format
      * @param metadataModel Type of metadata model
      * @param checkFlag To indicate if mandatory check need to be performed
-     * @return RDF string
-     * @throws MetadataException
+     * @return RDF string   RDF statements as a string object
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
      */
     public static <T extends Metadata> String getString(@Nonnull T metadata,
             @Nonnull RDFFormat format, int metadataModel, boolean checkFlag)
@@ -175,10 +179,11 @@ public class MetadataUtils {
     /**
      * Get RDF statements from Metadata object
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
      * @return List of RDF statements
-     * @throws MetadataException
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
      */
     public static <T extends Metadata> List<Statement> getStatements(
             @Nonnull T metadata) throws 
@@ -189,11 +194,12 @@ public class MetadataUtils {
     /**
      * Get RDF statements from Metadata object
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
      * @param metadataModel Metadata model to use
      * @return List of RDF statements
-     * @throws MetadataException
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing
      */
     public static <T extends Metadata> List<Statement> getStatements(
             @Nonnull T metadata, int metadataModel) throws 
@@ -204,11 +210,12 @@ public class MetadataUtils {
     /**
      * Get RDF statements from Metadata object
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
      * @param checkFlag To indicate if mandatory fields are need to checked
      * @return List of RDF statements
-     * @throws MetadataException
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing    
      */
     public static <T extends Metadata> List<Statement> getStatements(
             @Nonnull T metadata, boolean checkFlag) throws 
@@ -219,18 +226,19 @@ public class MetadataUtils {
     /**
      * Get RDF statements from Metadata object
      *
-     * @param <T>
-     * @param metadata Subclass of metadata object
+     * @param <T>   Subclasses of Metadata object 
+     * @param metadata Metadata object
      * @param metadataModel Metadata model to use
      * @param checkFields To indicate if mandatory fields are need to checked
      * @return List of RDF statements
-     * @throws MetadataException
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * metadata properties are missing 
      */
     public static <T extends Metadata> List<Statement> getStatements(
             @Nonnull T metadata, int metadataModel, boolean checkFields) throws 
             MetadataException {
         Preconditions.checkNotNull(metadata,
-                "Metadata object must not be null.");        
+                "Metadata object must not be null.");
         try {
             if (checkFields) {
                checkMandatoryProperties(metadata); 
@@ -345,11 +353,9 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata FDPMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            FDPMetadata metadata)
-            throws MetadataException {
+            FDPMetadata metadata) {
         LOGGER.info("Adding FDP metadata properties to the rdf model");        
         ValueFactory f = SimpleValueFactory.getInstance();
         addStatement(model, metadata.getUri(), RDF.TYPE, R3D.REPOSITORY);
@@ -382,11 +388,9 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata CatalogMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            CatalogMetadata metadata)
-            throws MetadataException {
+            CatalogMetadata metadata) {
         LOGGER.info("Adding catalogy metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.CATALOG);
         addStatement(model, metadata.getUri(), FOAF.HOMEPAGE,
@@ -409,11 +413,9 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata DatasetMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            DatasetMetadata metadata)
-            throws MetadataException {
+            DatasetMetadata metadata) {
         LOGGER.info("Adding dcat based dataset metadata "
                 + "properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE, DCAT.DATASET);
@@ -441,11 +443,9 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata DistributionMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            DistributionMetadata metadata)
-            throws MetadataException {        
+            DistributionMetadata metadata) {        
         LOGGER.info("Adding distrubution metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE,
                 DCAT.DISTRIBUTION);
@@ -473,11 +473,9 @@ public class MetadataUtils {
      * @param model RDF model with common metadata properties
      * @param metadata DataRecordMetadata object
      * @return List of RDF statements
-     * @throws MetadataException
      */
     private static List<Statement> getStatements(Model model,
-            DataRecordMetadata metadata)
-            throws MetadataException {
+            DataRecordMetadata metadata) {
         LOGGER.info("Adding dataRecord metadata properties to the rdf model");
         addStatement(model, metadata.getUri(), RDF.TYPE,
                 DCAT.DISTRIBUTION);
@@ -579,17 +577,16 @@ public class MetadataUtils {
      */
     private static <T extends Metadata> void checkDomainProperties(@Nonnull 
             T metadata) throws MetadataException {
-
         if (metadata instanceof FDPMetadata) {
-            checkFDPPropeties((FDPMetadata) metadata);
+            checkFDPProperties((FDPMetadata) metadata);
         } else if (metadata instanceof CatalogMetadata) {
-            checkCatalogPropeties((CatalogMetadata) metadata);
+            checkCatalogProperties((CatalogMetadata) metadata);
         } else if (metadata instanceof DatasetMetadata) {
-            checkDatasetPropeties((DatasetMetadata) metadata);
+            checkDatasetProperties((DatasetMetadata) metadata);
         } else if (metadata instanceof DistributionMetadata) {
-            checkDistributionPropeties((DistributionMetadata) metadata);
+            checkDistributionProperties((DistributionMetadata) metadata);
         } else if (metadata instanceof DataRecordMetadata) {
-            checkDatarecordPropeties((DataRecordMetadata) metadata);
+            checkDatarecordProperties((DataRecordMetadata) metadata);
         }
     }
     
@@ -597,15 +594,17 @@ public class MetadataUtils {
      * Check fdp metadata properties
      * 
      * @param metadata  FDPMetadata object
-     * @throws MetadataException 
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing 
      */
-    private static void checkFDPPropeties(@Nonnull FDPMetadata metadata)
+    private static void checkFDPProperties(@Nonnull FDPMetadata metadata)
             throws MetadataException {
         try {
             Preconditions.checkNotNull(metadata.getRepostoryIdentifier(),
                     "Repostory ID must not be null.");
         } catch (NullPointerException ex) {
-            throw (new MetadataException(ex.getMessage()));
+            String errMsg = ex.getMessage();
+            throw (new MetadataException(errMsg));
         }
     }
     
@@ -613,9 +612,10 @@ public class MetadataUtils {
      * Check catalog metadata properties
      * 
      * @param metadata  CatlogMetadata object
-     * @throws MetadataException 
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing 
      */
-    private static void checkCatalogPropeties(@Nonnull CatalogMetadata metadata)
+    private static void checkCatalogProperties(@Nonnull CatalogMetadata metadata)
             throws MetadataException {
         try {
             Preconditions.checkNotNull(metadata.getThemeTaxonomys(),
@@ -623,7 +623,8 @@ public class MetadataUtils {
             Preconditions.checkArgument(!metadata.getThemeTaxonomys().isEmpty(),
                     "Metadata dcat:themeTaxonomy must not be empty.");
         } catch (NullPointerException | IllegalArgumentException ex) {
-            throw (new MetadataException(ex.getMessage()));
+            String errMsg = ex.getMessage();
+            throw (new MetadataException(errMsg));
         }
     }
     
@@ -631,9 +632,10 @@ public class MetadataUtils {
      * Check dataset metadata properties
      * 
      * @param metadata  DatasetMetadata object
-     * @throws MetadataException 
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing 
      */
-    private static void checkDatasetPropeties(@Nonnull DatasetMetadata metadata)
+    private static void checkDatasetProperties(@Nonnull DatasetMetadata metadata)
             throws MetadataException {
         try {
             Preconditions.checkNotNull(metadata.getThemes(),
@@ -641,7 +643,8 @@ public class MetadataUtils {
             Preconditions.checkArgument(!metadata.getThemes().isEmpty(),
                     "Metadata dcat:theme must not be empty.");
         } catch (NullPointerException | IllegalArgumentException ex) {
-            throw (new MetadataException(ex.getMessage()));
+            String errMsg = ex.getMessage();
+            throw (new MetadataException(errMsg));
         }
     }
     
@@ -649,9 +652,10 @@ public class MetadataUtils {
      * Check distribution metadata properties
      * 
      * @param metadata  DistributionMetadata object
-     * @throws MetadataException 
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing 
      */
-    private static void checkDistributionPropeties(@Nonnull 
+    private static void checkDistributionProperties(@Nonnull 
             DistributionMetadata metadata) throws MetadataException {
         if (metadata.getAccessURL() == null
                 && metadata.getDownloadURL() == null) {
@@ -666,15 +670,17 @@ public class MetadataUtils {
      * Check datarecord metadata properties
      * 
      * @param metadata  DataRecordMetadata object 
-     * @throws MetadataException 
+     * @throws MetadataException    This exception is thrown if the mandatory
+     * domain property is missing
      */
-    private static void checkDatarecordPropeties(@Nonnull DataRecordMetadata 
+    private static void checkDatarecordProperties(@Nonnull DataRecordMetadata 
             metadata) throws MetadataException {
         try {
             Preconditions.checkNotNull(metadata.getRmlURI(),
                     "Metadata rml mapping uri must not be null.");
         } catch (NullPointerException ex) {
-            throw (new MetadataException(ex.getMessage()));
+            String errMsg = ex.getMessage();
+            throw (new MetadataException(errMsg));
         }    
     }
 
