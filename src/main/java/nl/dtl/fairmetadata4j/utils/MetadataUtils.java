@@ -67,6 +67,8 @@ import org.eclipse.rdf4j.rio.RDFHandler;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFWriter;
 import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.helpers.JSONLDMode;
+import org.eclipse.rdf4j.rio.helpers.JSONLDSettings;
 
 /**
  * Utils class to convert metadata object to RDF statements or string and
@@ -160,6 +162,8 @@ public class MetadataUtils {
         Preconditions.checkNotNull(format, "RDF format must not be null.");
         StringWriter sw = new StringWriter();
         RDFWriter writer = Rio.createWriter(format, sw);
+        writer.getWriterConfig().set(JSONLDSettings.JSONLD_MODE, 
+                JSONLDMode.COMPACT);    
         List<Statement> statement = getStatements(metadata, metadataModel, 
                 checkFlag);
         try {
@@ -295,20 +299,14 @@ public class MetadataUtils {
                     metadata.getTitle());
             addStatement(model, metadata.getUri(), SCHEMAORG.DESCRIPTION,
                     metadata.getDescription());
-            addStatement(model, metadata.getUri(), SCHEMAORG.URL,
-                    metadata.getUri());
-            metadata.getKeywords().stream().forEach((keyword) -> {
-                addStatement(model, metadata.getUri(), SCHEMAORG.KEYWORDS,
-                        keyword);
-            });
+            addStatements(model, metadata.getUri(), SCHEMAORG.KEYWORDS,
+                        metadata.getKeywords());
             addStatement(model, metadata.getUri(),
                     SCHEMAORG.INCLUDEDINDATACATALOG, metadata.getRights());
             addAgentStatements(model, metadata.getUri(), SCHEMAORG.CREATOR,
                     metadata.getPublisher(), metadataModel);
-            metadata.getDistributions().stream().forEach((distribution) -> {
-                addStatement(model, metadata.getUri(), SCHEMAORG.DISTRIBUTION,
-                        distribution);
-            });
+            addStatements(model, metadata.getUri(), SCHEMAORG.DISTRIBUTION, 
+                    metadata.getDistributions());
         }
         return getStatements(model);
     }
@@ -318,24 +316,25 @@ public class MetadataUtils {
         if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
             LOGGER.info("Adding schema.org based distribution metadata "
                     + "properties to the rdf model");
-            // Add type later on
             addStatement(model, metadata.getUri(), SCHEMAORG.NAME,
                     metadata.getTitle());
             addStatement(model, metadata.getUri(), SCHEMAORG.DESCRIPTION,
                     metadata.getDescription());
-            addStatement(model, metadata.getUri(), SCHEMAORG.URL,
-                    metadata.getUri());
-            if (metadata.getMediaType() != null) {
-                addStatement(model, metadata.getUri(), 
-                        nl.dtl.fairmetadata4j.utils.SCHEMAORG.FILE_FORMAT,
-                        metadata.getMediaType());
-            }
-            IRI contentLocation = metadata.getAccessURL();
-            if (metadata.getDownloadURL() != null) {
+            addStatement(model, metadata.getUri(),
+                    nl.dtl.fairmetadata4j.utils.SCHEMAORG.FILE_FORMAT,
+                    metadata.getMediaType());
+            /**
+             * We don't have type definition for access URL's so in the current
+             * implementation we have type definition only for the
+             * downloadUrl's. We use Thing as type definition for accessUrl
+             */
+            IRI contentLocation = metadata.getDownloadURL();
+            IRI type = DATADOWNLOAD.DATADOWNLOAD;
+            if (contentLocation == null && metadata.getAccessURL() != null) {
                 contentLocation = metadata.getDownloadURL();
-                addStatement(model, metadata.getUri(), RDF.TYPE, 
-                        DATADOWNLOAD.DATADOWNLOAD);
+                type = SCHEMAORG.THING;
             }
+            addStatement(model, metadata.getUri(), RDF.TYPE, type);
             addStatement(model, metadata.getUri(), SCHEMAORG.CONTENTLOCATION,
                     contentLocation);
             addAgentStatements(model, metadata.getUri(), SCHEMAORG.CREATOR,
@@ -374,7 +373,7 @@ public class MetadataUtils {
         addStatements(model, metadata.getUri(), R3D.DATACATALOG, 
                 metadata.getCatalogs());
         addAgentStatements(model, metadata.getUri(), R3D.HAS_INSTITUTION,
-                metadata.getInstitution());
+                metadata.getInstitution(), DCAT_MODEL);
         return getStatements(model);
     }
 
@@ -520,7 +519,7 @@ public class MetadataUtils {
         addStatement(model, metadata.getUri(), DCTERMS.LANGUAGE,
                 metadata.getLanguage());
         addAgentStatements(model, metadata.getUri(), DCTERMS.PUBLISHER,
-                metadata.getPublisher());
+                metadata.getPublisher(), DCAT_MODEL);
         addStatement(model, metadata.getUri(), DCTERMS.LANGUAGE,
                 metadata.getLanguage());
         addStatement(model, metadata.getUri(), DCTERMS.DESCRIPTION,
@@ -730,24 +729,19 @@ public class MetadataUtils {
      * @param objc
      */
     private static void addAgentStatements(Model model, IRI subj, IRI pred,
-            Agent objc, int... metadataModel) {
+            Agent objc, int metadataModel) {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
-            if (metadataModel.length > 0 && metadataModel[0]
-                    == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
-                addStatement(model, objc.getUri(), SCHEMAORG.URL,
-                        objc.getUri());
-                if (objc.getName() != null) {
-                    addStatement(model, objc.getUri(), SCHEMAORG.NAME,
-                            objc.getName());
-                }
+            if (metadataModel == MetadataUtils.SCHEMA_DOT_ORG_MODEL) {
+                addStatement(model, objc.getUri(), SCHEMAORG.NAME,
+                        objc.getName());
+                IRI type = SCHEMAORG.THING;
                 if (objc.getType() == FOAF.PERSON) {
-                    addStatement(model, objc.getUri(), RDF.TYPE,
-                            nl.dtl.fairmetadata4j.utils.SCHEMAORG.PERSON);
+                    type = nl.dtl.fairmetadata4j.utils.SCHEMAORG.PERSON;
                 } else if (objc.getType() == FOAF.ORGANIZATION) {
-                    addStatement(model, objc.getUri(), RDF.TYPE,
-                            nl.dtl.fairmetadata4j.utils.SCHEMAORG.ORGANIZATION);
+                    type = nl.dtl.fairmetadata4j.utils.SCHEMAORG.ORGANIZATION;
                 }
+                addStatement(model, objc.getUri(), RDF.TYPE, type);
             } else {
                 addStatement(model, objc.getUri(), RDF.TYPE, objc.getType());
                 if (objc.getName() == null) {
