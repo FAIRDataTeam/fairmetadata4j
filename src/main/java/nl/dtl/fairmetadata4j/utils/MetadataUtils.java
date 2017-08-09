@@ -79,20 +79,15 @@ import org.eclipse.rdf4j.rio.Rio;
  */
 public class MetadataUtils {
     private static final org.apache.logging.log4j.Logger LOGGER
-            = LogManager.getLogger(MetadataUtils.class);
-    
+            = LogManager.getLogger(MetadataUtils.class);    
     /**
-     * To get metadata content according to dcat vocabary
+     * To get metadata content according to dcat vocabulary
      */
-    public static final int DCAT_MODEL = 0;
-    
-    
+    public static final int DCAT_MODEL = 0;     
     /**
-     * To get metadata content according to schema.org vocabary
+     * To get metadata content according to schema.org vocabulary
      */
-    public static final int SCHEMA_DOT_ORG_MODEL = 1;
-    
-    
+    public static final int SCHEMA_DOT_ORG_MODEL = 1;   
     
     /**
      * Convert Metadata object to RDF string for specific model
@@ -617,8 +612,8 @@ public class MetadataUtils {
      * @throws MetadataException    This exception is thrown if the mandatory
      * domain property is missing 
      */
-    private static void checkCatalogProperties(@Nonnull CatalogMetadata metadata)
-            throws MetadataException {
+    private static void checkCatalogProperties(@Nonnull 
+            CatalogMetadata metadata) throws MetadataException {
         try {
             Preconditions.checkNotNull(metadata.getThemeTaxonomys(),
                     "Metadata dcat:themeTaxonomy must not be null.");
@@ -637,8 +632,8 @@ public class MetadataUtils {
      * @throws MetadataException    This exception is thrown if the mandatory
      * domain property is missing 
      */
-    private static void checkDatasetProperties(@Nonnull DatasetMetadata metadata)
-            throws MetadataException {
+    private static void checkDatasetProperties(@Nonnull 
+            DatasetMetadata metadata) throws MetadataException {
         try {
             Preconditions.checkNotNull(metadata.getThemes(),
                     "Metadata dcat:theme must not be null.");
