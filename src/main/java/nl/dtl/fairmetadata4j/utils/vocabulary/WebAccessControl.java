@@ -25,84 +25,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.dtl.fairmetadata4j.model;
+package nl.dtl.fairmetadata4j.utils.vocabulary;
 
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
-
-
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
- * Agent object
+ * WebAccessControl vocabulary.
+ * See {@link <a href="https://www.w3.org/wiki/WebAccessControl">WebAccessControl Vocabulary</a>}.
  * 
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-30
+ * @since 2017-02-22
  * @version 0.1
  */
-public class Agent {
+public class WebAccessControl {
     
-    private IRI uri;
-    private IRI mbox;
-    private IRI type = FOAF.AGENT;
-    private Literal name;
-
-    /**
-     * @return the uri
-     */
-    public IRI getUri() {
-        return uri;
-    }
-
-    /**
-     * @param uri the uri to set
-     */
-    public void setUri(IRI uri) {
-        this.uri = uri;
-    }
-
-    /**
-     * @return the type
-     */
-    public IRI getType() {
-        return type;
-    }
-
-    /**
-     * @param type the type to set
-     */
-    public void setType(IRI type) {
-        this.type = type;
-    }
-
-    /**
-     * @return the name
-     */
-    public Literal getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(Literal name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the mbox
-     */
-    public IRI getMbox() {
-        return mbox;
-    }
-
-    /**
-     * @param mbox the mbox to set
-     */
-    public void setMbox(IRI mbox) {
-        this.mbox = mbox;
-    }
-
+    private static final ValueFactory f = SimpleValueFactory.getInstance();
+    public static final String PREFIX = "acl";
+    public static final String NAMESPACE = "http://www.w3.org/ns/auth/acl#";
+    public static final IRI AUTHORIZATION = f.createIRI(NAMESPACE + "Authorization");
+    public static final IRI ACCESS_APPEND = f.createIRI(NAMESPACE + "Append");
+    public static final IRI ACCESS_WRITE = f.createIRI(NAMESPACE + "Write");
+    public static final IRI ACCESS_READ = f.createIRI(NAMESPACE + "Read");
+    public static final IRI ACCESS_MODE = f.createIRI(NAMESPACE + "mode");
+    public static final IRI ACCESS_AGENT = f.createIRI(NAMESPACE + "agent");
     
 }

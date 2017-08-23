@@ -27,26 +27,22 @@
  */
 package nl.dtl.fairmetadata4j.model;
 
+import java.util.List;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
-
-
 
 /**
- * Agent object
+ * Authorization object
  * 
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-30
+ * @since 2017-02-22
  * @version 0.1
  */
-public class Agent {
+public class Authorization {
     
     private IRI uri;
-    private IRI mbox;
-    private IRI type = FOAF.AGENT;
-    private Literal name;
+    private List<IRI> accessMode;
+    private List<Agent> authorizedAgent;
 
     /**
      * @return the uri
@@ -63,46 +59,31 @@ public class Agent {
     }
 
     /**
-     * @return the type
+     * @return the accessMode
      */
-    public IRI getType() {
-        return type;
+    public List<IRI> getAccessMode() {
+        return accessMode;
     }
 
     /**
-     * @param type the type to set
+     * @param accessMode the accessMode to set
      */
-    public void setType(IRI type) {
-        this.type = type;
+    public void setAccessMode(List<IRI> accessMode) {
+        this.accessMode = accessMode;
     }
 
     /**
-     * @return the name
+     * @return the authorizedAgent
      */
-    public Literal getName() {
-        return name;
+    public List<Agent> getAuthorizedAgent() {
+        return authorizedAgent;
     }
 
     /**
-     * @param name the name to set
+     * @param authorizedAgent the authorizedAgent to set
      */
-    public void setName(Literal name) {
-        this.name = name;
+    public void setAuthorizedAgent(List<Agent> authorizedAgent) {
+        this.authorizedAgent = authorizedAgent;
     }
-
-    /**
-     * @return the mbox
-     */
-    public IRI getMbox() {
-        return mbox;
-    }
-
-    /**
-     * @param mbox the mbox to set
-     */
-    public void setMbox(IRI mbox) {
-        this.mbox = mbox;
-    }
-
     
 }

@@ -30,73 +30,50 @@ package nl.dtl.fairmetadata4j.io;
 import com.google.common.base.Preconditions;
 import java.util.List;
 import javax.annotation.Nonnull;
-import nl.dtl.fairmetadata4j.model.Agent;
+import nl.dtl.fairmetadata4j.model.AccessRights;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.model.ValueFactory;
-import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
-import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.eclipse.rdf4j.model.vocabulary.RDFS;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 
 /**
- * Parser for agent object
+ * Parser for accessRights object
  * 
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-30
+ * @since 2017-02-22
  * @version 0.1
  */
-public class AgentParser {
+public class AccessRightsParser {
     
-    private static final org.apache.logging.log4j.Logger LOGGER
-            = LogManager.getLogger(AgentParser.class);
-    /**
-     * Create agent object
-     * 
-     * @param statements    List of rdf statements
-     * @param agentURI      Agent uri
-     * @return 
-     */
-    public static Agent parse(@Nonnull List<Statement> statements,
-            @Nonnull IRI agentURI) {
-        Preconditions.checkNotNull(agentURI,
-                "Agent URI must not be null.");
+     private static final org.apache.logging.log4j.Logger LOGGER
+            = LogManager.getLogger(AccessRightsParser.class);
+     
+     public static AccessRights parse(@Nonnull List<Statement> statements,
+            @Nonnull IRI accessRightsURI) {
+        Preconditions.checkNotNull(accessRightsURI,
+                "AccessRights URI must not be null.");
         Preconditions.checkNotNull(statements,
-                "Agent statements must not be null.");
+                "AccessRights statements must not be null.");
         Preconditions.checkArgument(!statements.isEmpty(),
-                "Agent statements must not be empty.");
-        LOGGER.info("Parsing agent");
-        Agent agent = new Agent();
-        agent.setUri(agentURI);
+                "AccessRights statements must not be empty.");
+        LOGGER.info("Parsing accessRights");
+        AccessRights accessRights = new AccessRights();
+        accessRights.setUri(accessRightsURI);
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
             Value object = st.getObject();
-
-            if (subject.equals(agentURI)) {
-                if (predicate.equals(RDF.TYPE)) {
-                    if(object.equals(FOAF.PERSON) || 
-                            object.equals(FOAF.ORGANIZATION) || 
-                            object.equals(FOAF.GROUP)) {
-                      agent.setType((IRI) object);  
-                    }
-                    
-                } else if (predicate.equals(FOAF.NAME) || 
-                        predicate.equals(RDFS.LABEL)) {
-                    ValueFactory f = SimpleValueFactory.getInstance();
-                    agent.setName(f.createLiteral(object.stringValue(),
-                            XMLSchema.STRING));
-                } else if (predicate.equals(FOAF.MBOX)){
-                    agent.setMbox((IRI) object);
-                }
+            if (subject.equals(accessRightsURI)) {
+                if (predicate.equals(DCTERMS.IS_PART_OF)) {
+                    accessRights.setAuthorization(AuthorizationParser.parse(
+                            statements, (IRI) object));
+                } 
             }
         }
-        return agent;
+        return accessRights;
     }
     
 }

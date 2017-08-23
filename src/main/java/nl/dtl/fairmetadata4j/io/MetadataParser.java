@@ -110,6 +110,9 @@ public abstract class MetadataParser<T extends Metadata> {
                     metadata.setParentURI((IRI) object);
                 } else if (predicate.equals(DCTERMS.CONFORMS_TO)) {
                     metadata.setSpecification((IRI) object);
+                } else if (predicate.equals(DCTERMS.ACCESS_RIGHTS)) {
+                    metadata.setAccessRights(AccessRightsParser.parse(
+                            statements, (IRI)object));
                 }
             }
         }

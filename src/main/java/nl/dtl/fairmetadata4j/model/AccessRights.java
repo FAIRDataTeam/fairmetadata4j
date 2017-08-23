@@ -28,25 +28,19 @@
 package nl.dtl.fairmetadata4j.model;
 
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
-
-
 
 /**
- * Agent object
+ * AccessRights object
  * 
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-30
+ * @since 2017-02-22
  * @version 0.1
  */
-public class Agent {
+public class AccessRights {
     
     private IRI uri;
-    private IRI mbox;
-    private IRI type = FOAF.AGENT;
-    private Literal name;
+    private Authorization authorization;
 
     /**
      * @return the uri
@@ -63,46 +57,17 @@ public class Agent {
     }
 
     /**
-     * @return the type
+     * @return the authorization
      */
-    public IRI getType() {
-        return type;
+    public Authorization getAuthorization() {
+        return authorization;
     }
 
     /**
-     * @param type the type to set
+     * @param authorization the authorization to set
      */
-    public void setType(IRI type) {
-        this.type = type;
+    public void setAuthorization(Authorization authorization) {
+        this.authorization = authorization;
     }
-
-    /**
-     * @return the name
-     */
-    public Literal getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(Literal name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the mbox
-     */
-    public IRI getMbox() {
-        return mbox;
-    }
-
-    /**
-     * @param mbox the mbox to set
-     */
-    public void setMbox(IRI mbox) {
-        this.mbox = mbox;
-    }
-
     
 }

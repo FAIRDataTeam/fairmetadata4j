@@ -28,14 +28,10 @@
 package nl.dtl.fairmetadata4j.io;
 
 import java.util.List;
-
 import javax.annotation.Nonnull;
-
 import org.apache.logging.log4j.LogManager;
-
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
-
 import nl.dtl.fairmetadata4j.model.CatalogMetadata;
 import nl.dtl.fairmetadata4j.utils.RDFUtils;
 import org.eclipse.rdf4j.model.IRI;
