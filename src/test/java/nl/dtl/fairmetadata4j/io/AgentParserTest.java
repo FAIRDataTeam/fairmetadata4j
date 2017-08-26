@@ -40,7 +40,6 @@ import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
@@ -53,6 +52,9 @@ import org.junit.Test;
  */
 public class AgentParserTest {
 
+    private final List<Statement> STMTS = ExampleFilesUtils.getFileContentAsStatements(
+            ExampleFilesUtils.FDP_METADATA_FILE, ExampleFilesUtils.FDP_URI.toString());
+
     /**
      * Test null publisher uri, this test is expected to throw exception
      *
@@ -61,12 +63,8 @@ public class AgentParserTest {
     @Test(expected = NullPointerException.class)
     public void testParseNullPublisherUri() throws Exception {
         System.out.println("Test : Parse null publisher uri");
-        List<Statement> statements = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE,
-                        ExampleFilesUtils.FDP_URI.toString());
         IRI agentURI = null;
-        AgentParser.parse(statements, agentURI);
-        fail("This test is execpeted to throw an error");
+        AgentParser.parse(STMTS, agentURI);
     }
 
     /**
@@ -80,7 +78,6 @@ public class AgentParserTest {
         List<Statement> statements = null;
         IRI agentURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
         AgentParser.parse(statements, agentURI);
-        fail("This test is execpeted to throw an error");
     }
 
     /**
@@ -94,7 +91,6 @@ public class AgentParserTest {
         List<Statement> statements = new ArrayList();
         IRI agentURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
         AgentParser.parse(statements, agentURI);
-        fail("This test is execpeted to throw an error");
     }
 
     /**
@@ -103,11 +99,8 @@ public class AgentParserTest {
     @Test
     public void testValidMetadataID() {
         System.out.println("Parse valid publisher ID");
-        List<Statement> statements = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE,
-                        ExampleFilesUtils.FDP_URI.toString());
         IRI agentURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
-        Agent result = AgentParser.parse(statements, agentURI);
+        Agent result = AgentParser.parse(STMTS, agentURI);
         assertNotNull(result);
     }
 
@@ -117,11 +110,8 @@ public class AgentParserTest {
     @Test
     public void testValidPublisherUri() {
         System.out.println("Parse fdp publisher uri");
-        List<Statement> statements = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE,
-                        ExampleFilesUtils.FDP_URI.toString());
         IRI identifierURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
-        Agent result = AgentParser.parse(statements, identifierURI);
+        Agent result = AgentParser.parse(STMTS, identifierURI);
         assertNotNull(result);
     }
 
@@ -131,20 +121,15 @@ public class AgentParserTest {
     @Test
     public void testInValidPublishertype() {
         System.out.println("Parse invalid publisher type");
-        List<Statement> statements = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE,
-                        ExampleFilesUtils.FDP_URI.toString());
         IRI identifierURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
         List<Statement> stmts4Parser = new ArrayList();
-
-        for (Statement st : statements) {
+        for (Statement st : STMTS) {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
             if (subject.equals(identifierURI)) {
                 if (predicate.equals(RDF.TYPE)) {
                     ValueFactory f = SimpleValueFactory.getInstance();
-                    stmts4Parser.add(f.createStatement(subject, RDF.TYPE, 
-                            FOAF.ACCOUNT));
+                    stmts4Parser.add(f.createStatement(subject, RDF.TYPE, FOAF.ACCOUNT));
                 }
             } else {
                 stmts4Parser.add(st);
@@ -152,5 +137,5 @@ public class AgentParserTest {
             Agent result = AgentParser.parse(stmts4Parser, identifierURI);
             assertTrue(result.getType().equals(FOAF.AGENT));
         }
-    }  
+    }
 }

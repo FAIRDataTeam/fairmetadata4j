@@ -34,14 +34,15 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for RDFUtils class
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  */
 public class RDFUtilsTest {
-    
+
     /**
      * Test of getCurrentTime method, of class RDFUtils.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -49,9 +50,10 @@ public class RDFUtilsTest {
         System.out.println("getCurrentTime");
         assertNotNull(RDFUtils.getCurrentTime());
     }
-    
+
     /**
-     * Invalid rdf string 
+     * Invalid rdf string
+     *
      * @throws java.lang.Exception
      */
     @Test(expected = MetadataParserException.class)
@@ -60,9 +62,10 @@ public class RDFUtilsTest {
         System.out.println("Invalid rdf string");
         RDFUtils.getStatements(input, null, RDFFormat.TURTLE);
     }
-    
+
     /**
-     * Valid rdf string 
+     * Valid rdf string
+     *
      * @throws java.lang.Exception
      */
     @Test

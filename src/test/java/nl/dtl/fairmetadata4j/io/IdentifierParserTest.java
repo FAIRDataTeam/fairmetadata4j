@@ -38,45 +38,47 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for IdentifierParser.
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-30
  * @version 0.1
  */
 public class IdentifierParserTest {
-    
+
+    private final List<Statement> STMTS = ExampleFilesUtils.getFileContentAsStatements(
+            ExampleFilesUtils.FDP_METADATA_FILE, ExampleFilesUtils.FDP_URI.toString());
+
     /**
      * Test null id uri, this test is expected to throw exception
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullIDUri() throws Exception {
         System.out.println("Test : Parse null id uri");
-        List<Statement> statements = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI.toString());
         IRI identifierURI = null;
-        IdentifierParser.parse(statements, identifierURI);
+        IdentifierParser.parse(STMTS, identifierURI);
         fail("This test is execpeted to throw an error");
     }
-    
+
     /**
      * Test null rdf statements, this test is expected to throw exception
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullStatements() throws Exception {
         System.out.println("Test : Parse null statements");
-        List<Statement> statements = null;
         IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
-        IdentifierParser.parse(statements, identifierURI);
+        IdentifierParser.parse(null, identifierURI);
         fail("This test is execpeted to throw an error");
     }
-    
-     /**
+
+    /**
      * Test empty rdf statements, this test is expected to throw exception
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyStatements() throws Exception {
@@ -86,34 +88,27 @@ public class IdentifierParserTest {
         IdentifierParser.parse(statements, identifierURI);
         fail("This test is execpeted to throw an error");
     }
-    
-    
+
     /**
      * Test valid metadata id.
      */
     @Test
     public void testValidMetadataID() {
         System.out.println("Parse fdp metadata ID");
-        List<Statement> statements = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI.toString());
         IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
-        Identifier result = IdentifierParser.parse(statements, identifierURI);
+        Identifier result = IdentifierParser.parse(STMTS, identifierURI);
         assertNotNull(result);
     }
-    
+
     /**
      * Test valid repo id.
      */
     @Test
     public void testValidRepoID() {
         System.out.println("Parse fdp repo ID");
-        List<Statement> statements = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI.toString());
         IRI identifierURI = ExampleFilesUtils.FDP_REPO_ID_URI;
-        Identifier result = IdentifierParser.parse(statements, identifierURI);
+        Identifier result = IdentifierParser.parse(STMTS, identifierURI);
         assertNotNull(result);
     }
-    
+
 }

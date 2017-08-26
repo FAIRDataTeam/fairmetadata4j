@@ -31,18 +31,16 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 
-
-
 /**
  * Agent object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-30
  * @version 0.1
  */
 public class Agent {
-    
+
     private IRI uri;
     private IRI mbox;
     private IRI type = FOAF.AGENT;
@@ -104,5 +102,4 @@ public class Agent {
         this.mbox = mbox;
     }
 
-    
 }

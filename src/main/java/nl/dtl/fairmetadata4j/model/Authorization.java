@@ -32,14 +32,14 @@ import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Authorization object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2017-02-22
  * @version 0.1
  */
 public class Authorization {
-    
+
     private IRI uri;
     private List<IRI> accessMode;
     private List<Agent> authorizedAgent;
@@ -85,5 +85,5 @@ public class Authorization {
     public void setAuthorizedAgent(List<Agent> authorizedAgent) {
         this.authorizedAgent = authorizedAgent;
     }
-    
+
 }

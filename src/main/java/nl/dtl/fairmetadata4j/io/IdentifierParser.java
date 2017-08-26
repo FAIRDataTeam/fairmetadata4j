@@ -44,7 +44,7 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
  * Parser for indetifier object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-30
@@ -54,23 +54,20 @@ public class IdentifierParser {
 
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(IdentifierParser.class);
-    
+
     /**
      * Parse rdf statements to create identifer object
-     * 
-     * @param statements        List of rdf statements
-     * @param identifierURI     Identifier uri
-     * @return                  Identifier object
+     *
+     * @param statements List of rdf statements
+     * @param identifierURI Identifier uri
+     * @return Identifier object
      */
-    public static Identifier parse(@Nonnull List<Statement> statements,
-            @Nonnull IRI identifierURI) {
-        Preconditions.checkNotNull(identifierURI,
-                "Identifier URI must not be null.");
-        Preconditions.checkNotNull(statements,
-                "Identifier statements must not be null.");
+    public static Identifier parse(@Nonnull List<Statement> statements, @Nonnull IRI identifierURI) {
+        Preconditions.checkNotNull(identifierURI, "Identifier URI must not be null.");
+        Preconditions.checkNotNull(statements, "Identifier statements must not be null.");
         Preconditions.checkArgument(!statements.isEmpty(),
                 "Identifier statements must not be empty.");
-        LOGGER.info("Parsing identifier");  
+        LOGGER.info("Parsing identifier");
 
         Identifier id = new Identifier();
         id.setUri(identifierURI);
@@ -84,14 +81,12 @@ public class IdentifierParser {
                 if (predicate.equals(RDF.TYPE)) {
                     id.setType((IRI) object);
                 } else if (predicate.equals(DCTERMS.IDENTIFIER)) {
-                    id.setIdentifier(f.createLiteral(object.stringValue(),
-                            XMLSchema.STRING));
+                    id.setIdentifier(f.createLiteral(object.stringValue(), XMLSchema.STRING));
                 }
             }
         }
         Preconditions.checkNotNull(id.getUri(), "Identifier uri can't be null.");
-        Preconditions.checkNotNull(id.getIdentifier(), 
-                "Identifier value can't be null.");
+        Preconditions.checkNotNull(id.getIdentifier(), "Identifier value can't be null.");
         return id;
     }
 }

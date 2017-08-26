@@ -27,25 +27,25 @@ package nl.dtl.fairmetadata4j.model;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
+
 /**
  * Repository metadata object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
  * @version 0.1
  */
 public final class FDPMetadata extends Metadata {
-    private IRI swaggerDoc;  
+
+    private IRI swaggerDoc;
     private List<IRI> catalogs = new ArrayList();
     private Identifier repostoryIdentifier;
-    private IRI institutionCountry;  
+    private IRI institutionCountry;
     private Literal lastUpdate;
     private Literal startDate;
     private Agent institution;
@@ -147,5 +147,5 @@ public final class FDPMetadata extends Metadata {
     public void setInstitution(Agent institution) {
         this.institution = institution;
     }
-    
+
 }

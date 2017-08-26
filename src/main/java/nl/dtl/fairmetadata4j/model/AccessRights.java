@@ -31,14 +31,14 @@ import org.eclipse.rdf4j.model.IRI;
 
 /**
  * AccessRights object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2017-02-22
  * @version 0.1
  */
 public class AccessRights {
-    
+
     private IRI uri;
     private Authorization authorization;
 
@@ -69,5 +69,5 @@ public class AccessRights {
     public void setAuthorization(Authorization authorization) {
         this.authorization = authorization;
     }
-    
+
 }

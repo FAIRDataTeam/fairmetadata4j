@@ -31,56 +31,54 @@ import java.util.ArrayList;
 import java.util.List;
 import nl.dtl.fairmetadata4j.model.AccessRights;
 import nl.dtl.fairmetadata4j.model.DatasetMetadata;
-import nl.dtl.fairmetadata4j.model.DistributionMetadata;
 import nl.dtl.fairmetadata4j.utils.ExampleFilesUtils;
 import nl.dtl.fairmetadata4j.utils.MetadataUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Statement;
-import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  * Unit tests for IdentifierParser.
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2017-02-22
  * @version 0.1
  */
 public class AccessRightsParserTest {
-    
+
+    private final List<Statement> STMTS = ExampleFilesUtils.getFileContentAsStatements(
+            ExampleFilesUtils.DATASET_METADATA_FILE, ExampleFilesUtils.DATASET_URI.toString());
+
     /**
      * Test null accessRights uri, this test is expected to throw exception
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullAccessRightsUri() throws Exception {
         System.out.println("Test : Parse null id uri");
-        List<Statement> statements = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.
-                        DATASET_METADATA_FILE, 
-                        ExampleFilesUtils.DATASET_URI.toString());
-        AccessRightsParser.parse(statements, null);
-        fail("This test is execpeted to throw an error");
+        AccessRightsParser.parse(STMTS, null);
     }
-    
+
     /**
      * Test null rdf statements, this test is expected to throw exception
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullStatements() throws Exception {
         System.out.println("Test : Parse null statements");
         IRI uri = ExampleFilesUtils.BIOSEM_ACCESS_RIGHTS_URI;
         AccessRightsParser.parse(null, uri);
-        fail("This test is execpeted to throw an error");
     }
-    
-     /**
+
+    /**
      * Test empty rdf statements, this test is expected to throw exception
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyStatements() throws Exception {
@@ -88,41 +86,31 @@ public class AccessRightsParserTest {
         List<Statement> statements = new ArrayList();
         IRI uri = ExampleFilesUtils.BIOSEM_ACCESS_RIGHTS_URI;
         AccessRightsParser.parse(statements, uri);
-        fail("This test is execpeted to throw an error");
     }
-    
-    
+
     /**
      * Test valid accessRights.
      */
     @Test
     public void testValidMetadataAccessRights() {
         System.out.println("Parse dataset accessRights");
-        List<Statement> statements = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.
-                        DATASET_METADATA_FILE, 
-                        ExampleFilesUtils.DATASET_URI.toString());
         IRI uri = ExampleFilesUtils.BIOSEM_ACCESS_RIGHTS_URI;
-        AccessRights result = AccessRightsParser.parse(statements, uri);
+        AccessRights result = AccessRightsParser.parse(STMTS, uri);
         assertNotNull(result);
     }
-    
+
     /**
      * Test existence of rights rdf statement, this test is excepted to pass
-     * 
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test
-    public void testGetRDFString() throws Exception {        
+    public void testGetRDFString() throws Exception {
         System.out.println("Test : Valid dataset metadata with accessRights");
         DatasetMetadataParser parser = new DatasetMetadataParser();
-        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
-                ExampleFilesUtils.DATASET_METADATA_FILE, 
-                        ExampleFilesUtils.DATASET_URI.toString());
         IRI disURI = ExampleFilesUtils.DATASET_URI;
-        DatasetMetadata metadata = parser.parse(stmts , disURI);             
+        DatasetMetadata metadata = parser.parse(STMTS, disURI);
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE);
         assertTrue(out.contains("accessRights"));
     }
-    
 }

@@ -34,27 +34,25 @@ import org.junit.Test;
 
 /**
  * Unit tests for metadata field values.
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2017-04-18
  * @version 0.1
  */
 public class MetadataFieldsTest {
-    
+
     /**
-     * Test existence of conformsTo predicate 
-     * @throws Exception 
+     * Test existence of conformsTo predicate
+     *
+     * @throws Exception
      */
     @Test
     public void testExistenceconformsTo() throws Exception {
         FDPMetadataParser parser = new FDPMetadataParser();
         System.out.println("Test : Existence of conformsTo");
-        FDPMetadata metadata = parser.parse(
-                ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.FDP_METADATA_FILE), null,
-                ExampleFilesUtils.FILE_FORMAT);
+        FDPMetadata metadata = parser.parse(ExampleFilesUtils.getFileContentAsString(
+                ExampleFilesUtils.FDP_METADATA_FILE), null, ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata.getSpecification());
     }
-    
 }

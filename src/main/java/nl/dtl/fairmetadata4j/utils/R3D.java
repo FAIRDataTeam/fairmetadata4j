@@ -32,7 +32,7 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
  * Class contains missing Re3Data properties
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2017-04-28
@@ -41,10 +41,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 public class R3D {
 
     public static IRI INSTITUTIONCOUNTRY = SimpleValueFactory.getInstance()
-            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.
-                    R3D.NAMESPACE, "institutionCountry");
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.R3D.NAMESPACE, "institutionCountry");
     public static IRI LASTUPDATE = SimpleValueFactory.getInstance()
-            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.
-                    R3D.NAMESPACE, "lastUpdate");
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.R3D.NAMESPACE, "lastUpdate");
 
 }

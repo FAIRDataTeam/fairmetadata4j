@@ -30,12 +30,9 @@ import org.eclipse.rdf4j.model.Literal;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
 /**
  * Metadata object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
@@ -120,6 +117,7 @@ public class Metadata {
     public void setUri(IRI uri) {
         this.uri = uri;
     }
+
     /**
      * @return the title
      */
@@ -181,7 +179,7 @@ public class Metadata {
      */
     public IRI getUri() {
         return uri;
-    }    
+    }
 
     /**
      * @return the publisher
@@ -195,7 +193,7 @@ public class Metadata {
      */
     public IRI getLanguage() {
         return language;
-    }   
+    }
 
     /**
      * @param language the language to set
@@ -237,6 +235,8 @@ public class Metadata {
      */
     public void setSpecification(IRI specification) {
         this.specification = specification;
+    }
+
     /**
      * @return the accessRights
      */

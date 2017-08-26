@@ -32,16 +32,16 @@ import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
- * WebAccessControl vocabulary.
- * See {@link <a href="https://www.w3.org/wiki/WebAccessControl">WebAccessControl Vocabulary</a>}.
- * 
+ * WebAccessControl vocabulary. See {@link
+ * <a href="https://www.w3.org/wiki/WebAccessControl">WebAccessControl Vocabulary</a>}.
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2017-02-22
  * @version 0.1
  */
 public class WebAccessControl {
-    
+
     private static final ValueFactory f = SimpleValueFactory.getInstance();
     public static final String PREFIX = "acl";
     public static final String NAMESPACE = "http://www.w3.org/ns/auth/acl#";
@@ -51,5 +51,5 @@ public class WebAccessControl {
     public static final IRI ACCESS_READ = f.createIRI(NAMESPACE + "Read");
     public static final IRI ACCESS_MODE = f.createIRI(NAMESPACE + "mode");
     public static final IRI ACCESS_AGENT = f.createIRI(NAMESPACE + "agent");
-    
+
 }

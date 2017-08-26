@@ -32,22 +32,19 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
  * Class contains missing schema.org properties
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2017-04-28
  * @version 0.1
  */
-public class SCHEMAORG {    
-    
+public class SCHEMAORG {
+
     public static IRI FILE_FORMAT = SimpleValueFactory.getInstance()
-            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.
-                    SCHEMAORG.NAMESPACE, "encodingFormat");
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.SCHEMAORG.NAMESPACE,
+                    "encodingFormat");
     public static IRI PERSON = SimpleValueFactory.getInstance()
-            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.
-                    SCHEMAORG.NAMESPACE, "Person");
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.SCHEMAORG.NAMESPACE, "Person");
     public static IRI ORGANIZATION = SimpleValueFactory.getInstance()
-            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.
-                    SCHEMAORG.NAMESPACE, "Organization");
-    
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.SCHEMAORG.NAMESPACE, "Organization");
 }

@@ -33,6 +33,7 @@ import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata4j.model.AccessRights;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
@@ -40,25 +41,23 @@ import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 
 /**
  * Parser for accessRights object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2017-02-22
  * @version 0.1
  */
 public class AccessRightsParser {
-    
-     private static final org.apache.logging.log4j.Logger LOGGER
+
+    private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(AccessRightsParser.class);
-     
-     public static AccessRights parse(@Nonnull List<Statement> statements,
+
+    public static AccessRights parse(@Nonnull List<Statement> statements,
             @Nonnull IRI accessRightsURI) {
-        Preconditions.checkNotNull(accessRightsURI,
-                "AccessRights URI must not be null.");
-        Preconditions.checkNotNull(statements,
-                "AccessRights statements must not be null.");
-        Preconditions.checkArgument(!statements.isEmpty(),
-                "AccessRights statements must not be empty.");
+        Preconditions.checkNotNull(accessRightsURI, "AccessRights URI must not be null.");
+        Preconditions.checkNotNull(statements, "AccessRights statements must not be null.");
+        Preconditions.checkArgument(!statements.isEmpty(), "AccessRights statements must not be "
+                + "empty.");
         LOGGER.info("Parsing accessRights");
         AccessRights accessRights = new AccessRights();
         accessRights.setUri(accessRightsURI);
@@ -67,13 +66,16 @@ public class AccessRightsParser {
             IRI predicate = st.getPredicate();
             Value object = st.getObject();
             if (subject.equals(accessRightsURI)) {
-                if (predicate.equals(DCTERMS.IS_PART_OF)) {
-                    accessRights.setAuthorization(AuthorizationParser.parse(
-                            statements, (IRI) object));
-                } 
+                if (predicate.equals(DCTERMS.IS_PART_OF)) {                    
+                    if (object instanceof Literal) {
+                        throw new IllegalArgumentException(
+                                "Objects of accessRights statements expected to be IRI");
+                    }
+                    accessRights.setAuthorization(AuthorizationParser.parse(statements,
+                            (IRI) object));
+                }
             }
         }
         return accessRights;
     }
-    
 }
