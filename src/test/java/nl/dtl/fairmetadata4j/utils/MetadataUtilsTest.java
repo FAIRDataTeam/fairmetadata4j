@@ -52,15 +52,15 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for MetadataUtils.
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-12
  * @version 0.1
  */
-public class MetadataUtilsTest { 
-    
-    private static final org.apache.logging.log4j.Logger LOGGER 
+public class MetadataUtilsTest {
+
+    private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(MetadataUtilsTest.class);
     /**
      * FDP metadata parser
@@ -69,68 +69,58 @@ public class MetadataUtilsTest {
     /**
      * Catalog metadata parser
      */
-    private final CatalogMetadataParser CAT_PARSER 
-            = new CatalogMetadataParser();
+    private final CatalogMetadataParser CAT_PARSER = new CatalogMetadataParser();
     /**
      * Dataset metadata parser
      */
-    private final DatasetMetadataParser DAT_PARSER 
-            = new DatasetMetadataParser();
+    private final DatasetMetadataParser DAT_PARSER = new DatasetMetadataParser();
     /**
      * Distribution metadata parser
      */
-    private final DistributionMetadataParser DIS_PARSER 
-            = new DistributionMetadataParser();
+    private final DistributionMetadataParser DIS_PARSER = new DistributionMetadataParser();
     /**
      * Datarecord metadata parser
      */
-    private final DataRecordMetadataParser DAT_REC_PARSER 
-            = new DataRecordMetadataParser();
+    private final DataRecordMetadataParser DAT_REC_PARSER = new DataRecordMetadataParser();
     private final ValueFactory f = SimpleValueFactory.getInstance();
-    
+
     /**
-     * Test null metadata, this test is expected to throw 
-     * an exception
-     * 
-     * @throws Exception 
+     * Test null metadata, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
-    @Test(expected = NullPointerException.class) 
-    public void testNullMetadataObject() throws Exception{ 
+    @Test(expected = NullPointerException.class)
+    public void testNullMetadataObject() throws Exception {
         LOGGER.info("Test : Null metadata");
         MetadataUtils.getStatements(null);
-        fail("This test is execpeted to throw an error");        
-    }  
-    
+    }
+
     /**
-     * Test null metadata, this test is expected to throw 
-     * an exception
-     * 
-     * @throws Exception 
+     * Test null metadata, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
-    @Test(expected = NullPointerException.class) 
-    public void testNullMetadataObjectForStringConvertion() throws Exception{ 
+    @Test(expected = NullPointerException.class)
+    public void testNullMetadataObjectForStringConvertion() throws Exception {
         LOGGER.info("Test : Null metadata");
         MetadataUtils.getString(null, RDFFormat.TRIG);
-        fail("This test is execpeted to throw an error");        
     }
-    
+
     /**
-     * Test null rdf format, this test is expected to throw 
-     * an exception
-     * 
-     * @throws Exception 
+     * Test null rdf format, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
-    @Test(expected = NullPointerException.class) 
-    public void testNullRDFFormatForStringConvertion() throws Exception{ 
-        LOGGER.info("Test : Null RDFFormat");        
+    @Test(expected = NullPointerException.class)
+    public void testNullRDFFormatForStringConvertion() throws Exception {
+        LOGGER.info("Test : Null RDFFormat");
         MetadataUtils.getString(getFdpMetadata(), null);
-        fail("This test is execpeted to throw an error");        
     }
-    
-     /**
-     * Test missing rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+
+    /**
+     * Test missing rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseNoVersionStatement() throws Exception {
@@ -138,28 +128,26 @@ public class MetadataUtilsTest {
         FDPMetadata metadata = getFdpMetadata();
         metadata.setVersion(null);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
+
     /**
-     * Test missing rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseNoTitleStatement() throws Exception {
         LOGGER.info("Test : Missing title statement");
         FDPMetadata metadata = getFdpMetadata();
-        metadata.setTitle(null);    
+        metadata.setTitle(null);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
-    }    
-    
+    }
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
     public void testParseNoTitleStatementWithFlag() throws Exception {
@@ -168,100 +156,96 @@ public class MetadataUtilsTest {
         metadata.setTitle(null);
         List<Statement> expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
-    } 
-    
+    }
+
     /**
-     * Test missing rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseNoIDStatement() throws Exception {
         LOGGER.info("Test : Missing ID statement");
         FDPMetadata metadata = getFdpMetadata();
-        metadata.setIdentifier(null);    
+        metadata.setIdentifier(null);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
     public void testParseNoIDStatementWithFlag() throws Exception {
         LOGGER.info("Test : Missing ID statement");
         FDPMetadata metadata = getFdpMetadata();
-        metadata.setIdentifier(null); 
+        metadata.setIdentifier(null);
         List<Statement> expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
     }
-    
+
     /**
-     * Test missing rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseNoRepostoryIDStatement() throws Exception {
         LOGGER.info("Test : Missing repostiory ID statement");
         FDPMetadata metadata = getFdpMetadata();
-        metadata.setRepostoryIdentifier(null);    
+        metadata.setRepostoryIdentifier(null);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
     public void testParseNoRepostoryIDStatementWithFlag() throws Exception {
         LOGGER.info("Test : Missing repostiory ID statement");
         FDPMetadata metadata = getFdpMetadata();
-        metadata.setRepostoryIdentifier(null);    
+        metadata.setRepostoryIdentifier(null);
         List<Statement> expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
     }
-    
+
     /**
-     * Test missing rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseNoPublisherStatement() throws Exception {
         LOGGER.info("Test : Missing publisher statement");
         FDPMetadata metadata = getFdpMetadata();
-        metadata.setPublisher(null);    
+        metadata.setPublisher(null);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
-    
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
     public void testParseNoPublisherStatementWithFlag() throws Exception {
         LOGGER.info("Test : Missing publisher statement");
         FDPMetadata metadata = getFdpMetadata();
-        metadata.setPublisher(null);    
+        metadata.setPublisher(null);
         List<Statement> expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
     }
-    
+
     /**
-     * Test missing id statement with missing triple, this test is expected to 
-     * throw an exception
-     * @throws Exception 
+     * Test missing id statement with missing triple, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseIDStatementWithMissingLiteral() throws Exception {
@@ -269,15 +253,14 @@ public class MetadataUtilsTest {
         FDPMetadata metadata = getFdpMetadata();
         Identifier id = metadata.getIdentifier();
         id.setIdentifier(null);
-        metadata.setIdentifier(id);    
+        metadata.setIdentifier(id);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
+
     /**
-     * Test missing id statement with missing triple, this test is expected to 
-     * throw an exception
-     * @throws Exception 
+     * Test missing id statement with missing triple, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseIDStatementWithMissingURI() throws Exception {
@@ -285,15 +268,14 @@ public class MetadataUtilsTest {
         FDPMetadata metadata = getFdpMetadata();
         Identifier id = metadata.getIdentifier();
         id.setUri(null);
-        metadata.setIdentifier(id);    
+        metadata.setIdentifier(id);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
+
     /**
-     * Test missing id statement with missing triple, this test is expected to 
-     * throw an exception
-     * @throws Exception 
+     * Test missing id statement with missing triple, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseIDStatementWithMissingType() throws Exception {
@@ -301,15 +283,14 @@ public class MetadataUtilsTest {
         FDPMetadata metadata = getFdpMetadata();
         Identifier id = metadata.getIdentifier();
         id.setType(null);
-        metadata.setIdentifier(id);    
+        metadata.setIdentifier(id);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
+
     /**
-     * Test missing catalog rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing catalog rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseNullThemeTaxonomyStatement() throws Exception {
@@ -317,14 +298,12 @@ public class MetadataUtilsTest {
         CatalogMetadata metadata = getCatMetadata();
         metadata.setThemeTaxonomys(null);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
-    
+
     /**
-     * Test missing catalog rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing catalog rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseEmptyThemeTaxonomyStatement() throws Exception {
@@ -332,15 +311,13 @@ public class MetadataUtilsTest {
         CatalogMetadata metadata = getCatMetadata();
         metadata.setThemeTaxonomys(new ArrayList());
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
-    
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
     public void testParseNoThemeTaxonomyStatementWithFlag() throws Exception {
@@ -349,17 +326,15 @@ public class MetadataUtilsTest {
         metadata.setThemeTaxonomys(new ArrayList());
         List<Statement> expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
-        
         metadata.setThemeTaxonomys(null);
         expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
     }
-    
-       
+
     /**
-     * Test missing dataset rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing dataset rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseNullThemeStatement() throws Exception {
@@ -367,13 +342,12 @@ public class MetadataUtilsTest {
         DatasetMetadata metadata = getDatMetadata();
         metadata.setThemes(null);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
+
     /**
-     * Test missing dataset rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing dataset rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
     public void testParseEmptyThemeStatement() throws Exception {
@@ -381,15 +355,13 @@ public class MetadataUtilsTest {
         DatasetMetadata metadata = getDatMetadata();
         metadata.setThemes(new ArrayList());
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
-    
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
     public void testParseEmptyThemeStatementWithFlag() throws Exception {
@@ -398,122 +370,114 @@ public class MetadataUtilsTest {
         metadata.setThemes(new ArrayList());
         List<Statement> expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
-        
         metadata.setThemes(null);
         expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
     }
-    
+
     /**
-     * Test missing distribution rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing distribution rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
-    public void testParseNoDowloadOrAccessStatement() throws Exception {        
+    public void testParseNoDowloadOrAccessStatement() throws Exception {
         LOGGER.info("Test : Missing download or access statement");
         DistributionMetadata metadata = getDisMetadata();
         metadata.setAccessURL(null);
-        metadata.setDownloadURL(null);     
+        metadata.setDownloadURL(null);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
-    }  
-    
-    
+    }
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
-    public void testParseNoDowloadOrAccessStatementWithFlag() throws Exception {        
+    public void testParseNoDowloadOrAccessStatementWithFlag() throws Exception {
         LOGGER.info("Test : Missing download or access statement");
         DistributionMetadata metadata = getDisMetadata();
         metadata.setAccessURL(null);
         metadata.setDownloadURL(null);
         List<Statement> expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
-    }  
-    
+    }
+
     /**
-     * Test missing rdf statement, this test is expected to throw 
-     * an exception
-     * @throws Exception 
+     * Test missing rdf statement, this test is expected to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = MetadataException.class)
-    public void testGetDataRecordNoRMLURI() throws Exception {        
+    public void testGetDataRecordNoRMLURI() throws Exception {
         LOGGER.info("Test : Missing rml uri for  datarecord metadata");
-        DataRecordMetadata metadata = getDatRecMetadata();  
+        DataRecordMetadata metadata = getDatRecMetadata();
         metadata.setRmlURI(null);
         MetadataUtils.getStatements(metadata);
-        fail("This test is execpeted to throw an error");
     }
-    
-    
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
-    public void testGetDataRecordNoRMLURIWithFlag() throws Exception {        
+    public void testGetDataRecordNoRMLURIWithFlag() throws Exception {
         LOGGER.info("Test : Missing rml uri for  datarecord metadata");
-        DataRecordMetadata metadata = getDatRecMetadata();  
+        DataRecordMetadata metadata = getDatRecMetadata();
         metadata.setRmlURI(null);
         List<Statement> expected = MetadataUtils.getStatements(metadata, false);
         assertNotNull(expected);
     }
-    
-    
+
     /**
-     * Test missing rdf statement, this test is expected to  pass
-     * 
+     * Test missing rdf statement, this test is expected to pass
+     *
      */
-    public void testGetDataRecordNoRMLSource() throws Exception {        
+    public void testGetDataRecordNoRMLSource() throws Exception {
         LOGGER.info("Test : Missing rml source for  datarecord metadata");
-        DataRecordMetadata metadata = getDatRecMetadata();  
+        DataRecordMetadata metadata = getDatRecMetadata();
         metadata.setRmlInputSourceURI(null);
         MetadataUtils.getStatements(metadata);
     }
-    
-    
-    
+
     /**
      * Test missing distribution rdf statement, this test is expected to pass
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
-    public void testParseNoDowload() throws Exception {        
+    public void testParseNoDowload() throws Exception {
         LOGGER.info("Test : Missing download url");
         DistributionMetadata metadata = getDisMetadata();
         metadata.setAccessURL(f.createIRI("http://example.com/accessuri"));
-        metadata.setDownloadURL(null);     
+        metadata.setDownloadURL(null);
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
     }
-    
+
     /**
      * Test missing distribution rdf statement, this test is expected to pass
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
-    public void testParseNoAccess() throws Exception {        
+    public void testParseNoAccess() throws Exception {
         LOGGER.info("Test : Missing download url");
         DistributionMetadata metadata = getDisMetadata();
         metadata.setAccessURL(null);
-        metadata.setDownloadURL(f.createIRI("http://example.com/downloaduri"));     
+        metadata.setDownloadURL(f.createIRI("http://example.com/downloaduri"));
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
     }
-    
+
     /**
-     * This test is expected to pass 
-     * an exception
-     * @throws Exception 
+     * This test is expected to pass an exception
+     *
+     * @throws Exception
      */
     @Test
     public void testGetFDPStatements() throws Exception {
@@ -522,11 +486,11 @@ public class MetadataUtilsTest {
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
     }
-    
+
     /**
-     * This test is expected to pass 
+     * This test is expected to pass
      *
-     * @throws Exception 
+     * @throws Exception
      */
     @Test
     public void testGetCatalogStatements() throws Exception {
@@ -535,12 +499,11 @@ public class MetadataUtilsTest {
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
     }
-    
-       
+
     /**
-     * This test is expected to pass 
+     * This test is expected to pass
      *
-     * @throws Exception 
+     * @throws Exception
      */
     @Test
     public void testGetDatasetStatements() throws Exception {
@@ -549,85 +512,102 @@ public class MetadataUtilsTest {
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
     }
-    
+
     /**
-     * This test is expected to pass 
+     * This test is expected to pass
      *
-     * @throws Exception 
+     * @throws Exception
      */
     @Test
-    public void testGetDistributionStatements() throws Exception {        
+    public void testGetDistributionStatements() throws Exception {
         LOGGER.info("Test : Valid distribution metadata");
-        DistributionMetadata metadata = getDisMetadata();             
+        DistributionMetadata metadata = getDisMetadata();
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
     }
-    
+
     /**
-     * This test is expected to pass 
+     * This test is expected to pass
      *
-     * @throws Exception 
+     * @throws Exception
      */
     @Test
-    public void testGetDataRecordStatements() throws Exception {        
-        LOGGER.info("Test : Valid datarecord metadata");       
-        DataRecordMetadata metadata = getDatRecMetadata();              
+    public void testGetDataRecordStatements() throws Exception {
+        LOGGER.info("Test : Valid datarecord metadata");
+        DataRecordMetadata metadata = getDatRecMetadata();
         List<Statement> out = MetadataUtils.getStatements(metadata);
         assertTrue(out.size() > 1);
-    }    
-    
+    }
+
     /**
      * Test missing distribution rdf statement, this test is expected to pass
-     * 
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test
-    public void testGetRDFString() throws Exception {        
+    public void testGetRDFString() throws Exception {
         LOGGER.info("Test : Valid distribution metadata");
-        DistributionMetadata metadata = getDisMetadata();             
+        DistributionMetadata metadata = getDisMetadata();
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE);
         assertFalse(out.isEmpty());
-    }    
-    
+    }
+
     /**
-     * This test is expected to pass 
+     * This test is expected to pass
      *
-     * @throws Exception 
+     * @throws Exception
      */
     @Test
     public void testGetDatasetSchemaDotOrgString() throws Exception {
         LOGGER.info("Test : Valid dataset metadata tranformation");
         DatasetMetadata metadata = getDatMetadata();
-        String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
+        String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD,
                 MetadataUtils.SCHEMA_DOT_ORG_MODEL);
         assertFalse(out.isEmpty());
     }
-    
+
     /**
-     * This test is expected to pass 
-     * 
-     * @throws Exception 
+     * This test is expected to pass
+     *
+     * @throws Exception
      */
     @Test
-    public void testGetDIstributionSchemaDotOrgString() throws Exception {        
+    public void testGetDIstributionSchemaDotOrgString() throws Exception {
         LOGGER.info("Test : Valid distribution metadata");
-        DistributionMetadata metadata = getDisMetadata();             
-        String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD, 
+        DistributionMetadata metadata = getDisMetadata();
+        String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD,
                 MetadataUtils.SCHEMA_DOT_ORG_MODEL);
         assertFalse(out.isEmpty());
-    }  
-    
+    }
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * This test is expected to pass
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testGetDisWithDownloadUrlSchemaDotOrg() throws Exception {
+        LOGGER.info("Test : Valid distribution metadata");
+        DistributionMetadata metadata = getDisMetadata();
+        metadata.setAccessURL(null);
+        metadata.setDownloadURL(f.createIRI("http://example.com/downloaduri"));
+        metadata.setFormat(f.createLiteral("text/html"));
+        String out = MetadataUtils.getString(metadata, RDFFormat.JSONLD,
+                MetadataUtils.SCHEMA_DOT_ORG_MODEL);
+        assertFalse(out.isEmpty());
+    }
+
+    /**
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
     public void testGetCatalogStringNoMandatoryFileds() throws Exception {
         LOGGER.info("Test : Null or empty mandatory fields");
         CatalogMetadata metadata = getCatMetadata();
-        metadata.setThemeTaxonomys(new ArrayList());     
+        metadata.setThemeTaxonomys(new ArrayList());
         metadata.setIdentifier(null);
         metadata.setLanguage(null);
         metadata.setLicense(null);
@@ -635,16 +615,16 @@ public class MetadataUtilsTest {
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE, false);
         assertFalse(out.isEmpty());
     }
-    
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
     public void testGetDatasetStringNoMandatoryFileds() throws Exception {
-        LOGGER.info("Test : Null or empty mandatory fields");        
+        LOGGER.info("Test : Null or empty mandatory fields");
         DatasetMetadata metadata = getDatMetadata();
         metadata.setThemes(new ArrayList());
         metadata.setIdentifier(null);
@@ -654,12 +634,12 @@ public class MetadataUtilsTest {
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE, false);
         assertFalse(out.isEmpty());
     }
-    
+
     /**
-     * Test missing rdf statement but the mandatory check is disabled,
-     * so this test is expected to pass
-     * 
-     * @throws Exception 
+     * Test missing rdf statement but the mandatory check is disabled, so this test is expected to
+     * pass
+     *
+     * @throws Exception
      */
     @Test
     public void testGetDistributionStringNoMandatoryFileds() throws Exception {
@@ -674,49 +654,48 @@ public class MetadataUtilsTest {
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE, false);
         assertFalse(out.isEmpty());
     }
-    
+
     /**
      * Example fdp metadata object
      */
     private FDPMetadata getFdpMetadata() {
         IRI fURI = ExampleFilesUtils.FDP_URI;
-        List<Statement> stmts = ExampleFilesUtils.
-                getFileContentAsStatements(ExampleFilesUtils.FDP_METADATA_FILE,
-                        ExampleFilesUtils.FDP_URI.toString());
+        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.FDP_METADATA_FILE, ExampleFilesUtils.FDP_URI.toString());
         return FDP_PARSER.parse(stmts, fURI);
-    } 
+    }
+
     /**
      * Example catalog metadata object
      */
-    private CatalogMetadata getCatMetadata() {        
+    private CatalogMetadata getCatMetadata() {
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
-                ExampleFilesUtils.CATALOG_METADATA_FILE, 
-                        ExampleFilesUtils.CATALOG_URI.toString());
+                ExampleFilesUtils.CATALOG_METADATA_FILE, ExampleFilesUtils.CATALOG_URI.toString());
         IRI cURI = ExampleFilesUtils.CATALOG_URI;
-        return CAT_PARSER.parse(stmts , cURI);
+        return CAT_PARSER.parse(stmts, cURI);
     }
+
     /**
      * Example dataset metadata object
-     */ 
+     */
     private DatasetMetadata getDatMetadata() {
         List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
-                ExampleFilesUtils.DATASET_METADATA_FILE,
-                ExampleFilesUtils.DATASET_URI.toString());
+                ExampleFilesUtils.DATASET_METADATA_FILE, ExampleFilesUtils.DATASET_URI.toString());
         IRI dURI = ExampleFilesUtils.DATASET_URI;
         return DAT_PARSER.parse(stmts, dURI);
     }
-    
+
     /**
      * Example distribution metadata object
-     */ 
+     */
     private DistributionMetadata getDisMetadata() {
-        List<Statement> stms = ExampleFilesUtils.
-                getFileContentAsStatements(
-                        ExampleFilesUtils.DISTRIBUTION_METADATA_FILE,
-                        ExampleFilesUtils.DISTRIBUTION_URI.toString());
+        List<Statement> stms = ExampleFilesUtils.getFileContentAsStatements(
+                ExampleFilesUtils.DISTRIBUTION_METADATA_FILE,
+                ExampleFilesUtils.DISTRIBUTION_URI.toString());
         IRI dURI = ExampleFilesUtils.DISTRIBUTION_URI;
         return DIS_PARSER.parse(stms, dURI);
     }
+
     /**
      * Example datarecord metadata object
      */

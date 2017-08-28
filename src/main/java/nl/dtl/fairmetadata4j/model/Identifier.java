@@ -33,13 +33,14 @@ import org.eclipse.rdf4j.model.Literal;
 
 /**
  * Identifier object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-29
  * @version 0.1
  */
 public class Identifier {
+
     private IRI uri;
     private IRI type = DATACITE.IDENTIFIER;
     private Literal identifier;
@@ -85,5 +86,5 @@ public class Identifier {
     public void setUri(IRI uri) {
         this.uri = uri;
     }
-    
+
 }

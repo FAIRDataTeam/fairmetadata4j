@@ -37,123 +37,115 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for CatalogMetadataParser.
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2017-02-07
  * @version 0.1
  */
 public class FDPMetadataParserTest {
-    
-    private final FDPMetadataParser parser = new FDPMetadataParser();
-    
+
+    private final FDPMetadataParser PARSER = new FDPMetadataParser();
+    private final String MDATA_STR = ExampleFilesUtils.getFileContentAsString(
+            ExampleFilesUtils.FDP_METADATA_FILE);
+    private final List<Statement> STMTS = ExampleFilesUtils.getFileContentAsStatements(
+            ExampleFilesUtils.FDP_METADATA_FILE, ExampleFilesUtils.FDP_URI.toString());
+
     /**
      * Test null RDF string, this test is expected to throw exception
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFString() throws Exception {
         System.out.println("Test : Parse invalid fdp content");
         IRI fURI = ExampleFilesUtils.FDP_URI;
-        parser.parse(null, fURI, ExampleFilesUtils.FILE_FORMAT);
-        fail("This test is execpeted to throw an error");
+        PARSER.parse(null, fURI, ExampleFilesUtils.FILE_FORMAT);
     }
-    
+
     /**
      * Test empty RDF string, this test is expected to throw exception
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyRDFString() throws Exception {
         System.out.println("Test : Parse invalid fdp content");
         IRI fURI = ExampleFilesUtils.FDP_URI;
-        parser.parse("", fURI, ExampleFilesUtils.FILE_FORMAT);
-        fail("This test is execpeted to throw an error");
-    } 
+        PARSER.parse("", fURI, ExampleFilesUtils.FILE_FORMAT);
+    }
+
     /**
      * Test null RDFFormat, this test is expected to throw exception
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullRDFFormat() throws Exception {
         System.out.println("Test : Parse null rdf format");
         IRI fURI = ExampleFilesUtils.FDP_URI;
-        parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.FDP_METADATA_FILE), fURI, null);
-        fail("This test is execpeted to throw an error");
+        PARSER.parse(MDATA_STR, fURI, null);
     }
-    
-    
+
     /**
      * Test valid fdp metadata rdf file
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test
     public void testParseVaildFDPFile() throws Exception {
         System.out.println("Test : Parse valid fdp content");
         IRI fURI = ExampleFilesUtils.FDP_URI;
-        FDPMetadata metadata = parser.parse(
-                ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.FDP_METADATA_FILE), fURI, 
-                ExampleFilesUtils.FILE_FORMAT);
+        FDPMetadata metadata = PARSER.parse(MDATA_STR, fURI, ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata);
     }
-    
+
     /**
-     * Test null fdp URI, this test is excepted to throw 
-     * an exception
-     * @throws Exception 
+     * Test null fdp URI, this test is excepted to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = NullPointerException.class)
     public void testNullFDPURI() throws Exception {
         System.out.println("Test : Missing fdp URL");
-        List<Statement> stmts = ExampleFilesUtils.getFileContentAsStatements(
-                ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI.toString());
-        parser.parse(stmts , null);
-        fail("This test is execpeted to throw an error");
+        PARSER.parse(STMTS, null);
     }
-    
+
     /**
-     * Test null statements, this test is excepted to throw 
-     * an exception
-     * @throws Exception 
+     * Test null statements, this test is excepted to throw an exception
+     *
+     * @throws Exception
      */
     @Test(expected = NullPointerException.class)
     public void testNullStatements() throws Exception {
         System.out.println("Test : Parse null rdf statements");
         IRI fURI = ExampleFilesUtils.FDP_URI;
-        parser.parse(null, fURI);
+        PARSER.parse(null, fURI);
         fail("This test is execpeted to throw an error");
     }
-    
+
     /**
      * Test valid fdp rdf statements
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test
     public void testParseStatements() throws Exception {
         System.out.println("Test : Parse valid fdp content");
         IRI fURI = ExampleFilesUtils.FDP_URI;
-        FDPMetadata metadata = parser.parse(
-                ExampleFilesUtils.getFileContentAsStatements(
-                ExampleFilesUtils.FDP_METADATA_FILE, 
-                        ExampleFilesUtils.FDP_URI.toString()), fURI);
+        FDPMetadata metadata = PARSER.parse(STMTS, fURI);
         assertNotNull(metadata);
     }
-    
+
     /**
      * Test valid fdp metadata rdf file, with no base
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test
     public void testParseFileWithNoBase() throws Exception {
         System.out.println("Test : Parse valid fdp content with no base uri");
-        FDPMetadata metadata = parser.parse(
-                ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.FDP_METADATA_FILE), null,
-                ExampleFilesUtils.FILE_FORMAT);
+        FDPMetadata metadata = PARSER.parse(MDATA_STR, null, ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata);
     }
-    
 }

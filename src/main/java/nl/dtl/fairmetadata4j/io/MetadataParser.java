@@ -26,6 +26,7 @@
  * and open the template in the editor.
  */
 package nl.dtl.fairmetadata4j.io;
+
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import nl.dtl.fairmetadata4j.model.Metadata;
@@ -65,9 +66,7 @@ public abstract class MetadataParser<T extends Metadata> {
      */
     protected T parse(List<Statement> statements, IRI metadataUri) {
         T metadata = createMetadata();
-
         metadata.setUri(metadataUri);
-
         LOGGER.info("Parse common metadata properties");
         ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
@@ -77,15 +76,12 @@ public abstract class MetadataParser<T extends Metadata> {
 
             if (subject.equals(metadataUri)) {
                 if (predicate.equals(DCTERMS.HAS_VERSION)) {
-                    metadata.setVersion(f.createLiteral(object.stringValue(),
-                            XMLSchema.STRING));
-                } else if (predicate.equals(RDFS.LABEL)
-                        || predicate.equals(DCTERMS.TITLE)) {
-                    metadata.setTitle(f.createLiteral(object.stringValue(),
-                            XMLSchema.STRING));
+                    metadata.setVersion(f.createLiteral(object.stringValue(), XMLSchema.STRING));
+                } else if (predicate.equals(RDFS.LABEL) || predicate.equals(DCTERMS.TITLE)) {
+                    metadata.setTitle(f.createLiteral(object.stringValue(), XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.DESCRIPTION)) {
-                    metadata.setDescription(f.createLiteral(object.
-                            stringValue(), XMLSchema.STRING));
+                    metadata.setDescription(f.createLiteral(object.stringValue(),
+                            XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.LICENSE)) {
                     metadata.setLicense((IRI) object);
                 } else if (predicate.equals(DCTERMS.RIGHTS)) {
@@ -93,23 +89,20 @@ public abstract class MetadataParser<T extends Metadata> {
                 } else if (predicate.equals(DCTERMS.LANGUAGE)) {
                     metadata.setLanguage((IRI) object);
                 } else if (predicate.equals(DCTERMS.PUBLISHER)) {
-                    metadata.setPublisher(AgentParser.parse(statements,
-                            (IRI) object));
+                    metadata.setPublisher(AgentParser.parse(statements, (IRI) object));
                 } else if (predicate.equals(FDP.METADATAIDENTIFIER)) {
-                    metadata.setIdentifier(IdentifierParser.parse(statements,
-                            (IRI) object));
-                } else if (predicate.equals(FDP.METADATAISSUED)
-                        && metadata.getIssued() == null) {
-                    metadata.setIssued(f.createLiteral(object.
-                            stringValue(), XMLSchema.DATETIME));
+                    metadata.setIdentifier(IdentifierParser.parse(statements, (IRI) object));
+                } else if (predicate.equals(FDP.METADATAISSUED) && metadata.getIssued() == null) {
+                    metadata.setIssued(f.createLiteral(object.stringValue(), XMLSchema.DATETIME));
                 } else if (predicate.equals(FDP.METADATAMODIFIED)
                         && metadata.getModified() == null) {
-                    metadata.setModified(f.createLiteral(object.
-                            stringValue(), XMLSchema.DATETIME));
+                    metadata.setModified(f.createLiteral(object.stringValue(), XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.IS_PART_OF)) {
                     metadata.setParentURI((IRI) object);
                 } else if (predicate.equals(DCTERMS.CONFORMS_TO)) {
                     metadata.setSpecification((IRI) object);
+                } else if (predicate.equals(DCTERMS.ACCESS_RIGHTS)) {
+                    metadata.setAccessRights(AccessRightsParser.parse(statements, (IRI) object));
                 }
             }
         }

@@ -27,8 +27,6 @@ package nl.dtl.fairmetadata4j.io;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 /**
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
@@ -37,9 +35,10 @@ package nl.dtl.fairmetadata4j.io;
  * @version 0.1
  */
 public class MetadataException extends Exception {
+
     /**
-     * Constructs an instance of <code>CatalogMetadataExeception</code> with the
-     * specified detail message.
+     * Constructs an instance of <code>CatalogMetadataExeception</code> with the specified detail
+     * message.
      *
      * @param msg the detail message.
      */

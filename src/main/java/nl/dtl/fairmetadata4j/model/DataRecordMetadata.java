@@ -30,18 +30,16 @@ package nl.dtl.fairmetadata4j.model;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
-
-
 /**
- * Data record metadata object 
- * 
+ * Data record metadata object
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-10-24
  * @version 0.1
  */
 public class DataRecordMetadata extends Metadata {
-    
+
     private IRI rmlURI;
     private IRI rmlInputSource;
     private Literal dataRecordIssued;
@@ -102,5 +100,5 @@ public class DataRecordMetadata extends Metadata {
     public void setDataRecordModified(Literal dataRecordModified) {
         this.dataRecordModified = dataRecordModified;
     }
-    
+
 }

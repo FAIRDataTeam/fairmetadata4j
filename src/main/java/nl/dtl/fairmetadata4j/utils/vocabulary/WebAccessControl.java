@@ -25,53 +25,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.dtl.fairmetadata4j.utils;
+package nl.dtl.fairmetadata4j.utils.vocabulary;
 
-import nl.dtl.fairmetadata4j.io.MetadataParserException;
-import org.eclipse.rdf4j.rio.RDFFormat;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
- * Unit tests for RDFUtils class
+ * WebAccessControl vocabulary. See {@link
+ * <a href="https://www.w3.org/wiki/WebAccessControl">WebAccessControl Vocabulary</a>}.
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
+ * @since 2017-02-22
+ * @version 0.1
  */
-public class RDFUtilsTest {
+public class WebAccessControl {
 
-    /**
-     * Test of getCurrentTime method, of class RDFUtils.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testGetCurrentTime() throws Exception {
-        System.out.println("getCurrentTime");
-        assertNotNull(RDFUtils.getCurrentTime());
-    }
+    private static final ValueFactory f = SimpleValueFactory.getInstance();
+    public static final String PREFIX = "acl";
+    public static final String NAMESPACE = "http://www.w3.org/ns/auth/acl#";
+    public static final IRI AUTHORIZATION = f.createIRI(NAMESPACE + "Authorization");
+    public static final IRI ACCESS_APPEND = f.createIRI(NAMESPACE + "Append");
+    public static final IRI ACCESS_WRITE = f.createIRI(NAMESPACE + "Write");
+    public static final IRI ACCESS_READ = f.createIRI(NAMESPACE + "Read");
+    public static final IRI ACCESS_MODE = f.createIRI(NAMESPACE + "mode");
+    public static final IRI ACCESS_AGENT = f.createIRI(NAMESPACE + "agent");
 
-    /**
-     * Invalid rdf string
-     *
-     * @throws java.lang.Exception
-     */
-    @Test(expected = MetadataParserException.class)
-    public void testInvalidRdfStr() throws Exception {
-        String input = "<sub> pred> <obj> .";
-        System.out.println("Invalid rdf string");
-        RDFUtils.getStatements(input, null, RDFFormat.TURTLE);
-    }
-
-    /**
-     * Valid rdf string
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testValidRdfStr() throws Exception {
-        String input = "<sub> <pred> <obj> .";
-        System.out.println("Valid rdf string");
-        assertNotNull(RDFUtils.getStatements(input, null, RDFFormat.TURTLE));
-    }
 }

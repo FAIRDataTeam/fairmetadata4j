@@ -40,35 +40,33 @@ import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
  * Parser for agent object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-30
  * @version 0.1
  */
 public class AgentParser {
-    
+
     private static final org.apache.logging.log4j.Logger LOGGER
-            = LogManager.getLogger(IdentifierParser.class);
+            = LogManager.getLogger(AgentParser.class);
+
     /**
      * Create agent object
-     * 
-     * @param statements    List of rdf statements
-     * @param agentURI      Agent uri
-     * @return 
+     *
+     * @param statements List of rdf statements
+     * @param agentURI Agent uri
+     * @return
      */
-    public static Agent parse(@Nonnull List<Statement> statements,
-            @Nonnull IRI agentURI) {
-        Preconditions.checkNotNull(agentURI,
-                "Agent URI must not be null.");
-        Preconditions.checkNotNull(statements,
-                "Agent statements must not be null.");
-        Preconditions.checkArgument(!statements.isEmpty(),
-                "Agent statements must not be empty.");
+    public static Agent parse(@Nonnull List<Statement> statements, @Nonnull IRI agentURI) {
+        Preconditions.checkNotNull(agentURI, "Agent URI must not be null.");
+        Preconditions.checkNotNull(statements, "Agent statements must not be null.");
+        Preconditions.checkArgument(!statements.isEmpty(), "Agent statements must not be empty.");
         LOGGER.info("Parsing agent");
         Agent agent = new Agent();
         agent.setUri(agentURI);
@@ -79,20 +77,18 @@ public class AgentParser {
 
             if (subject.equals(agentURI)) {
                 if (predicate.equals(RDF.TYPE)) {
-                    if(object.equals(FOAF.PERSON) || 
-                            object.equals(FOAF.ORGANIZATION) || 
-                            object.equals(FOAF.GROUP)) {
-                      agent.setType((IRI) object);  
+                    if (object.equals(FOAF.PERSON) || object.equals(FOAF.ORGANIZATION)
+                            || object.equals(FOAF.GROUP)) {
+                        agent.setType((IRI) object);
                     }
-                    
-                } else if (predicate.equals(FOAF.NAME)) {
+                } else if (predicate.equals(FOAF.NAME) || predicate.equals(RDFS.LABEL)) {
                     ValueFactory f = SimpleValueFactory.getInstance();
-                    agent.setName(f.createLiteral(object.stringValue(),
-                            XMLSchema.STRING));
+                    agent.setName(f.createLiteral(object.stringValue(), XMLSchema.STRING));
+                } else if (predicate.equals(FOAF.MBOX)) {
+                    agent.setMbox((IRI) object);
                 }
             }
         }
         return agent;
     }
-    
 }

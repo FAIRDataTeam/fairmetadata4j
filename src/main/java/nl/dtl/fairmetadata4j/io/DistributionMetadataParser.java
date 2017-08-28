@@ -72,13 +72,10 @@ public class DistributionMetadataParser extends MetadataParser<DistributionMetad
     @Override
     public DistributionMetadata parse(@Nonnull List<Statement> statements,
             @Nonnull IRI distributionURI) {
-        Preconditions.checkNotNull(distributionURI,
-                "Distribution URI must not be null.");
-        Preconditions.checkNotNull(statements,
-                "Distribution statements must not be null.");
+        Preconditions.checkNotNull(distributionURI, "Distribution URI must not be null.");
+        Preconditions.checkNotNull(statements, "Distribution statements must not be null.");
         LOGGER.info("Parsing distribution metadata");
-        DistributionMetadata metadata = super.parse(statements,
-                distributionURI);
+        DistributionMetadata metadata = super.parse(statements, distributionURI);
         ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
@@ -91,20 +88,17 @@ public class DistributionMetadataParser extends MetadataParser<DistributionMetad
                 } else if (predicate.equals(DCAT.DOWNLOAD_URL)) {
                     metadata.setDownloadURL((IRI) object);
                 } else if (predicate.equals(DCTERMS.FORMAT)) {
-                    metadata.setFormat(f.createLiteral(object.stringValue(),
-                            XMLSchema.STRING));
+                    metadata.setFormat(f.createLiteral(object.stringValue(), XMLSchema.STRING));
                 } else if (predicate.equals(DCAT.BYTE_SIZE)) {
-                    metadata.setByteSize(f.createLiteral(object.stringValue(),
-                            XMLSchema.STRING));
+                    metadata.setByteSize(f.createLiteral(object.stringValue(), XMLSchema.STRING));
                 } else if (predicate.equals(DCAT.MEDIA_TYPE)) {
-                    metadata.setMediaType(f.createLiteral(object.stringValue(),
-                            XMLSchema.STRING));
+                    metadata.setMediaType(f.createLiteral(object.stringValue(), XMLSchema.STRING));
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
-                    metadata.setDistributionIssued(f.createLiteral(object.
-                            stringValue(), XMLSchema.DATETIME));
+                    metadata.setDistributionIssued(f.createLiteral(object.stringValue(),
+                            XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.MODIFIED)) {
-                    metadata.setDistributionModified(f.createLiteral(object.
-                            stringValue(), XMLSchema.DATETIME));
+                    metadata.setDistributionModified(f.createLiteral(object.stringValue(),
+                            XMLSchema.DATETIME));
                 }
             }
         }
@@ -122,22 +116,17 @@ public class DistributionMetadataParser extends MetadataParser<DistributionMetad
      * @throws nl.dtl.fairmetadata4j.io.MetadataParserException
      */
     public DistributionMetadata parse(@Nonnull String distributionMetadata,
-            @Nonnull IRI distributionURI, IRI datasetURI, 
-            @Nonnull RDFFormat format)
+            @Nonnull IRI distributionURI, IRI datasetURI, @Nonnull RDFFormat format)
             throws MetadataParserException {
         Preconditions.checkNotNull(distributionMetadata,
                 "Distribution metadata string must not be null.");
-        Preconditions.checkNotNull(distributionURI,
-                "Distribution URI must not be null.");
+        Preconditions.checkNotNull(distributionURI, "Distribution URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-
         Preconditions.checkArgument(!distributionMetadata.isEmpty(),
                 "The distribution metadata content can't be EMPTY");
-        List<Statement> statements = RDFUtils.getStatements(distributionMetadata,
-                distributionURI, format);
-
-        DistributionMetadata metadata = this.parse(statements,
-                distributionURI);
+        List<Statement> statements = RDFUtils.getStatements(distributionMetadata, distributionURI,
+                format);
+        DistributionMetadata metadata = this.parse(statements, distributionURI);
         metadata.setParentURI(datasetURI);
         return metadata;
     }
@@ -151,22 +140,17 @@ public class DistributionMetadataParser extends MetadataParser<DistributionMetad
      * @return DistributionMetadata object
      * @throws MetadataParserException
      */
-    public DistributionMetadata parse(@Nonnull String distributionMetadata,
-            IRI baseURI, @Nonnull RDFFormat format)
-            throws MetadataParserException {
+    public DistributionMetadata parse(@Nonnull String distributionMetadata, IRI baseURI,
+            @Nonnull RDFFormat format) throws MetadataParserException {
         Preconditions.checkNotNull(distributionMetadata,
                 "Distribution metadata string must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-
         Preconditions.checkArgument(!distributionMetadata.isEmpty(),
                 "The distribution metadata content can't be EMPTY");
-
-        List<Statement> statements = RDFUtils.getStatements(
-                distributionMetadata,baseURI, format);
+        List<Statement> statements = RDFUtils.getStatements(distributionMetadata, baseURI, format);
         IRI catalogURI = (IRI) statements.get(0).getSubject();
         DistributionMetadata metadata = this.parse(statements, catalogURI);
         metadata.setUri(null);
         return metadata;
     }
-
 }

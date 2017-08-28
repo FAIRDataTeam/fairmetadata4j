@@ -25,53 +25,65 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.dtl.fairmetadata4j.utils;
+package nl.dtl.fairmetadata4j.model;
 
-import nl.dtl.fairmetadata4j.io.MetadataParserException;
-import org.eclipse.rdf4j.rio.RDFFormat;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import java.util.List;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
- * Unit tests for RDFUtils class
+ * Authorization object
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
+ * @since 2017-02-22
+ * @version 0.1
  */
-public class RDFUtilsTest {
+public class Authorization {
+
+    private IRI uri;
+    private List<IRI> accessMode;
+    private List<Agent> authorizedAgent;
 
     /**
-     * Test of getCurrentTime method, of class RDFUtils.
-     *
-     * @throws java.lang.Exception
+     * @return the uri
      */
-    @Test
-    public void testGetCurrentTime() throws Exception {
-        System.out.println("getCurrentTime");
-        assertNotNull(RDFUtils.getCurrentTime());
+    public IRI getUri() {
+        return uri;
     }
 
     /**
-     * Invalid rdf string
-     *
-     * @throws java.lang.Exception
+     * @param uri the uri to set
      */
-    @Test(expected = MetadataParserException.class)
-    public void testInvalidRdfStr() throws Exception {
-        String input = "<sub> pred> <obj> .";
-        System.out.println("Invalid rdf string");
-        RDFUtils.getStatements(input, null, RDFFormat.TURTLE);
+    public void setUri(IRI uri) {
+        this.uri = uri;
     }
 
     /**
-     * Valid rdf string
-     *
-     * @throws java.lang.Exception
+     * @return the accessMode
      */
-    @Test
-    public void testValidRdfStr() throws Exception {
-        String input = "<sub> <pred> <obj> .";
-        System.out.println("Valid rdf string");
-        assertNotNull(RDFUtils.getStatements(input, null, RDFFormat.TURTLE));
+    public List<IRI> getAccessMode() {
+        return accessMode;
     }
+
+    /**
+     * @param accessMode the accessMode to set
+     */
+    public void setAccessMode(List<IRI> accessMode) {
+        this.accessMode = accessMode;
+    }
+
+    /**
+     * @return the authorizedAgent
+     */
+    public List<Agent> getAuthorizedAgent() {
+        return authorizedAgent;
+    }
+
+    /**
+     * @param authorizedAgent the authorizedAgent to set
+     */
+    public void setAuthorizedAgent(List<Agent> authorizedAgent) {
+        this.authorizedAgent = authorizedAgent;
+    }
+
 }

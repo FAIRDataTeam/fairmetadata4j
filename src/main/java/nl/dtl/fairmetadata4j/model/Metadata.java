@@ -30,12 +30,9 @@ import org.eclipse.rdf4j.model.Literal;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
 /**
  * Metadata object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
@@ -51,6 +48,7 @@ public class Metadata {
     private Literal description;
     private IRI license;
     private IRI rights;
+    private AccessRights accessRights;
     private IRI uri;
     private IRI specification;
     private IRI parentURI;
@@ -119,6 +117,7 @@ public class Metadata {
     public void setUri(IRI uri) {
         this.uri = uri;
     }
+
     /**
      * @return the title
      */
@@ -180,7 +179,7 @@ public class Metadata {
      */
     public IRI getUri() {
         return uri;
-    }    
+    }
 
     /**
      * @return the publisher
@@ -194,7 +193,7 @@ public class Metadata {
      */
     public IRI getLanguage() {
         return language;
-    }   
+    }
 
     /**
      * @param language the language to set
@@ -223,8 +222,6 @@ public class Metadata {
     public void setPublisher(Agent publisher) {
         this.publisher = publisher;
     }
-    
-    
 
     /**
      * @return the specification
@@ -238,5 +235,19 @@ public class Metadata {
      */
     public void setSpecification(IRI specification) {
         this.specification = specification;
+    }
+
+    /**
+     * @return the accessRights
+     */
+    public AccessRights getAccessRights() {
+        return accessRights;
+    }
+
+    /**
+     * @param accessRights the accessRights to set
+     */
+    public void setAccessRights(AccessRights accessRights) {
+        this.accessRights = accessRights;
     }
 }

@@ -38,7 +38,7 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for MetadataParserUtils class
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  */
@@ -50,8 +50,7 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetFdpParser() {
         System.out.println("getFdpParser");
-        assertThat(MetadataParserUtils.getFdpParser(), 
-                instanceOf(FDPMetadataParser.class));
+        assertThat(MetadataParserUtils.getFdpParser(), instanceOf(FDPMetadataParser.class));
     }
 
     /**
@@ -60,8 +59,7 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetCatalogParser() {
         System.out.println("getCatalogParser");
-        assertThat(MetadataParserUtils.getCatalogParser(), 
-                instanceOf(CatalogMetadataParser.class));
+        assertThat(MetadataParserUtils.getCatalogParser(), instanceOf(CatalogMetadataParser.class));
     }
 
     /**
@@ -70,8 +68,7 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetDatasetParser() {
         System.out.println("getDatasetParser");
-        assertThat(MetadataParserUtils.getDatasetParser(), 
-                instanceOf(DatasetMetadataParser.class));
+        assertThat(MetadataParserUtils.getDatasetParser(), instanceOf(DatasetMetadataParser.class));
     }
 
     /**
@@ -80,7 +77,7 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetDistributionParser() {
         System.out.println("getDistributionParser");
-        assertThat(MetadataParserUtils.getDistributionParser(), 
+        assertThat(MetadataParserUtils.getDistributionParser(),
                 instanceOf(DistributionMetadataParser.class));
     }
 
@@ -90,8 +87,8 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetDataRecordParser() {
         System.out.println("getDataRecordParser");
-        assertThat(MetadataParserUtils.getDataRecordParser(), 
+        assertThat(MetadataParserUtils.getDataRecordParser(),
                 instanceOf(DataRecordMetadataParser.class));
     }
-    
+
 }

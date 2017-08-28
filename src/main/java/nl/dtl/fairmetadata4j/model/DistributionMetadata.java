@@ -30,19 +30,16 @@ import org.eclipse.rdf4j.model.Literal;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
 /**
  * Distribution metadata object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
  * @version 0.1
  */
 public class DistributionMetadata extends Metadata {
-    
+
     private IRI accessURL;
     private IRI downloadURL;
     private Literal mediaType;
@@ -50,7 +47,7 @@ public class DistributionMetadata extends Metadata {
     private Literal byteSize;
     private Literal distributionIssued;
     private Literal distributionModified;
-    
+
     /**
      * @param accessURL the accessURL to set
      */
@@ -148,5 +145,5 @@ public class DistributionMetadata extends Metadata {
     public void setDistributionModified(Literal distributionModified) {
         this.distributionModified = distributionModified;
     }
-    
+
 }
