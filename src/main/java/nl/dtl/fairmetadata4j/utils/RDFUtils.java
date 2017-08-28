@@ -113,7 +113,7 @@ public class RDFUtils {
         }
     }
     
-    public static void checkNotLiterl(Value val) {
+    public static void checkNotLiteral(Value val) {
         if (val instanceof Literal) {
             throw new IllegalArgumentException(
                     "Objects of accessRights statements expected to be IRI");

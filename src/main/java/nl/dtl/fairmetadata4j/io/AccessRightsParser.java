@@ -67,7 +67,7 @@ public class AccessRightsParser {
             Value object = st.getObject();
             // To fix codacy bot issues are combining the if conditions
             if (subject.equals(accessRightsURI) && predicate.equals(DCTERMS.IS_PART_OF)) {
-                RDFUtils.checkNotLiterl(object);
+                RDFUtils.checkNotLiteral(object);
                 accessRights.setAuthorization(AuthorizationParser.parse(statements,
                         (IRI) object));
             }            
