@@ -36,7 +36,6 @@ import nl.dtl.fairmetadata4j.model.Authorization;
 import nl.dtl.fairmetadata4j.utils.vocabulary.WebAccessControl;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;

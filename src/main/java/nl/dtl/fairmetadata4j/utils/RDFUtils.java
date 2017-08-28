@@ -43,6 +43,7 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
@@ -109,6 +110,13 @@ public class RDFUtils {
             String errMsg = "Error reading dataset metadata content" + ex.getMessage();
             LOGGER.error(errMsg);
             throw (new MetadataParserException(errMsg));
+        }
+    }
+    
+    public static void checkNotLiterl(Value val) {
+        if (val instanceof Literal) {
+            throw new IllegalArgumentException(
+                    "Objects of accessRights statements expected to be IRI");
         }
     }
 }

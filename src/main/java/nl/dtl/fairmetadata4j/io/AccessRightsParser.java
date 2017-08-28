@@ -31,9 +31,9 @@ import com.google.common.base.Preconditions;
 import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata4j.model.AccessRights;
+import nl.dtl.fairmetadata4j.utils.RDFUtils;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
@@ -67,10 +67,7 @@ public class AccessRightsParser {
             Value object = st.getObject();
             if (subject.equals(accessRightsURI)) {
                 if (predicate.equals(DCTERMS.IS_PART_OF)) {                    
-                    if (object instanceof Literal) {
-                        throw new IllegalArgumentException(
-                                "Objects of accessRights statements expected to be IRI");
-                    }
+                    RDFUtils.checkNotLiterl(object);
                     accessRights.setAuthorization(AuthorizationParser.parse(statements,
                             (IRI) object));
                 }
