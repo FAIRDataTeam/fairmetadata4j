@@ -65,13 +65,12 @@ public class AccessRightsParser {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
             Value object = st.getObject();
-            if (subject.equals(accessRightsURI)) {
-                if (predicate.equals(DCTERMS.IS_PART_OF)) {                    
-                    RDFUtils.checkNotLiterl(object);
-                    accessRights.setAuthorization(AuthorizationParser.parse(statements,
-                            (IRI) object));
-                }
-            }
+            // To fix codacy bot issues are combining the if conditions
+            if (subject.equals(accessRightsURI) && predicate.equals(DCTERMS.IS_PART_OF)) {
+                RDFUtils.checkNotLiterl(object);
+                accessRights.setAuthorization(AuthorizationParser.parse(statements,
+                        (IRI) object));
+            }            
         }
         return accessRights;
     }
