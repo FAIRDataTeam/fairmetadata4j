@@ -39,6 +39,7 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 
 /**
  * Parser for authorization object
@@ -73,6 +74,8 @@ public class AuthorizationParser {
                     authorizedAgent.add(AgentParser.parse(statements, (IRI) object));
                 } else if (predicate.equals(WebAccessControl.ACCESS_MODE)) {
                     accessMode.add((IRI) object);
+                } else if (predicate.equals(RDFS.SEEALSO)) {
+                    authorization.setRequestURI((IRI) object);
                 }
             }
         }

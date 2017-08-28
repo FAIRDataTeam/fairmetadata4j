@@ -43,6 +43,7 @@ public class Authorization {
     private IRI uri;
     private List<IRI> accessMode;
     private List<Agent> authorizedAgent;
+    private IRI requestURI;
 
     /**
      * @return the uri
@@ -84,6 +85,20 @@ public class Authorization {
      */
     public void setAuthorizedAgent(List<Agent> authorizedAgent) {
         this.authorizedAgent = authorizedAgent;
+    }   
+
+    /**
+     * @return the requestURI
+     */
+    public IRI getRequestURI() {
+        return requestURI;
+    }
+
+    /**
+     * @param requestURI the requestURI to set
+     */
+    public void setRequestURI(IRI requestURI) {
+        this.requestURI = requestURI;
     }
 
 }
