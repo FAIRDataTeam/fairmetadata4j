@@ -51,5 +51,6 @@ public class WebAccessControl {
     public static final IRI ACCESS_READ = f.createIRI(NAMESPACE + "Read");
     public static final IRI ACCESS_MODE = f.createIRI(NAMESPACE + "mode");
     public static final IRI ACCESS_AGENT = f.createIRI(NAMESPACE + "agent");
+    public static final IRI ACCESS_TO = f.createIRI(NAMESPACE + "accessTo");
 
 }
