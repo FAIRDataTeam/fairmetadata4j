@@ -707,6 +707,7 @@ public class MetadataUtils {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
             addStatement(model, objc.getUri(), RDF.TYPE, WebAccessControl.AUTHORIZATION);
+            addStatement(model, objc.getUri(), RDFS.SEEALSO, objc.getRequestURI());
             objc.getAccessMode().stream().forEach((mode) -> {
                 addStatement(model, objc.getUri(), WebAccessControl.ACCESS_MODE, mode);
             });
