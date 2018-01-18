@@ -77,6 +77,7 @@ public class ExampleFilesUtils {
             "http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-repositoryID");
     public final static IRI BIOSEM_ACCESS_RIGHTS_URI
             = f.createIRI("http://biosemantics.humgen.nl/groupAccess");
+    public final static IRI METRIC1_URI = f.createIRI("http://dummy.com/metric1");
     public final static IRI CATALOG_URI = f.createIRI(FDP_URI.toString() + "/" + CATALOG_ID);
     public final static IRI DATASET_URI = f.createIRI(FDP_URI.toString() + "/" + CATALOG_ID + "/"
             + DATASET_ID);
@@ -126,5 +127,4 @@ public class ExampleFilesUtils {
         }
         return statements;
     }
-
 }

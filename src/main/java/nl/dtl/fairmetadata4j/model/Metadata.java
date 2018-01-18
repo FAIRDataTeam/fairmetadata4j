@@ -22,6 +22,8 @@
  */
 package nl.dtl.fairmetadata4j.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
@@ -54,6 +56,7 @@ public class Metadata {
     private IRI parentURI;
     private IRI language;
     private Agent publisher;
+    private List<Metric> metrics = new ArrayList();
 
     /**
      * @param title the title to set
@@ -249,5 +252,21 @@ public class Metadata {
      */
     public void setAccessRights(AccessRights accessRights) {
         this.accessRights = accessRights;
+    }
+    
+    
+
+    /**
+     * @return the metrics
+     */
+    public List<Metric> getMetrics() {
+        return metrics;
+    }
+
+    /**
+     * @param metrics the metrics to set
+     */
+    public void setMetrics(List<Metric> metrics) {
+        this.metrics = metrics;
     }
 }
