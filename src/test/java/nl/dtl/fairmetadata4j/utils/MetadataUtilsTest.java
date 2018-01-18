@@ -654,6 +654,18 @@ public class MetadataUtilsTest {
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE, false);
         assertFalse(out.isEmpty());
     }
+    
+    /**
+     * This test is expected to pass. Check metric uri in the rdf string
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testGetMetricString() throws Exception {
+        FDPMetadata metadata = getFdpMetadata();
+        String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE);
+        assertTrue(out.contains(ExampleFilesUtils.METRIC1_URI.toString()));
+    }
 
     /**
      * Example fdp metadata object
@@ -706,4 +718,6 @@ public class MetadataUtilsTest {
         IRI drURI = ExampleFilesUtils.DATARECORD_URI;
         return DAT_REC_PARSER.parse(stmts, drURI);
     }
+    
+    
 }
