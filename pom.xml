@@ -146,7 +146,7 @@
                     <package>nl.dtl.fairmetadata4j.utils.vocabulary</package>
                     <vocabularies>
                         <vocabulary>
-                            <url>http://purl.org/spar/datacite/</url>
+                            <url>https://sparontologies.github.io/datacite/current/datacite.ttl</url>
                             <prefix>datacite</prefix>
                         </vocabulary>
                         <vocabulary>
