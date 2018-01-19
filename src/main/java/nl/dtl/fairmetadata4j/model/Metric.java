@@ -37,7 +37,11 @@ import org.eclipse.rdf4j.model.IRI;
  * @since 2018-01-16
  * @version 0.1
  */
-public class Metric {
+public class Metric {  
+    
+    private IRI uri;
+    private IRI value;
+    private IRI metricType;
 
     /**
      * @return the uri
@@ -80,9 +84,5 @@ public class Metric {
     public void setMetricType(IRI metricType) {
         this.metricType = metricType;
     }
-    
-    private IRI uri;
-    private IRI value;
-    private IRI metricType;
     
 }
