@@ -44,10 +44,12 @@ import nl.dtl.fairmetadata4j.model.DistributionMetadata;
 import nl.dtl.fairmetadata4j.model.FDPMetadata;
 import nl.dtl.fairmetadata4j.model.Identifier;
 import nl.dtl.fairmetadata4j.model.Metadata;
+import nl.dtl.fairmetadata4j.model.Metric;
 import nl.dtl.fairmetadata4j.utils.vocabulary.DATADOWNLOAD;
 import nl.dtl.fairmetadata4j.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata4j.utils.vocabulary.R3D;
 import nl.dtl.fairmetadata4j.utils.vocabulary.SCHEMAORG;
+import nl.dtl.fairmetadata4j.utils.vocabulary.Sio;
 import nl.dtl.fairmetadata4j.utils.vocabulary.WebAccessControl;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
@@ -469,6 +471,7 @@ public class MetadataUtils {
         addStatement(model, metadata.getUri(), DCTERMS.RIGHTS, metadata.getRights());
         addStatement(model, metadata.getUri(), DCTERMS.IS_PART_OF, metadata.getParentURI());
         addStatement(model, metadata.getUri(), DCTERMS.CONFORMS_TO, metadata.getSpecification());
+        addMetricsStatements(model, metadata.getUri(), Sio.REFERS_TO, metadata.getMetrics());
     }
 
     /**
@@ -714,6 +717,27 @@ public class MetadataUtils {
             objc.getAuthorizedAgent().stream().forEach((agent) -> {
                 addAgentStatements(model, objc.getUri(), WebAccessControl.ACCESS_AGENT, agent,
                         metadataModel);
+            });
+        }
+    }
+    
+    // We are using this method to reduce the NPath complexity 
+    /**
+     * Add metrics rdf statements
+     *
+     * @param model
+     * @param subj
+     * @param pred
+     * @param objc
+     */
+    private static void addMetricsStatements(Model model, IRI subj, IRI pred,
+            List<Metric> objc) {
+        if (objc != null) {
+            objc.stream().forEach((metric) -> {
+                addStatement(model, subj, pred, metric.getUri());
+                addStatement(model, metric.getUri(), Sio.IS_ABOUT, metric.getMetricType());
+                addStatement(model, metric.getUri(), Sio.REFERS_TO, metric.getValue());
+
             });
         }
     }

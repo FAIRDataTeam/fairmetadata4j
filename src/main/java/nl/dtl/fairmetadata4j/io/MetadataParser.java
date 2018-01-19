@@ -27,10 +27,13 @@
  */
 package nl.dtl.fairmetadata4j.io;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import nl.dtl.fairmetadata4j.model.Metadata;
+import nl.dtl.fairmetadata4j.model.Metric;
 import nl.dtl.fairmetadata4j.utils.vocabulary.FDP;
+import nl.dtl.fairmetadata4j.utils.vocabulary.Sio;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
@@ -69,6 +72,7 @@ public abstract class MetadataParser<T extends Metadata> {
         metadata.setUri(metadataUri);
         LOGGER.info("Parse common metadata properties");
         ValueFactory f = SimpleValueFactory.getInstance();
+        List<Metric> metrics = new ArrayList();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
@@ -103,9 +107,13 @@ public abstract class MetadataParser<T extends Metadata> {
                     metadata.setSpecification((IRI) object);
                 } else if (predicate.equals(DCTERMS.ACCESS_RIGHTS)) {
                     metadata.setAccessRights(AccessRightsParser.parse(statements, (IRI) object));
+                } else if (predicate.equals(Sio.REFERS_TO)) {
+                    metrics.add(MetricParser.parse(statements, (IRI) object));
                 }
             }
         }
+        // Set metrics
+        metadata.setMetrics(metrics);
         return metadata;
     }
 }
