@@ -54,6 +54,7 @@ public class AccessRightsParser {
 
     private static final org.apache.logging.log4j.Logger LOGGER
             = LogManager.getLogger(AccessRightsParser.class);
+    private static final ValueFactory f = SimpleValueFactory.getInstance();
 
     public static AccessRights parse(@Nonnull List<Statement> statements,
             @Nonnull IRI accessRightsURI) {
@@ -64,7 +65,6 @@ public class AccessRightsParser {
         LOGGER.info("Parsing accessRights");
         AccessRights accessRights = new AccessRights();
         accessRights.setUri(accessRightsURI);
-        ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
