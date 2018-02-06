@@ -113,4 +113,19 @@ public class AccessRightsParserTest {
         String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE);
         assertTrue(out.contains("accessRights"));
     }
+    
+    /**
+     * Test existence of rights rdf statement without Authorization
+     *
+     * @throws Exception
+     */
+    @Test
+    public void rightsStatementWithoutAuthorization() throws Exception {
+        DatasetMetadataParser parser = new DatasetMetadataParser();
+        IRI disURI = ExampleFilesUtils.DATASET_URI;
+        DatasetMetadata metadata = parser.parse(STMTS, disURI);
+        metadata.getAccessRights().setAuthorization(null);
+        String out = MetadataUtils.getString(metadata, RDFFormat.TURTLE);
+        assertTrue(out.contains("This resource has no access restriction"));
+    }
 }

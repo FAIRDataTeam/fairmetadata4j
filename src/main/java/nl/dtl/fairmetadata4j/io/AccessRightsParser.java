@@ -37,7 +37,10 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
  * Parser for accessRights object
@@ -61,16 +64,21 @@ public class AccessRightsParser {
         LOGGER.info("Parsing accessRights");
         AccessRights accessRights = new AccessRights();
         accessRights.setUri(accessRightsURI);
+        ValueFactory f = SimpleValueFactory.getInstance();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
             Value object = st.getObject();
-            // To fix codacy bot issues are combining the if conditions
-            if (subject.equals(accessRightsURI) && predicate.equals(DCTERMS.IS_PART_OF)) {
-                RDFUtils.checkNotLiteral(object);
-                accessRights.setAuthorization(AuthorizationParser.parse(statements,
-                        (IRI) object));
-            }            
+            if (subject.equals(accessRightsURI)) {
+                if (predicate.equals(DCTERMS.IS_PART_OF)) {
+                    RDFUtils.checkNotLiteral(object);
+                    accessRights.setAuthorization(AuthorizationParser.parse(statements,
+                            (IRI) object));
+                } else if (predicate.equals(DCTERMS.DESCRIPTION)) {
+                    accessRights.setDescription(f.createLiteral(object.stringValue(), 
+                            XMLSchema.STRING));
+                }
+            } 
         }
         return accessRights;
     }

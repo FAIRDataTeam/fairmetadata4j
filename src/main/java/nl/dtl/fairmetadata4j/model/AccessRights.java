@@ -28,6 +28,7 @@
 package nl.dtl.fairmetadata4j.model;
 
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
 
 /**
  * AccessRights object
@@ -38,9 +39,10 @@ import org.eclipse.rdf4j.model.IRI;
  * @version 0.1
  */
 public class AccessRights {
-
+    
     private IRI uri;
     private Authorization authorization;
+    private Literal description;
 
     /**
      * @return the uri
@@ -69,5 +71,22 @@ public class AccessRights {
     public void setAuthorization(Authorization authorization) {
         this.authorization = authorization;
     }
+    
+    
+
+    /**
+     * @return the description
+     */
+    public Literal getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(Literal description) {
+        this.description = description;
+    }
+
 
 }

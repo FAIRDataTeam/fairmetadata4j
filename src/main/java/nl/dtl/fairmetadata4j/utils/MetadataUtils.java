@@ -691,6 +691,7 @@ public class MetadataUtils {
         if (objc != null) {
             addStatement(model, subj, pred, objc.getUri());
             addStatement(model, objc.getUri(), RDF.TYPE, DCTERMS.RIGHTS_STATEMENT);
+            addStatement(model, objc.getUri(), DCTERMS.DESCRIPTION,objc.getDescription());
             addAuthorizationStatements(model, objc.getUri(), DCTERMS.IS_PART_OF,
                     objc.getAuthorization(), metadataModel);
         }

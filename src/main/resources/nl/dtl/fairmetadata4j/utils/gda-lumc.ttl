@@ -37,6 +37,7 @@
 	dct:identifier "gene-disease-association-lumc-metadataID" .
 
 <http://biosemantics.humgen.nl/groupAccess> a dct:RightsStatement;
+        dct:description "This resource has no access restriction";
         dct:isPartOf <http://biosemantics.humgen.nl/groupAuthorization>.
 
 <http://biosemantics.humgen.nl/groupAuthorization> a acl:Authorization;
