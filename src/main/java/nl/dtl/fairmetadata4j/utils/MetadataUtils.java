@@ -45,7 +45,6 @@ import nl.dtl.fairmetadata4j.model.FDPMetadata;
 import nl.dtl.fairmetadata4j.model.Identifier;
 import nl.dtl.fairmetadata4j.model.Metadata;
 import nl.dtl.fairmetadata4j.model.Metric;
-import nl.dtl.fairmetadata4j.utils.vocabulary.DATADOWNLOAD;
 import nl.dtl.fairmetadata4j.utils.vocabulary.FDP;
 import nl.dtl.fairmetadata4j.utils.vocabulary.R3D;
 import nl.dtl.fairmetadata4j.utils.vocabulary.SCHEMAORG;
@@ -315,7 +314,7 @@ public class MetadataUtils {
              * accessUrl
              */
             IRI contentLocation = metadata.getDownloadURL();
-            IRI type = DATADOWNLOAD.DATADOWNLOAD;
+            IRI type = SCHEMAORG.DATADOWNLOAD;
             if (contentLocation == null && metadata.getAccessURL() != null) {
                 contentLocation = metadata.getDownloadURL();
                 type = SCHEMAORG.THING;
