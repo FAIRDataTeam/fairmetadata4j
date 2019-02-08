@@ -52,6 +52,7 @@ import nl.dtl.fairmetadata4j.utils.vocabulary.Sio;
 import nl.dtl.fairmetadata4j.utils.vocabulary.WebAccessControl;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
@@ -287,6 +288,9 @@ public class MetadataUtils {
             addStatement(model, metadata.getUri(), SCHEMAORG.NAME, metadata.getTitle());
             addStatement(model, metadata.getUri(), SCHEMAORG.DESCRIPTION,
                     metadata.getDescription());
+            ValueFactory f = SimpleValueFactory.getInstance();
+            Literal url = f.createLiteral(metadata.getUri().toString(), XMLSchema.STRING);
+            addStatement(model, metadata.getUri(), SCHEMAORG.URL, url);
             addStatements(model, metadata.getUri(), SCHEMAORG.KEYWORDS, metadata.getKeywords());
             addStatement(model, metadata.getUri(), SCHEMAORG.INCLUDEDINDATACATALOG,
                     metadata.getRights());
