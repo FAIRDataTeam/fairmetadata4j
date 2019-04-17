@@ -344,7 +344,7 @@ public class MetadataUtils {
         addStatement(model, metadata.getUri(), RDF.TYPE, R3D.REPOSITORY);
         IRI swaggerURL = f.createIRI(metadata.getUri().toString() + "/swagger-ui.html");
         metadata.setSwaggerDoc(swaggerURL);
-        addStatement(model, metadata.getUri(), RDFS.SEEALSO, metadata.getSwaggerDoc());
+        addStatement(model, metadata.getUri(), DCTERMS.REFERENCES, metadata.getSwaggerDoc());
         addIdStatements(model, metadata.getUri(), R3D.REPOSITORYIDENTIFIER,
                 metadata.getRepostoryIdentifier());
         addStatement(model, metadata.getUri(), nl.dtl.fairmetadata4j.utils.R3D.INSTITUTIONCOUNTRY,
