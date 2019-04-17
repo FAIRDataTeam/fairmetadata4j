@@ -468,7 +468,6 @@ public class MetadataUtils {
                 DCAT_MODEL);
         addAccessRightsStatements(model, metadata.getUri(), DCTERMS.ACCESS_RIGHTS,
                 metadata.getAccessRights(), DCAT_MODEL);
-        addStatement(model, metadata.getUri(), DCTERMS.LANGUAGE, metadata.getLanguage());
         addStatement(model, metadata.getUri(), DCTERMS.DESCRIPTION, metadata.getDescription());
         addStatement(model, metadata.getUri(), DCTERMS.LICENSE, metadata.getLicense());
         addStatement(model, metadata.getUri(), DCTERMS.RIGHTS, metadata.getRights());
