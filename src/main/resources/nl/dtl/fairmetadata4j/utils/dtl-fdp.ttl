@@ -26,7 +26,7 @@
         dct:identifier "fdp-metadataID";
         dct:rights <http://dummy.com/rights>;
         dct:conformsTo <http://dummy.com/standards>;
-        rdfs:seeAlso <http://dummy.com/swagger-ui.html> ;
+        dct:references <http://dummy.com/swagger-ui.html> ;
         sio:SIO_000628 <http://dummy.com/metric1> ;
         sio:SIO_000628 <http://dummy.com/metric2> .
 

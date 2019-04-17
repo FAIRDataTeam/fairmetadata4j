@@ -342,9 +342,7 @@ public class MetadataUtils {
         LOGGER.info("Adding FDP metadata properties to the rdf model");
         ValueFactory f = SimpleValueFactory.getInstance();
         addStatement(model, metadata.getUri(), RDF.TYPE, R3D.REPOSITORY);
-        IRI swaggerURL = f.createIRI(metadata.getUri().toString() + "/swagger-ui.html");
-        metadata.setSwaggerDoc(swaggerURL);
-        addStatement(model, metadata.getUri(), RDFS.SEEALSO, metadata.getSwaggerDoc());
+        addStatement(model, metadata.getUri(), DCTERMS.REFERENCES, metadata.getSwaggerDoc());
         addIdStatements(model, metadata.getUri(), R3D.REPOSITORYIDENTIFIER,
                 metadata.getRepostoryIdentifier());
         addStatement(model, metadata.getUri(), nl.dtl.fairmetadata4j.utils.R3D.INSTITUTIONCOUNTRY,
@@ -468,7 +466,6 @@ public class MetadataUtils {
                 DCAT_MODEL);
         addAccessRightsStatements(model, metadata.getUri(), DCTERMS.ACCESS_RIGHTS,
                 metadata.getAccessRights(), DCAT_MODEL);
-        addStatement(model, metadata.getUri(), DCTERMS.LANGUAGE, metadata.getLanguage());
         addStatement(model, metadata.getUri(), DCTERMS.DESCRIPTION, metadata.getDescription());
         addStatement(model, metadata.getUri(), DCTERMS.LICENSE, metadata.getLicense());
         addStatement(model, metadata.getUri(), DCTERMS.RIGHTS, metadata.getRights());
