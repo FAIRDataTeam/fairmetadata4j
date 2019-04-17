@@ -41,6 +41,7 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -84,7 +85,7 @@ public class FDPMetadataParser extends MetadataParser<FDPMetadata> {
             Value object = st.getObject();
 
             if (subject.equals(fdpURI)) {
-                if (predicate.equals(RDFS.SEEALSO)) {
+                if (predicate.equals(DCTERMS.REFERENCES)) {
                     metadata.setSwaggerDoc((IRI) object);
                 } else if (predicate.equals(R3D.DATACATALOG)) {
                     catalogs.add((IRI) object);

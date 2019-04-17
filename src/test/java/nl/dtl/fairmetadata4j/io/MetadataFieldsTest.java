@@ -41,6 +41,11 @@ import org.junit.Test;
  * @version 0.1
  */
 public class MetadataFieldsTest {
+    
+    
+    private final FDPMetadataParser parser = new FDPMetadataParser();
+    private final String fdpMetadata = ExampleFilesUtils.getFileContentAsString(
+                ExampleFilesUtils.FDP_METADATA_FILE);
 
     /**
      * Test existence of conformsTo predicate
@@ -49,10 +54,18 @@ public class MetadataFieldsTest {
      */
     @Test
     public void testExistenceconformsTo() throws Exception {
-        FDPMetadataParser parser = new FDPMetadataParser();
-        System.out.println("Test : Existence of conformsTo");
-        FDPMetadata metadata = parser.parse(ExampleFilesUtils.getFileContentAsString(
-                ExampleFilesUtils.FDP_METADATA_FILE), null, ExampleFilesUtils.FILE_FORMAT);
+        FDPMetadata metadata = parser.parse(fdpMetadata, null, ExampleFilesUtils.FILE_FORMAT);
         assertNotNull(metadata.getSpecification());
+    }
+    
+    /**
+     * Test existence of references predicate
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testExistenceOfreferences() throws Exception {
+        FDPMetadata metadata = parser.parse(fdpMetadata, null, ExampleFilesUtils.FILE_FORMAT);
+        assertNotNull(metadata.getSwaggerDoc());
     }
 }
