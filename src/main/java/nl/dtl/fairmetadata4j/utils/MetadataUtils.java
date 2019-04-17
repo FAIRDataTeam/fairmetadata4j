@@ -342,8 +342,6 @@ public class MetadataUtils {
         LOGGER.info("Adding FDP metadata properties to the rdf model");
         ValueFactory f = SimpleValueFactory.getInstance();
         addStatement(model, metadata.getUri(), RDF.TYPE, R3D.REPOSITORY);
-        IRI swaggerURL = f.createIRI(metadata.getUri().toString() + "/swagger-ui.html");
-        metadata.setSwaggerDoc(swaggerURL);
         addStatement(model, metadata.getUri(), DCTERMS.REFERENCES, metadata.getSwaggerDoc());
         addIdStatements(model, metadata.getUri(), R3D.REPOSITORYIDENTIFIER,
                 metadata.getRepostoryIdentifier());
