@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/FAIRDataTeam/fairmetadata4j.svg?branch=develop)](https://travis-ci.org/FAIRDataTeam/fairmetadata4j)
 [![Coverage Status](https://coveralls.io/repos/github/FAIRDataTeam/fairmetadata4j/badge.svg?branch=develop)](https://coveralls.io/github/FAIRDataTeam/fairmetadata4j?branch=develop)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/13b01a03d54b4e7b969b62cd9c055f4b)](https://www.codacy.com/app/rajaram5/fairmetadata4j?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=FAIRDataTeam/fairmetadata4j&amp;utm_campaign=Badge_Grade)
-[![Known Vulnerabilities](https://snyk.io/test/github/rajaram5/fairmetadata4j/badge.svg)](https://snyk.io/test/github/rajaram5/fairmetadata4j)
+[![Known Vulnerabilities](https://snyk.io/test/github/FAIRDataTeam/fairmetadata4j/badge.svg)](https://snyk.io/test/github/FAIRDataTeam/fairmetadata4j)
 
 ### Summary
 
