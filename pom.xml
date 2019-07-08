@@ -120,6 +120,7 @@
                         <exclude>pom.xml</exclude>
                         <exclude>**/*.ttl</exclude>
                         <exclude>**/*.xml</exclude>
+                        <exclude>**/*.yml</exclude>
                     </excludes>
                 </configuration>
                 <executions>
