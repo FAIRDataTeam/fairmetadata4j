@@ -9,7 +9,7 @@
 
     <name>fairmetadata4j</name>
     <description>A reference implementation of FAIR metadata library</description>
-    <inceptionYear>2017</inceptionYear>
+    <inceptionYear>2019</inceptionYear>
     <licenses>
         <license>
             <name>The MIT License</name>
@@ -44,6 +44,9 @@
         <logging_log4j.version>2.12.0</logging_log4j.version>
         <jsr305.version>3.0.2</jsr305.version>
         <rdf4j-generator.version>0.2.0</rdf4j-generator.version>
+        <javax_xml_bind.version>2.3.1</javax_xml_bind.version>
+        <coveralls-maven.version>4.3.0</coveralls-maven.version>
+        <license-maven-plugin-version>3.0</license-maven-plugin-version>
     </properties>
 
     <dependencies>
@@ -110,7 +113,7 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>3.0</version>
+                <version>${license-maven-plugin-version}</version>
                 <configuration>
                     <header>com/mycila/maven/plugin/license/templates/MIT.txt</header>
                     <properties>
@@ -170,13 +173,16 @@
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
-                <version>4.3.0</version>
+                <version>${coveralls-maven.version}</version>
                 <dependencies>
-                    <!-- hardcoded dependency and version, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
+                    <!--
+                    hardcoded dependency and version, 
+                    see https://github.com/trautonen/coveralls-maven-plugin/issues/112 
+                    -->
                     <dependency>
                         <groupId>javax.xml.bind</groupId>
                         <artifactId>jaxb-api</artifactId>
-                        <version>2.3.1</version>
+                        <version>${javax_xml_bind.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
