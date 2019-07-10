@@ -145,6 +145,7 @@
                 </executions>
                 <configuration>
                     <package>nl.dtl.fairmetadata4j.utils.vocabulary</package>
+                    <addGeneratedAnnotation>false</addGeneratedAnnotation>
                     <vocabularies>
                         <vocabulary>
                             <url>https://sparontologies.github.io/datacite/current/datacite.ttl</url>
