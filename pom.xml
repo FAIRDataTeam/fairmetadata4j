@@ -41,7 +41,7 @@
         <rdf4j.version>3.0.0</rdf4j.version>
         <junit.version>4.12</junit.version>
         <mockit-core.version>3.0.0</mockit-core.version>
-        <logging_log4j.version>2.12.0</logging_log4j.version>
+        <logging_log4j.version>2.12.1</logging_log4j.version>
         <jsr305.version>3.0.2</jsr305.version>
         <rdf4j-generator.version>0.2.0</rdf4j-generator.version>
         <javax_xml_bind.version>2.3.1</javax_xml_bind.version>
