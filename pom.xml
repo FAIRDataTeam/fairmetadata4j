@@ -39,7 +39,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>        
         <jackson.version>2.8.6</jackson.version>
-        <rdf4j.version>2.1.4</rdf4j.version>
+        <rdf4j.version>2.4.1</rdf4j.version>
         <junit.version>4.12</junit.version>
         <mockit-core.version>2.6.2</mockit-core.version>
         <logging_log4j.version>2.7</logging_log4j.version>
