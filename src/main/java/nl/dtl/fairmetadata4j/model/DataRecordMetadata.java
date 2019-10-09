@@ -101,4 +101,7 @@ public class DataRecordMetadata extends Metadata {
         this.dataRecordModified = dataRecordModified;
     }
 
+    public void accept(MetadataVisitor visitor) {
+        visitor.visit(this);
+    }
 }

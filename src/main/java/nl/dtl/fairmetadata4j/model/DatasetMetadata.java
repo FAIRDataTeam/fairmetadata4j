@@ -147,4 +147,8 @@ public final class DatasetMetadata extends Metadata {
     public void setDatasetModified(Literal datasetModified) {
         this.datasetModified = datasetModified;
     }
+
+    public void accept(MetadataVisitor visitor) {
+        visitor.visit(this);
+    }
 }

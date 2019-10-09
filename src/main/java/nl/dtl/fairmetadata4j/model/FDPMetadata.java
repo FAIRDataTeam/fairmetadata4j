@@ -148,4 +148,8 @@ public final class FDPMetadata extends Metadata {
         this.institution = institution;
     }
 
+
+    public void accept(MetadataVisitor visitor) {
+        visitor.visit(this);
+    }
 }

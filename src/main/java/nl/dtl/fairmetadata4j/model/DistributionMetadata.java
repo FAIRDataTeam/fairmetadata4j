@@ -146,4 +146,7 @@ public class DistributionMetadata extends Metadata {
         this.distributionModified = distributionModified;
     }
 
+    public void accept(MetadataVisitor visitor) {
+        visitor.visit(this);
+    }
 }
