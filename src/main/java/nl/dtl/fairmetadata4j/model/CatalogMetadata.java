@@ -118,4 +118,7 @@ public final class CatalogMetadata extends Metadata {
         this.catalogModified = catalogModified;
     }
 
+    public void accept(MetadataVisitor visitor) {
+        visitor.visit(this);
+    }
 }
