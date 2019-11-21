@@ -49,17 +49,27 @@ public class DistributionMetadata extends Metadata {
     private Literal distributionModified;
 
     /**
+     * It will unset downloadURL. Only one of them can be set
+     *
      * @param accessURL the accessURL to set
      */
     public void setAccessURL(IRI accessURL) {
         this.accessURL = accessURL;
+        if (accessURL != null) {
+            this.downloadURL = null;
+        }
     }
 
     /**
+     * It will unset accessURL. Only one of them can be set
+     *
      * @param downloadURL the downloadURL to set
      */
     public void setDownloadURL(IRI downloadURL) {
         this.downloadURL = downloadURL;
+        if (downloadURL != null) {
+            this.accessURL = null;
+        }
     }
 
     /**
