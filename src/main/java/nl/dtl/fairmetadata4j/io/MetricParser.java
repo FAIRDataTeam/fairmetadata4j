@@ -30,65 +30,53 @@ package nl.dtl.fairmetadata4j.io;
 import com.google.common.base.Preconditions;
 import java.util.List;
 import javax.annotation.Nonnull;
-import nl.dtl.fairmetadata4j.model.Agent;
+import nl.dtl.fairmetadata4j.model.Metric;
+import nl.dtl.fairmetadata4j.utils.RDFUtils;
+import nl.dtl.fairmetadata4j.utils.vocabulary.Sio;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.model.ValueFactory;
-import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
-import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.eclipse.rdf4j.model.vocabulary.RDFS;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 /**
- * Parser for agent object
+ * Parser for metrics object
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-30
+ * @since 2018-01-16
  * @version 0.1
  */
-public class AgentParser {
-
+public class MetricParser {
+    
     private static final org.apache.logging.log4j.Logger LOGGER
-            = LogManager.getLogger(AgentParser.class);
-
-    /**
-     * Create agent object
-     *
-     * @param statements List of rdf statements
-     * @param agentURI Agent uri
-     * @return
-     */
-    public static Agent parse(@Nonnull List<Statement> statements, @Nonnull IRI agentURI) {
-        Preconditions.checkNotNull(agentURI, "Agent URI must not be null.");
-        Preconditions.checkNotNull(statements, "Agent statements must not be null.");
-        Preconditions.checkArgument(!statements.isEmpty(), "Agent statements must not be empty.");
-        LOGGER.info("Parsing agent");
-        Agent agent = new Agent();
-        agent.setUri(agentURI);
+            = LogManager.getLogger(MetricParser.class);
+    
+    public static Metric parse(@Nonnull List<Statement> statements,
+            @Nonnull IRI metricURI) {
+        Preconditions.checkNotNull(metricURI, "Metric URI must not be null.");
+        Preconditions.checkNotNull(statements, "Metric statements must not be null.");
+        Preconditions.checkArgument(!statements.isEmpty(), "Mertic statements must not be "
+                + "empty.");
+        LOGGER.info("Parsing accessRights");
+        Metric metric = new Metric();
         for (Statement st : statements) {
             Resource subject = st.getSubject();
             IRI predicate = st.getPredicate();
             Value object = st.getObject();
-
-            if (subject.equals(agentURI)) {
-                if (predicate.equals(RDF.TYPE)) {
-                    if (object.equals(FOAF.PERSON) || object.equals(FOAF.ORGANIZATION)
-                            || object.equals(FOAF.GROUP)) {
-                        agent.setType((IRI) object);
-                    }
-                } else if (predicate.equals(FOAF.NAME) || predicate.equals(RDFS.LABEL)) {
-                    ValueFactory f = SimpleValueFactory.getInstance();
-                    agent.setName(f.createLiteral(object.stringValue(), XMLSchema.STRING));
-                } else if (predicate.equals(FOAF.MBOX)) {
-                    agent.setMbox((IRI) object);
-                }
+            // To fix codacy bot issues are combining the if conditions
+            if (subject.equals(metricURI) && predicate.equals(Sio.IS_ABOUT)) {
+                RDFUtils.checkNotLiteral(object);
+                metric.setMetricType((IRI) object);
+            }   
+            else if (subject.equals(metricURI) && predicate.equals(Sio.REFERS_TO)) {
+                RDFUtils.checkNotLiteral(object);
+                metric.setValue((IRI) object);
+                // We set metric uri only when we have the value for the metric
+                metric.setUri(metricURI);
             }
         }
-        return agent;
+        return metric;
     }
+    
 }

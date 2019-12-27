@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,6 @@
  */
 package nl.dtl.fairmetadata4j.utils;
 
-import nl.dtl.fairmetadata4j.utils.RDFUtils;
 import nl.dtl.fairmetadata4j.io.MetadataParserException;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.junit.Test;
@@ -35,14 +34,15 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for RDFUtils class
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  */
 public class RDFUtilsTest {
-    
+
     /**
      * Test of getCurrentTime method, of class RDFUtils.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -50,9 +50,10 @@ public class RDFUtilsTest {
         System.out.println("getCurrentTime");
         assertNotNull(RDFUtils.getCurrentTime());
     }
-    
+
     /**
-     * Invalid rdf string 
+     * Invalid rdf string
+     *
      * @throws java.lang.Exception
      */
     @Test(expected = MetadataParserException.class)
@@ -61,9 +62,10 @@ public class RDFUtilsTest {
         System.out.println("Invalid rdf string");
         RDFUtils.getStatements(input, null, RDFFormat.TURTLE);
     }
-    
+
     /**
-     * Valid rdf string 
+     * Valid rdf string
+     *
      * @throws java.lang.Exception
      */
     @Test

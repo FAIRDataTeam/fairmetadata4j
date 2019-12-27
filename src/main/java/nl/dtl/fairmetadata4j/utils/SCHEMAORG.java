@@ -20,29 +20,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.dtl.fairmetadata4j.io;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package nl.dtl.fairmetadata4j.utils;
+
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+
 /**
+ * Class contains missing schema.org properties
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-09-06
+ * @since 2017-04-28
  * @version 0.1
  */
-public class MetadataException extends Exception {
+public class SCHEMAORG {
 
-    /**
-     * Constructs an instance of <code>CatalogMetadataExeception</code> with the specified detail
-     * message.
-     *
-     * @param msg the detail message.
-     */
-    public MetadataException(String msg) {
-        super(msg);
-    }
+    public static IRI FILE_FORMAT = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.SCHEMAORG.NAMESPACE,
+                    "encodingFormat");
+    public static IRI PERSON = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.SCHEMAORG.NAMESPACE, "Person");
+    public static IRI ORGANIZATION = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.SCHEMAORG.NAMESPACE, "Organization");
 }

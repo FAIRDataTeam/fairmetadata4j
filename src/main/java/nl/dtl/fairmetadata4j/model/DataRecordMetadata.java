@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,20 +30,18 @@ package nl.dtl.fairmetadata4j.model;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
-
-
 /**
- * Data record metadata object 
- * 
+ * Data record metadata object
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-10-24
  * @version 0.1
  */
 public class DataRecordMetadata extends Metadata {
-    
+
     private IRI rmlURI;
-    private IRI distributionURI;
+    private IRI rmlInputSource;
     private Literal dataRecordIssued;
     private Literal dataRecordModified;
 
@@ -62,17 +60,17 @@ public class DataRecordMetadata extends Metadata {
     }
 
     /**
-     * @return the distributionURI
+     * @return the rmlInputSource
      */
-    public IRI getDistributionURI() {
-        return distributionURI;
+    public IRI getRmlInputSourceURI() {
+        return rmlInputSource;
     }
 
     /**
-     * @param distributionURI the distributionURI to set
+     * @param rmlInputSource the rmlInputSource to set
      */
-    public void setDistributionURI(IRI distributionURI) {
-        this.distributionURI = distributionURI;
+    public void setRmlInputSourceURI(IRI rmlInputSource) {
+        this.rmlInputSource = rmlInputSource;
     }
 
     /**
@@ -102,5 +100,8 @@ public class DataRecordMetadata extends Metadata {
     public void setDataRecordModified(Literal dataRecordModified) {
         this.dataRecordModified = dataRecordModified;
     }
-    
+
+    public void accept(MetadataVisitor visitor) {
+        visitor.visit(this);
+    }
 }

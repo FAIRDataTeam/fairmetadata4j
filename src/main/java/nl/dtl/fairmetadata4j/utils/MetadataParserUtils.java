@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,61 +34,59 @@ import nl.dtl.fairmetadata4j.io.DistributionMetadataParser;
 import nl.dtl.fairmetadata4j.io.FDPMetadataParser;
 
 /**
- * Provides metadata parser instances 
- * 
+ * Provides metadata parser instances
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-13
  * @version 0.1
  */
 public class MetadataParserUtils {
-    
-    private static final FDPMetadataParser fdpParser = new FDPMetadataParser();
-    private static final CatalogMetadataParser catalogParser = 
-            new CatalogMetadataParser();
-    private static final DatasetMetadataParser datasetParser = 
-            new DatasetMetadataParser();
-    private static final DistributionMetadataParser distributionParser = 
-            new DistributionMetadataParser();
-    private static final DataRecordMetadataParser dataRecordParser = 
-            new DataRecordMetadataParser();
-    
-    
-    private MetadataParserUtils(){}
+
+    private static final FDPMetadataParser FDP_PARSER = new FDPMetadataParser();
+    private static final CatalogMetadataParser CATALOG_PARSER = new CatalogMetadataParser();
+    private static final DatasetMetadataParser DATASET_PARSER = new DatasetMetadataParser();
+    private static final DistributionMetadataParser DISTRIBUTION_PARSER
+            = new DistributionMetadataParser();
+    private static final DataRecordMetadataParser DATA_RECORD_PARSER
+            = new DataRecordMetadataParser();
+
+    private MetadataParserUtils() {
+    }
 
     /**
-     * @return the fdpParser
+     * @return the FDP_PARSER
      */
     public static FDPMetadataParser getFdpParser() {
-        return fdpParser;
+        return FDP_PARSER;
     }
 
     /**
-     * @return the catalogParser
+     * @return the CATALOG_PARSER
      */
     public static CatalogMetadataParser getCatalogParser() {
-        return catalogParser;
+        return CATALOG_PARSER;
     }
 
     /**
-     * @return the datasetParser
+     * @return the DATASET_PARSER
      */
     public static DatasetMetadataParser getDatasetParser() {
-        return datasetParser;
+        return DATASET_PARSER;
     }
 
     /**
-     * @return the distributionParser
+     * @return the DISTRIBUTION_PARSER
      */
     public static DistributionMetadataParser getDistributionParser() {
-        return distributionParser;
+        return DISTRIBUTION_PARSER;
     }
-    
+
     /**
-     * @return the dataRecordParser
+     * @return the DATA_RECORD_PARSER
      */
     public static DataRecordMetadataParser getDataRecordParser() {
-        return dataRecordParser;
+        return DATA_RECORD_PARSER;
     }
-    
+
 }

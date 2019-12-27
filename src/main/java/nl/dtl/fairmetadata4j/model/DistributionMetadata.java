@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,19 +30,16 @@ import org.eclipse.rdf4j.model.Literal;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
 /**
  * Distribution metadata object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
  * @version 0.1
  */
 public class DistributionMetadata extends Metadata {
-    
+
     private IRI accessURL;
     private IRI downloadURL;
     private Literal mediaType;
@@ -50,19 +47,29 @@ public class DistributionMetadata extends Metadata {
     private Literal byteSize;
     private Literal distributionIssued;
     private Literal distributionModified;
-    
+
     /**
+     * It will unset downloadURL. Only one of them can be set
+     *
      * @param accessURL the accessURL to set
      */
     public void setAccessURL(IRI accessURL) {
         this.accessURL = accessURL;
+        if (accessURL != null) {
+            this.downloadURL = null;
+        }
     }
 
     /**
+     * It will unset accessURL. Only one of them can be set
+     *
      * @param downloadURL the downloadURL to set
      */
     public void setDownloadURL(IRI downloadURL) {
         this.downloadURL = downloadURL;
+        if (downloadURL != null) {
+            this.accessURL = null;
+        }
     }
 
     /**
@@ -148,5 +155,8 @@ public class DistributionMetadata extends Metadata {
     public void setDistributionModified(Literal distributionModified) {
         this.distributionModified = distributionModified;
     }
-    
+
+    public void accept(MetadataVisitor visitor) {
+        visitor.visit(this);
+    }
 }

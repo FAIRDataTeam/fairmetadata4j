@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,9 +35,10 @@ package nl.dtl.fairmetadata4j.io;
  * @version 0.1
  */
 public class MetadataParserException extends MetadataException {
+
     /**
-     * Constructs an instance of <code>MetadataParserException</code> with the
-     * specified detail message.
+     * Constructs an instance of <code>MetadataParserException</code> with the specified detail
+     * message.
      *
      * @param msg the detail message.
      */

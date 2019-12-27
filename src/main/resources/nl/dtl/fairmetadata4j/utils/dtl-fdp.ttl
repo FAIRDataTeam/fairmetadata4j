@@ -5,6 +5,7 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix lang: <http://id.loc.gov/vocabulary/iso639-1/> .
+@prefix sio: <http://semanticscience.org/resource/> .
 
 <> dct:alternative "DTL FDP"@en ;
 	dct:description "The DTL FAIR Data Point hosts the FAIR Data versions of datasets that have been made FAIR during BYODs as well as other relevant life sciences datasets"@en ;
@@ -24,7 +25,10 @@
 	rdfs:label "DTL FAIR Data Point"@en ;
         dct:identifier "fdp-metadataID";
         dct:rights <http://dummy.com/rights>;
-        rdfs:seeAlso <http://dummy.com/swagger-ui.html> .
+        dct:conformsTo <http://dummy.com/standards>;
+        dct:references <http://dummy.com/swagger-ui.html> ;
+        sio:SIO_000628 <http://dummy.com/metric1> ;
+        sio:SIO_000628 <http://dummy.com/metric2> .
 
 <http://dev-vm.fair-dtls.surf-hosted.nl:8082/fdp/fdp-metadataID> a <http://purl.org/spar/datacite/ResourceIdentifier> ;
 	dct:identifier "fdp-metadataID" .
@@ -33,3 +37,9 @@
 	dct:identifier "fdp-repositoryID" .
 
 <http://dtls.nl> a <http://xmlns.com/foaf/0.1/Organization> .
+
+<http://dummy.com/metric1> sio:SIO_000628 <http://example.com/FM_A1.1_doc>;
+        sio:SIO_000332 <https://raw.githubusercontent.com/FAIRMetrics/Metrics/master/FM_A1.1>.
+
+<http://dummy.com/metric2> sio:SIO_000628 <http://localhost/fdp/exampleScheme>;
+        sio:SIO_000332 <http://example.com/FM_A1.2_doc>.

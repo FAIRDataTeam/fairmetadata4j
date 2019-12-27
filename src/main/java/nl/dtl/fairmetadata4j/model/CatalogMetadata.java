@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,6 @@ package nl.dtl.fairmetadata4j.model;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.rdf4j.model.IRI;
@@ -36,19 +34,20 @@ import org.eclipse.rdf4j.model.Literal;
 
 /**
  * Catalog metadata object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
  * @version 0.1
  */
-public final class CatalogMetadata extends Metadata {    
-    
+public final class CatalogMetadata extends Metadata {
+
     private IRI homepage;
     private List<IRI> datasets = new ArrayList();
     private List<IRI> themeTaxonomys = new ArrayList();
     private Literal catalogIssued;
-    private Literal catalogModified;    
+    private Literal catalogModified;
+
     /**
      * @param homepage the homepage to set
      */
@@ -68,7 +67,7 @@ public final class CatalogMetadata extends Metadata {
      */
     public void setThemeTaxonomys(List<IRI> themeTaxonomys) {
         this.themeTaxonomys = themeTaxonomys;
-    }    
+    }
 
     /**
      * @return the homepage
@@ -119,4 +118,7 @@ public final class CatalogMetadata extends Metadata {
         this.catalogModified = catalogModified;
     }
 
+    public void accept(MetadataVisitor visitor) {
+        visitor.visit(this);
+    }
 }

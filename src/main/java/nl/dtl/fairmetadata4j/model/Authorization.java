@@ -20,29 +20,85 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.dtl.fairmetadata4j.io;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package nl.dtl.fairmetadata4j.model;
+
+import java.util.List;
+import org.eclipse.rdf4j.model.IRI;
+
 /**
+ * Authorization object
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-09-06
+ * @since 2017-02-22
  * @version 0.1
  */
-public class MetadataException extends Exception {
+public class Authorization {
+
+    private IRI uri;
+    private List<IRI> accessMode;
+    private List<Agent> authorizedAgent;
+    private IRI requestURI;
 
     /**
-     * Constructs an instance of <code>CatalogMetadataExeception</code> with the specified detail
-     * message.
-     *
-     * @param msg the detail message.
+     * @return the uri
      */
-    public MetadataException(String msg) {
-        super(msg);
+    public IRI getUri() {
+        return uri;
     }
+
+    /**
+     * @param uri the uri to set
+     */
+    public void setUri(IRI uri) {
+        this.uri = uri;
+    }
+
+    /**
+     * @return the accessMode
+     */
+    public List<IRI> getAccessMode() {
+        return accessMode;
+    }
+
+    /**
+     * @param accessMode the accessMode to set
+     */
+    public void setAccessMode(List<IRI> accessMode) {
+        this.accessMode = accessMode;
+    }
+
+    /**
+     * @return the authorizedAgent
+     */
+    public List<Agent> getAuthorizedAgent() {
+        return authorizedAgent;
+    }
+
+    /**
+     * @param authorizedAgent the authorizedAgent to set
+     */
+    public void setAuthorizedAgent(List<Agent> authorizedAgent) {
+        this.authorizedAgent = authorizedAgent;
+    }   
+
+    /**
+     * @return the requestURI
+     */
+    public IRI getRequestURI() {
+        return requestURI;
+    }
+
+    /**
+     * @param requestURI the requestURI to set
+     */
+    public void setRequestURI(IRI requestURI) {
+        this.requestURI = requestURI;
+    }
+
 }

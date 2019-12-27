@@ -20,29 +20,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.dtl.fairmetadata4j.io;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package nl.dtl.fairmetadata4j.io;
+
+import nl.dtl.fairmetadata4j.model.FDPMetadata;
+import nl.dtl.fairmetadata4j.utils.ExampleFilesUtils;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
+
 /**
+ * Unit tests for metadata field values.
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-09-06
+ * @since 2017-04-18
  * @version 0.1
  */
-public class MetadataException extends Exception {
+public class MetadataFieldsTest {
+    
+    
+    private final FDPMetadataParser parser = new FDPMetadataParser();
+    private final String fdpMetadata = ExampleFilesUtils.getFileContentAsString(
+                ExampleFilesUtils.FDP_METADATA_FILE);
 
     /**
-     * Constructs an instance of <code>CatalogMetadataExeception</code> with the specified detail
-     * message.
+     * Test existence of conformsTo predicate
      *
-     * @param msg the detail message.
+     * @throws Exception
      */
-    public MetadataException(String msg) {
-        super(msg);
+    @Test
+    public void testExistenceconformsTo() throws Exception {
+        FDPMetadata metadata = parser.parse(fdpMetadata, null, ExampleFilesUtils.FILE_FORMAT);
+        assertNotNull(metadata.getSpecification());
+    }
+    
+    /**
+     * Test existence of references predicate
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testExistenceOfreferences() throws Exception {
+        FDPMetadata metadata = parser.parse(fdpMetadata, null, ExampleFilesUtils.FILE_FORMAT);
+        assertNotNull(metadata.getSwaggerDoc());
     }
 }

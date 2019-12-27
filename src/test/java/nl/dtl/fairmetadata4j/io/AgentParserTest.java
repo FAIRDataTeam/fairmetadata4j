@@ -29,37 +29,42 @@ package nl.dtl.fairmetadata4j.io;
 
 import java.util.ArrayList;
 import java.util.List;
-import nl.dtl.fairmetadata4j.model.Identifier;
+import nl.dtl.fairmetadata4j.model.Agent;
 import nl.dtl.fairmetadata4j.utils.ExampleFilesUtils;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.FOAF;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- * Unit tests for IdentifierParser.
+ * Unit tests for AgentParser.
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-30
+ * @since 2017-07-17
  * @version 0.1
  */
-public class IdentifierParserTest {
+public class AgentParserTest {
 
     private final List<Statement> STMTS = ExampleFilesUtils.getFileContentAsStatements(
             ExampleFilesUtils.FDP_METADATA_FILE, ExampleFilesUtils.FDP_URI.toString());
 
     /**
-     * Test null id uri, this test is expected to throw exception
+     * Test null publisher uri, this test is expected to throw exception
      *
      * @throws Exception
      */
     @Test(expected = NullPointerException.class)
-    public void testParseNullIDUri() throws Exception {
-        System.out.println("Test : Parse null id uri");
-        IRI identifierURI = null;
-        IdentifierParser.parse(STMTS, identifierURI);
-        fail("This test is execpeted to throw an error");
+    public void testParseNullPublisherUri() throws Exception {
+        System.out.println("Test : Parse null publisher uri");
+        IRI agentURI = null;
+        AgentParser.parse(STMTS, agentURI);
     }
 
     /**
@@ -69,10 +74,10 @@ public class IdentifierParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullStatements() throws Exception {
-        System.out.println("Test : Parse null statements");
-        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
-        IdentifierParser.parse(null, identifierURI);
-        fail("This test is execpeted to throw an error");
+        System.out.println("Test : Parse null publisher statements");
+        List<Statement> statements = null;
+        IRI agentURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
+        AgentParser.parse(statements, agentURI);
     }
 
     /**
@@ -82,33 +87,55 @@ public class IdentifierParserTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyStatements() throws Exception {
-        System.out.println("Test : Parse empty statements");
+        System.out.println("Test : Parse empty publisher statements");
         List<Statement> statements = new ArrayList();
-        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
-        IdentifierParser.parse(statements, identifierURI);
-        fail("This test is execpeted to throw an error");
+        IRI agentURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
+        AgentParser.parse(statements, agentURI);
     }
 
     /**
-     * Test valid metadata id.
+     * Test valid agent uri.
      */
     @Test
     public void testValidMetadataID() {
-        System.out.println("Parse fdp metadata ID");
-        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
-        Identifier result = IdentifierParser.parse(STMTS, identifierURI);
+        System.out.println("Parse valid publisher ID");
+        IRI agentURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
+        Agent result = AgentParser.parse(STMTS, agentURI);
         assertNotNull(result);
     }
 
     /**
-     * Test valid repo id.
+     * Test valid agent uri.
      */
     @Test
-    public void testValidRepoID() {
-        System.out.println("Parse fdp repo ID");
-        IRI identifierURI = ExampleFilesUtils.FDP_REPO_ID_URI;
-        Identifier result = IdentifierParser.parse(STMTS, identifierURI);
+    public void testValidPublisherUri() {
+        System.out.println("Parse fdp publisher uri");
+        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
+        Agent result = AgentParser.parse(STMTS, identifierURI);
         assertNotNull(result);
     }
 
+    /**
+     * Test valid wrong publisher type.
+     */
+    @Test
+    public void testInValidPublishertype() {
+        System.out.println("Parse invalid publisher type");
+        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_PUBLISHER_URI;
+        List<Statement> stmts4Parser = new ArrayList();
+        for (Statement st : STMTS) {
+            Resource subject = st.getSubject();
+            IRI predicate = st.getPredicate();
+            if (subject.equals(identifierURI)) {
+                if (predicate.equals(RDF.TYPE)) {
+                    ValueFactory f = SimpleValueFactory.getInstance();
+                    stmts4Parser.add(f.createStatement(subject, RDF.TYPE, FOAF.ACCOUNT));
+                }
+            } else {
+                stmts4Parser.add(st);
+            }
+            Agent result = AgentParser.parse(stmts4Parser, identifierURI);
+            assertTrue(result.getType().equals(FOAF.AGENT));
+        }
+    }
 }

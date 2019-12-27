@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,21 +27,22 @@
  */
 package nl.dtl.fairmetadata4j.model;
 
-import nl.dtl.fairmetadata4j.utils.vocabulary.DataCite;
+import nl.dtl.fairmetadata4j.utils.vocabulary.DATACITE;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
 /**
  * Identifier object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-29
  * @version 0.1
  */
 public class Identifier {
+
     private IRI uri;
-    private IRI type = DataCite.IDENTIFIER;
+    private IRI type = DATACITE.IDENTIFIER;
     private Literal identifier;
 
     /**
@@ -85,5 +86,5 @@ public class Identifier {
     public void setUri(IRI uri) {
         this.uri = uri;
     }
-    
+
 }

@@ -29,39 +29,38 @@ package nl.dtl.fairmetadata4j.io;
 
 import java.util.ArrayList;
 import java.util.List;
-import nl.dtl.fairmetadata4j.model.Identifier;
+import nl.dtl.fairmetadata4j.model.Metric;
 import nl.dtl.fairmetadata4j.utils.ExampleFilesUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Statement;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
 
 /**
- * Unit tests for IdentifierParser.
+ * Unit tests for MetricParser.
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-30
+ * @since 2018-01-17
  * @version 0.1
  */
-public class IdentifierParserTest {
-
+public class MetricParserTest {
+    
     private final List<Statement> STMTS = ExampleFilesUtils.getFileContentAsStatements(
             ExampleFilesUtils.FDP_METADATA_FILE, ExampleFilesUtils.FDP_URI.toString());
 
     /**
-     * Test null id uri, this test is expected to throw exception
+     * Test null metrics uri, this test is expected to throw exception
      *
      * @throws Exception
      */
     @Test(expected = NullPointerException.class)
-    public void testParseNullIDUri() throws Exception {
-        System.out.println("Test : Parse null id uri");
-        IRI identifierURI = null;
-        IdentifierParser.parse(STMTS, identifierURI);
-        fail("This test is execpeted to throw an error");
+    public void testParseNullMetricUri() throws Exception {
+        IRI merticURI = null;
+        MetricParser.parse(STMTS, merticURI);
     }
-
+    
     /**
      * Test null rdf statements, this test is expected to throw exception
      *
@@ -69,12 +68,10 @@ public class IdentifierParserTest {
      */
     @Test(expected = NullPointerException.class)
     public void testParseNullStatements() throws Exception {
-        System.out.println("Test : Parse null statements");
-        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
-        IdentifierParser.parse(null, identifierURI);
-        fail("This test is execpeted to throw an error");
+        List<Statement> statements = null;
+        MetricParser.parse(statements, ExampleFilesUtils.METRIC1_URI);
     }
-
+    
     /**
      * Test empty rdf statements, this test is expected to throw exception
      *
@@ -82,33 +79,30 @@ public class IdentifierParserTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testParseEmptyStatements() throws Exception {
-        System.out.println("Test : Parse empty statements");
         List<Statement> statements = new ArrayList();
-        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
-        IdentifierParser.parse(statements, identifierURI);
-        fail("This test is execpeted to throw an error");
-    }
-
+        MetricParser.parse(statements, ExampleFilesUtils.METRIC1_URI);
+    }    
+    
     /**
-     * Test valid metadata id.
+     * Wrong metric URI
+     *
+     * @throws Exception
      */
     @Test
-    public void testValidMetadataID() {
-        System.out.println("Parse fdp metadata ID");
-        IRI identifierURI = ExampleFilesUtils.FDP_METADATA_ID_URI;
-        Identifier result = IdentifierParser.parse(STMTS, identifierURI);
-        assertNotNull(result);
+    public void testWrongMetricUri() throws Exception {
+        Metric m = MetricParser.parse(STMTS, ExampleFilesUtils.BIOSEM_ACCESS_RIGHTS_URI);
+        assertNull(m.getUri());
     }
-
+    
     /**
-     * Test valid repo id.
+     * Correct metric URI
+     *
+     * @throws Exception
      */
     @Test
-    public void testValidRepoID() {
-        System.out.println("Parse fdp repo ID");
-        IRI identifierURI = ExampleFilesUtils.FDP_REPO_ID_URI;
-        Identifier result = IdentifierParser.parse(STMTS, identifierURI);
-        assertNotNull(result);
-    }
-
+    public void testCorrectMetricUri() throws Exception {
+        Metric m = MetricParser.parse(STMTS, ExampleFilesUtils.METRIC1_URI);
+        assertNotNull(m.getUri());
+    }  
+    
 }

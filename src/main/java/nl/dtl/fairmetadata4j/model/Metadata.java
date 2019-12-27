@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,8 @@
  */
 package nl.dtl.fairmetadata4j.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
@@ -30,12 +32,9 @@ import org.eclipse.rdf4j.model.Literal;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
 /**
  * Metadata object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
@@ -51,10 +50,13 @@ public class Metadata {
     private Literal description;
     private IRI license;
     private IRI rights;
+    private AccessRights accessRights;
     private IRI uri;
+    private IRI specification;
     private IRI parentURI;
     private IRI language;
     private Agent publisher;
+    private List<Metric> metrics = new ArrayList();
 
     /**
      * @param title the title to set
@@ -118,6 +120,7 @@ public class Metadata {
     public void setUri(IRI uri) {
         this.uri = uri;
     }
+
     /**
      * @return the title
      */
@@ -179,7 +182,7 @@ public class Metadata {
      */
     public IRI getUri() {
         return uri;
-    }    
+    }
 
     /**
      * @return the publisher
@@ -193,7 +196,7 @@ public class Metadata {
      */
     public IRI getLanguage() {
         return language;
-    }   
+    }
 
     /**
      * @param language the language to set
@@ -221,5 +224,49 @@ public class Metadata {
      */
     public void setPublisher(Agent publisher) {
         this.publisher = publisher;
+    }
+
+    /**
+     * @return the specification
+     */
+    public IRI getSpecification() {
+        return specification;
+    }
+
+    /**
+     * @param specification the specification to set
+     */
+    public void setSpecification(IRI specification) {
+        this.specification = specification;
+    }
+
+    /**
+     * @return the accessRights
+     */
+    public AccessRights getAccessRights() {
+        return accessRights;
+    }
+
+    /**
+     * @param accessRights the accessRights to set
+     */
+    public void setAccessRights(AccessRights accessRights) {
+        this.accessRights = accessRights;
+    }
+    
+    
+
+    /**
+     * @return the metrics
+     */
+    public List<Metric> getMetrics() {
+        return metrics;
+    }
+
+    /**
+     * @param metrics the metrics to set
+     */
+    public void setMetrics(List<Metric> metrics) {
+        this.metrics = metrics;
     }
 }

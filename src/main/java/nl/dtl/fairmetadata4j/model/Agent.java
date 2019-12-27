@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,19 +31,18 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 
-
-
 /**
  * Agent object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-11-30
  * @version 0.1
  */
 public class Agent {
-    
+
     private IRI uri;
+    private IRI mbox;
     private IRI type = FOAF.AGENT;
     private Literal name;
 
@@ -89,5 +88,18 @@ public class Agent {
         this.name = name;
     }
 
-    
+    /**
+     * @return the mbox
+     */
+    public IRI getMbox() {
+        return mbox;
+    }
+
+    /**
+     * @param mbox the mbox to set
+     */
+    public void setMbox(IRI mbox) {
+        this.mbox = mbox;
+    }
+
 }

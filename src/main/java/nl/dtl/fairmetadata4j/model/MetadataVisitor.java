@@ -20,29 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.dtl.fairmetadata4j.io;
+package nl.dtl.fairmetadata4j.model;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
- * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-09-06
- * @version 0.1
- */
-public class MetadataException extends Exception {
+public interface MetadataVisitor {
+    void visit(FDPMetadata metadata);
 
-    /**
-     * Constructs an instance of <code>CatalogMetadataExeception</code> with the specified detail
-     * message.
-     *
-     * @param msg the detail message.
-     */
-    public MetadataException(String msg) {
-        super(msg);
-    }
+    void visit(CatalogMetadata metadata);
+
+    void visit(DatasetMetadata metadata);
+
+    void visit(DistributionMetadata metadata);
+
+    void visit(DataRecordMetadata metadata);
 }

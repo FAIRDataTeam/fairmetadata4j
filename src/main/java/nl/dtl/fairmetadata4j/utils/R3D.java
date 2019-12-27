@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,29 +25,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.dtl.fairmetadata4j.utils.vocabulary;
+package nl.dtl.fairmetadata4j.utils;
 
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
-
-
 /**
- * DataCite vocabulary.
- * See {@link <a href="http://www.sparontologies.net/ontologies/datacite/source.html">DataCite Vocabulary</a>}.
- * 
+ * Class contains missing Re3Data properties
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-29
+ * @since 2017-04-28
  * @version 0.1
  */
-public class DataCite {
-    
-    private static final ValueFactory f = SimpleValueFactory.getInstance();
-    public static final String PREFIX = "dataCite";        
-    public static final String NAMESPACE = "http://purl.org/spar/datacite/";
-    public static final IRI IDENTIFIER = f.createIRI(NAMESPACE + "Identifier");
-    public static final IRI RESOURCE_IDENTIFIER = 
-            f.createIRI(NAMESPACE + "ResourceIdentifier");
+public class R3D {
+
+    public static IRI INSTITUTIONCOUNTRY = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.R3D.NAMESPACE, "institutionCountry");
+    public static IRI LASTUPDATE = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtl.fairmetadata4j.utils.vocabulary.R3D.NAMESPACE, "lastUpdate");
+
 }

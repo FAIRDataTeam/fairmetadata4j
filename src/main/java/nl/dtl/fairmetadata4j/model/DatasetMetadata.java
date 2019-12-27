@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,6 @@ package nl.dtl.fairmetadata4j.model;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.rdf4j.model.IRI;
@@ -36,19 +34,19 @@ import org.eclipse.rdf4j.model.Literal;
 
 /**
  * Dataset metadata object
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  * @since 2016-09-06
  * @version 0.1
  */
 public final class DatasetMetadata extends Metadata {
-    
+
     private List<IRI> distributions = new ArrayList();
     private List<IRI> themes = new ArrayList();
     private IRI contactPoint;
     private List<Literal> keywords = new ArrayList();
-    private IRI landingPage;   
+    private IRI landingPage;
     private Literal datasetIssued;
     private Literal datasetModified;
 
@@ -86,7 +84,7 @@ public final class DatasetMetadata extends Metadata {
     public void setLandingPage(IRI landingPage) {
         this.landingPage = landingPage;
     }
-    
+
     /**
      * @return the distributions
      */
@@ -148,5 +146,9 @@ public final class DatasetMetadata extends Metadata {
      */
     public void setDatasetModified(Literal datasetModified) {
         this.datasetModified = datasetModified;
+    }
+
+    public void accept(MetadataVisitor visitor) {
+        visitor.visit(this);
     }
 }

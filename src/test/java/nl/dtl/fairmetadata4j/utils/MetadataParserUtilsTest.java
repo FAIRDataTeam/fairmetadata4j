@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,6 @@
  */
 package nl.dtl.fairmetadata4j.utils;
 
-import nl.dtl.fairmetadata4j.utils.MetadataParserUtils;
 import nl.dtl.fairmetadata4j.io.CatalogMetadataParser;
 import nl.dtl.fairmetadata4j.io.DataRecordMetadataParser;
 import nl.dtl.fairmetadata4j.io.DatasetMetadataParser;
@@ -39,7 +38,7 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for MetadataParserUtils class
- * 
+ *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
  */
@@ -51,8 +50,7 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetFdpParser() {
         System.out.println("getFdpParser");
-        assertThat(MetadataParserUtils.getFdpParser(), 
-                instanceOf(FDPMetadataParser.class));
+        assertThat(MetadataParserUtils.getFdpParser(), instanceOf(FDPMetadataParser.class));
     }
 
     /**
@@ -61,8 +59,7 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetCatalogParser() {
         System.out.println("getCatalogParser");
-        assertThat(MetadataParserUtils.getCatalogParser(), 
-                instanceOf(CatalogMetadataParser.class));
+        assertThat(MetadataParserUtils.getCatalogParser(), instanceOf(CatalogMetadataParser.class));
     }
 
     /**
@@ -71,8 +68,7 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetDatasetParser() {
         System.out.println("getDatasetParser");
-        assertThat(MetadataParserUtils.getDatasetParser(), 
-                instanceOf(DatasetMetadataParser.class));
+        assertThat(MetadataParserUtils.getDatasetParser(), instanceOf(DatasetMetadataParser.class));
     }
 
     /**
@@ -81,7 +77,7 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetDistributionParser() {
         System.out.println("getDistributionParser");
-        assertThat(MetadataParserUtils.getDistributionParser(), 
+        assertThat(MetadataParserUtils.getDistributionParser(),
                 instanceOf(DistributionMetadataParser.class));
     }
 
@@ -91,8 +87,8 @@ public class MetadataParserUtilsTest {
     @Test
     public void testGetDataRecordParser() {
         System.out.println("getDataRecordParser");
-        assertThat(MetadataParserUtils.getDataRecordParser(), 
+        assertThat(MetadataParserUtils.getDataRecordParser(),
                 instanceOf(DataRecordMetadataParser.class));
     }
-    
+
 }

@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,23 +28,19 @@
 package nl.dtl.fairmetadata4j.io;
 
 import java.util.List;
-
 import javax.annotation.Nonnull;
-
 import org.apache.logging.log4j.LogManager;
-
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
-
 import nl.dtl.fairmetadata4j.model.CatalogMetadata;
 import nl.dtl.fairmetadata4j.utils.RDFUtils;
-import nl.dtl.fairmetadata4j.utils.vocabulary.DCAT;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCAT;
 import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
@@ -76,12 +72,9 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      * @return CatalogMetadata object
      */
     @Override
-    public CatalogMetadata parse(@Nonnull List<Statement> statements,
-            @Nonnull IRI catalogURI) {
-        Preconditions.checkNotNull(catalogURI,
-                "Catalog URI must not be null.");
-        Preconditions.checkNotNull(statements,
-                "Catalog statements must not be null.");
+    public CatalogMetadata parse(@Nonnull List<Statement> statements, @Nonnull IRI catalogURI) {
+        Preconditions.checkNotNull(catalogURI, "Catalog URI must not be null.");
+        Preconditions.checkNotNull(statements, "Catalog statements must not be null.");
         LOGGER.info("Parsing catalog metadata");
 
         CatalogMetadata metadata = super.parse(statements, catalogURI);
@@ -97,18 +90,18 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
                     metadata.setHomepage((IRI) object);
                 } else if (predicate.equals(DCAT.THEME_TAXONOMY)) {
                     metadata.getThemeTaxonomys().add((IRI) object);
-                } else if (predicate.equals(DCAT.DATASET)) {
+                } else if (predicate.equals(DCAT.HAS_DATASET)) {
                     datasets.add((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
-                    metadata.setCatalogIssued(f.createLiteral(object.
-                            stringValue(), XMLSchema.DATETIME));
+                    metadata.setCatalogIssued(f.createLiteral(object.stringValue(),
+                            XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.MODIFIED)) {
-                    metadata.setCatalogModified(f.createLiteral(object.
-                            stringValue(), XMLSchema.DATETIME));
+                    metadata.setCatalogModified(f.createLiteral(object.stringValue(),
+                            XMLSchema.DATETIME));
                 }
             }
         }
-        if(!datasets.isEmpty()) {
+        if (!datasets.isEmpty()) {
             metadata.setDatasets(datasets);
         }
         return metadata;
@@ -124,23 +117,17 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      * @return CatalogMetadata object
      * @throws MetadataParserException
      */
-    public CatalogMetadata parse(@Nonnull String catalogMetadata,
-            @Nonnull IRI catalogURI, IRI fdpURI, @Nonnull RDFFormat format)
-            throws MetadataParserException {
-        Preconditions.checkNotNull(catalogMetadata,
-                "Catalog metadata string must not be null.");
+    public CatalogMetadata parse(@Nonnull String catalogMetadata, @Nonnull IRI catalogURI,
+            IRI fdpURI, @Nonnull RDFFormat format) throws MetadataParserException {
+        Preconditions.checkNotNull(catalogMetadata, "Catalog metadata string must not be null.");
         Preconditions.checkNotNull(catalogURI, "Catalog URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-
-        Preconditions.checkArgument(!catalogMetadata.isEmpty(),
-                "The catalog metadata content can't be EMPTY");
-        List<Statement> statements = RDFUtils.getStatements(catalogMetadata,
-                catalogURI, format);
-
-            CatalogMetadata metadata = this.parse(statements, catalogURI);
-            metadata.setParentURI(fdpURI);
-
-            return metadata;
+        Preconditions.checkArgument(!catalogMetadata.isEmpty(), "The catalog metadata content "
+                + "can't be EMPTY");
+        List<Statement> statements = RDFUtils.getStatements(catalogMetadata, catalogURI, format);
+        CatalogMetadata metadata = this.parse(statements, catalogURI);
+        metadata.setParentURI(fdpURI);
+        return metadata;
     }
 
     /**
@@ -152,21 +139,16 @@ public class CatalogMetadataParser extends MetadataParser<CatalogMetadata> {
      * @return CatalogMetadata object
      * @throws MetadataParserException
      */
-    public CatalogMetadata parse(@Nonnull String catalogMetadata,
-            IRI baseURI, @Nonnull RDFFormat format)
-            throws MetadataParserException {
-        Preconditions.checkNotNull(catalogMetadata,
-                "Catalog metadata string must not be null.");
+    public CatalogMetadata parse(@Nonnull String catalogMetadata, IRI baseURI,
+            @Nonnull RDFFormat format) throws MetadataParserException {
+        Preconditions.checkNotNull(catalogMetadata, "Catalog metadata string must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-
-        Preconditions.checkArgument(!catalogMetadata.isEmpty(),
-                "The catalog metadata content can't be EMPTY");
-            List<Statement> statements = RDFUtils.getStatements(catalogMetadata,
-                baseURI, format);
-            IRI catalogURI = (IRI) statements.get(0).getSubject();
-            CatalogMetadata metadata = this.parse(statements, catalogURI);
-            metadata.setUri(null);
-            return metadata;
+        Preconditions.checkArgument(!catalogMetadata.isEmpty(), "The catalog metadata content "
+                + "can't be EMPTY");
+        List<Statement> statements = RDFUtils.getStatements(catalogMetadata, baseURI, format);
+        IRI catalogURI = (IRI) statements.get(0).getSubject();
+        CatalogMetadata metadata = this.parse(statements, catalogURI);
+        metadata.setUri(null);
+        return metadata;
     }
-
 }

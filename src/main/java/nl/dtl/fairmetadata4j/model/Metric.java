@@ -20,29 +20,69 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.dtl.fairmetadata4j.io;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package nl.dtl.fairmetadata4j.model;
+
+import org.eclipse.rdf4j.model.IRI;
+
 /**
+ * Metric object
  *
  * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
  * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-09-06
+ * @since 2018-01-16
  * @version 0.1
  */
-public class MetadataException extends Exception {
+public class Metric {  
+    
+    private IRI uri;
+    private IRI value;
+    private IRI metricType;
 
     /**
-     * Constructs an instance of <code>CatalogMetadataExeception</code> with the specified detail
-     * message.
-     *
-     * @param msg the detail message.
+     * @return the uri
      */
-    public MetadataException(String msg) {
-        super(msg);
+    public IRI getUri() {
+        return uri;
     }
+
+    /**
+     * @param uri the uri to set
+     */
+    public void setUri(IRI uri) {
+        this.uri = uri;
+    }
+
+    /**
+     * @return the value
+     */
+    public IRI getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(IRI value) {
+        this.value = value;
+    }
+
+    /**
+     * @return the metricType
+     */
+    public IRI getMetricType() {
+        return metricType;
+    }
+
+    /**
+     * @param metricType the metricType to set
+     */
+    public void setMetricType(IRI metricType) {
+        this.metricType = metricType;
+    }
+    
 }

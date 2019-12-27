@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright © 2017 DTL
+ * Copyright © 2019 DTL
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import nl.dtl.fairmetadata4j.model.DatasetMetadata;
 import nl.dtl.fairmetadata4j.utils.RDFUtils;
-import nl.dtl.fairmetadata4j.utils.vocabulary.DCAT;
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
@@ -42,6 +41,7 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCAT;
 import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -72,12 +72,9 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
      * @return DatasetMetadata object
      */
     @Override
-    public DatasetMetadata parse(@Nonnull List<Statement> statements,
-            @Nonnull IRI datasetURI) {
-        Preconditions.checkNotNull(datasetURI,
-                "Dataset URI must not be null.");
-        Preconditions.checkNotNull(statements,
-                "Dataset statements must not be null.");
+    public DatasetMetadata parse(@Nonnull List<Statement> statements, @Nonnull IRI datasetURI) {
+        Preconditions.checkNotNull(datasetURI, "Dataset URI must not be null.");
+        Preconditions.checkNotNull(statements, "Dataset statements must not be null.");
         LOGGER.info("Parsing dataset metadata");
         DatasetMetadata metadata = super.parse(statements, datasetURI);
         List<IRI> distributions = new ArrayList();
@@ -95,16 +92,15 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
                 } else if (predicate.equals(DCAT.CONTACT_POINT)) {
                     metadata.setContactPoint((IRI) object);
                 } else if (predicate.equals(DCAT.KEYWORD)) {
-                    keywords.add(f.createLiteral(object.
-                            stringValue(), XMLSchema.STRING));
-                } else if (predicate.equals(DCAT.DISTRIBUTION)) {
+                    keywords.add(f.createLiteral(object.stringValue(), XMLSchema.STRING));
+                } else if (predicate.equals(DCAT.HAS_DISTRIBUTION)) {
                     distributions.add((IRI) object);
                 } else if (predicate.equals(DCTERMS.ISSUED)) {
-                    metadata.setDatasetIssued(f.createLiteral(object.
-                            stringValue(), XMLSchema.DATETIME));
+                    metadata.setDatasetIssued(f.createLiteral(object.stringValue(),
+                            XMLSchema.DATETIME));
                 } else if (predicate.equals(DCTERMS.MODIFIED)) {
-                    metadata.setDatasetModified(f.createLiteral(object.
-                            stringValue(), XMLSchema.DATETIME));
+                    metadata.setDatasetModified(f.createLiteral(object.stringValue(),
+                            XMLSchema.DATETIME));
                 }
             }
         }
@@ -123,19 +119,14 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
      * @return DatasetMetadata object
      * @throws MetadataParserException
      */
-    public DatasetMetadata parse(@Nonnull String datasetMetadata,
-            @Nonnull IRI datasetURI, IRI catalogURI,
-            @Nonnull RDFFormat format)
-            throws MetadataParserException {
-        Preconditions.checkNotNull(datasetMetadata,
-                "Dataset metadata string must not be null.");
+    public DatasetMetadata parse(@Nonnull String datasetMetadata, @Nonnull IRI datasetURI,
+            IRI catalogURI, @Nonnull RDFFormat format) throws MetadataParserException {
+        Preconditions.checkNotNull(datasetMetadata, "Dataset metadata string must not be null.");
         Preconditions.checkNotNull(datasetURI, "Dataset URI must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-
         Preconditions.checkArgument(!datasetMetadata.isEmpty(),
                 "The dataset metadata content can't be EMPTY");
-        List<Statement> statements = RDFUtils.getStatements(datasetMetadata,
-                datasetURI, format);
+        List<Statement> statements = RDFUtils.getStatements(datasetMetadata, datasetURI, format);
         DatasetMetadata metadata = this.parse(statements, datasetURI);
         metadata.setParentURI(catalogURI);
         return metadata;
@@ -150,22 +141,17 @@ public class DatasetMetadataParser extends MetadataParser<DatasetMetadata> {
      * @return DatasetMetadata object
      * @throws MetadataParserException
      */
-    public DatasetMetadata parse(@Nonnull String datasetMetadata,
-            IRI baseURI, @Nonnull RDFFormat format)
-            throws MetadataParserException {
-        Preconditions.checkNotNull(datasetMetadata,
-                "Dataset metadata string must not be null.");
+    public DatasetMetadata parse(@Nonnull String datasetMetadata, IRI baseURI,
+            @Nonnull RDFFormat format) throws MetadataParserException {
+        Preconditions.checkNotNull(datasetMetadata, "Dataset metadata string must not be null.");
         Preconditions.checkNotNull(format, "RDF format must not be null.");
-
         Preconditions.checkArgument(!datasetMetadata.isEmpty(),
                 "The dataset metadata content can't be EMPTY");
-        List<Statement> statements = RDFUtils.getStatements(datasetMetadata,
-                baseURI, format);
+        List<Statement> statements = RDFUtils.getStatements(datasetMetadata, baseURI, format);
         IRI datasetURI = (IRI) statements.get(0).getSubject();
         DatasetMetadata metadata = this.parse(statements, datasetURI);
         metadata.setUri(null);
         return metadata;
-
-    }    
+    }
 
 }
