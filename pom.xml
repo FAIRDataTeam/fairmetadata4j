@@ -4,7 +4,7 @@
 
     <groupId>nl.dtls</groupId>
     <artifactId>fairmetadata4j</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}${changelist}</version>
     <packaging>jar</packaging>
 
     <name>fairmetadata4j</name>
@@ -48,6 +48,13 @@
         <coveralls-maven.version>4.3.0</coveralls-maven.version>
         <license-maven-plugin-version>3.0</license-maven-plugin-version>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <url>https://toolshed.fair-dtls.surf-hosted.nl/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -185,6 +192,25 @@
                         <version>${javax_xml_bind.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.5.1</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <serverId>nexus</serverId>
+                    <nexusUrl>https://toolshed.fair-dtls.surf-hosted.nl</nexusUrl>
+                    <skipStaging>true</skipStaging>
+                </configuration>
             </plugin>
         </plugins>
     </build>
