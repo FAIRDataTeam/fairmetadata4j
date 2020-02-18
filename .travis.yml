@@ -1,8 +1,35 @@
 language: java
+
 jdk:
   - openjdk11
+
 cache:
   directories:
     - $HOME/.m2
-after_success:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report coveralls:report
+
+install: skip
+
+jobs:
+  include:
+    - stage: build
+      install: skip
+      script:
+        - mvn package
+      after_success:
+        - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report coveralls:report
+
+    - stage: deploy (branch)
+      if: (type = push) AND (NOT ((branch =~ ^release) OR (branch =~ ^v\d+\.\d+\.\d+)))
+      env:
+        - MVN_BRANCH=`echo $TRAVIS_BRANCH | sed 's#/#-#g'`
+      install: skip
+      script:
+        - cp .travis.settings.xml $HOME/.m2/settings.xml
+        - mvn deploy -DskipTests -Dchangelist=.$MVN_BRANCH
+
+    - stage: deploy (release)
+      if: (tag =~ ^v\d+\.\d+\.\d+$)
+      install: skip
+      script:
+        - cp .travis.settings.xml $HOME/.m2/settings.xml
+        - mvn deploy -DskipTests -Dchangelist=.RELEASE
