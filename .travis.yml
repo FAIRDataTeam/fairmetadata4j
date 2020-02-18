@@ -7,12 +7,12 @@ cache:
   directories:
     - $HOME/.m2
 
-install: false
+install: skip
 
 jobs:
   include:
     - stage: build
-      install: false
+      install: skip
       script:
         - mvn package
       after_success:
@@ -22,14 +22,14 @@ jobs:
       if: (type = push) AND (NOT ((branch =~ ^release) OR (branch =~ ^v\d+\.\d+\.\d+)))
       env:
         - MVN_BRANCH=`echo $TRAVIS_BRANCH | sed 's#/#-#g'`
-      install: false
+      install: skip
       script:
         - cp .travis.settings.xml $HOME/.m2/settings.xml
         - mvn deploy -DskipTests -Dchangelist=.$MVN_BRANCH
 
     - stage: deploy (release)
       if: (tag =~ ^v\d+\.\d+\.\d+$)
-      install: false
+      install: skip
       script:
         - cp .travis.settings.xml $HOME/.m2/settings.xml
         - mvn deploy -DskipTests -Dchangelist=.RELEASE
