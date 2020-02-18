@@ -37,8 +37,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         
-        <jackson.version>2.10.0.pr1</jackson.version>
-        <rdf4j.version>3.0.0</rdf4j.version>
+        <jackson.version>2.10.0.pr3</jackson.version>
+        <rdf4j.version>3.0.1</rdf4j.version>
         <junit.version>4.12</junit.version>
         <mockit-core.version>3.0.0</mockit-core.version>
         <logging_log4j.version>2.12.1</logging_log4j.version>
