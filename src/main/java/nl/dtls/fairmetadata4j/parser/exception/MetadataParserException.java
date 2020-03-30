@@ -25,28 +25,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.dtls.fairmetadata4j.model;
+package nl.dtls.fairmetadata4j.parser.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
+public class MetadataParserException extends MetadataException {
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class Agent {
-
-    private IRI uri;
-
-    private IRI mbox;
-
-    private IRI type = FOAF.AGENT;
-
-    private Literal name;
+    public MetadataParserException(String msg) {
+        super(msg);
+    }
 
 }

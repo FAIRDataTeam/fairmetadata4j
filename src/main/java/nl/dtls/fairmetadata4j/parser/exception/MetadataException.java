@@ -20,33 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package nl.dtls.fairmetadata4j.model;
+package nl.dtls.fairmetadata4j.parser.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
+public class MetadataException extends Exception {
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class Agent {
-
-    private IRI uri;
-
-    private IRI mbox;
-
-    private IRI type = FOAF.AGENT;
-
-    private Literal name;
+    public MetadataException(String msg) {
+        super(msg);
+    }
 
 }

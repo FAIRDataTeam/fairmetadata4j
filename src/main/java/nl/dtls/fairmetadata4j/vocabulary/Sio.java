@@ -25,28 +25,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.dtls.fairmetadata4j.model;
+package nl.dtls.fairmetadata4j.vocabulary;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class Agent {
+/**
+ * Semanticscience Integrated Ontology. See {@link
+ * <a href="https://bioportal.bioontology.org/ontologies/SIO">Semanticscience Integrated Ontology</a>}.
+ *
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
+ * @version 0.1
+ * @since 2018-01-17
+ */
+public class Sio {
 
-    private IRI uri;
-
-    private IRI mbox;
-
-    private IRI type = FOAF.AGENT;
-
-    private Literal name;
+    private static final ValueFactory f = SimpleValueFactory.getInstance();
+    public static final String PREFIX = "sio";
+    public static final String NAMESPACE = "http://semanticscience.org/resource/";
+    public static final IRI REFERS_TO = f.createIRI(NAMESPACE + "SIO_000628");
+    public static final IRI IS_ABOUT = f.createIRI(NAMESPACE + "SIO_000332");
 
 }
