@@ -27,64 +27,24 @@
  */
 package nl.dtls.fairmetadata4j.model;
 
-import nl.dtls.fairmetadata4j.utils.vocabulary.DATACITE;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import nl.dtls.fairmetadata4j.vocabulary.DATACITE;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
-/**
- * Identifier object
- *
- * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
- * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2016-11-29
- * @version 0.1
- */
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Identifier {
 
     private IRI uri;
+
     private IRI type = DATACITE.IDENTIFIER;
+
     private Literal identifier;
-
-    /**
-     * @return the type
-     */
-    public IRI getType() {
-        return type;
-    }
-
-    /**
-     * @param type the type to set
-     */
-    public void setType(IRI type) {
-        this.type = type;
-    }
-
-    /**
-     * @return the identifier
-     */
-    public Literal getIdentifier() {
-        return identifier;
-    }
-
-    /**
-     * @param identifier the identifier to set
-     */
-    public void setIdentifier(Literal identifier) {
-        this.identifier = identifier;
-    }
-
-    /**
-     * @return the uri
-     */
-    public IRI getUri() {
-        return uri;
-    }
-
-    /**
-     * @param uri the uri to set
-     */
-    public void setUri(IRI uri) {
-        this.uri = uri;
-    }
 
 }

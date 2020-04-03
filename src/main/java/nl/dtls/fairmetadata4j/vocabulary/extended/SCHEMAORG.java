@@ -25,28 +25,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.dtls.fairmetadata4j.model;
+package nl.dtls.fairmetadata4j.vocabulary.extended;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class Agent {
+/**
+ * Class contains missing schema.org properties
+ *
+ * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
+ * @author Kees Burger <kees.burger@dtls.nl>
+ * @version 0.1
+ * @since 2017-04-28
+ */
+public class SCHEMAORG {
 
-    private IRI uri;
-
-    private IRI mbox;
-
-    private IRI type = FOAF.AGENT;
-
-    private Literal name;
-
+    public static IRI FILE_FORMAT = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtls.fairmetadata4j.vocabulary.SCHEMAORG.NAMESPACE,
+                    "encodingFormat");
+    public static IRI PERSON = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtls.fairmetadata4j.vocabulary.SCHEMAORG.NAMESPACE, "Person");
+    public static IRI ORGANIZATION = SimpleValueFactory.getInstance()
+            .createIRI(nl.dtls.fairmetadata4j.vocabulary.SCHEMAORG.NAMESPACE, "Organization");
 }

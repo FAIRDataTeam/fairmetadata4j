@@ -33,20 +33,29 @@
     </developers>
 
     <properties>
+        <!-- Project -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        
-        <jackson.version>2.10.0.pr1</jackson.version>
+
+        <!-- Maven -->
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <!-- Core -->
         <rdf4j.version>3.0.0</rdf4j.version>
+        <log4j.version>2.12.1</log4j.version>
+        <jsr305.version>3.0.2</jsr305.version>
+        <javax_xml_bind.version>2.3.1</javax_xml_bind.version>
+        <lombok.version>1.18.10</lombok.version>
+
+        <!-- Test -->
         <junit.version>4.12</junit.version>
         <mockit-core.version>3.0.0</mockit-core.version>
-        <logging_log4j.version>2.12.1</logging_log4j.version>
-        <jsr305.version>3.0.2</jsr305.version>
-        <rdf4j-generator.version>0.2.0</rdf4j-generator.version>
-        <javax_xml_bind.version>2.3.1</javax_xml_bind.version>
-        <coveralls-maven.version>4.3.0</coveralls-maven.version>
-        <license-maven-plugin-version>3.0</license-maven-plugin-version>
+
+        <!-- Plugins -->
+        <plugin.maven-compiler.version>3.8.1</plugin.maven-compiler.version>
+        <plugin.license.version>3.0</plugin.license.version>
+        <plugin.coveralls.version>4.3.0</plugin.coveralls.version>
+        <plugin.rdf4j-generator.version>0.2.0</plugin.rdf4j-generator.version>
     </properties>
 
     <distributionManagement>
@@ -60,17 +69,17 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${logging_log4j.version}</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>${logging_log4j.version}</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${logging_log4j.version}</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.rdf4j</groupId>
@@ -81,22 +90,6 @@
             <groupId>org.eclipse.rdf4j</groupId>
             <artifactId>rdf4j-rio-api</artifactId>
             <version>${rdf4j.version}</version>
-        </dependency>        
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -113,6 +106,11 @@
             <artifactId>jsr305</artifactId>
             <version>${jsr305.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -120,7 +118,7 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>${license-maven-plugin-version}</version>
+                <version>${plugin.license.version}</version>
                 <configuration>
                     <header>com/mycila/maven/plugin/license/templates/MIT.txt</header>
                     <properties>
@@ -128,6 +126,7 @@
                     </properties>
                     <excludes>
                         <exclude>pom.xml</exclude>
+                        <exclude>**/maven.config</exclude>
                         <exclude>**/*.ttl</exclude>
                         <exclude>**/*.xml</exclude>
                         <exclude>**/*.yml</exclude>
@@ -145,7 +144,7 @@
             <plugin>
                 <groupId>com.github.kburger</groupId>
                 <artifactId>rdf4j-generator-maven-plugin</artifactId>
-                <version>${rdf4j-generator.version}</version>
+                <version>${plugin.rdf4j-generator.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -154,7 +153,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <package>nl.dtls.fairmetadata4j.utils.vocabulary</package>
+                    <package>nl.dtls.fairmetadata4j.vocabulary</package>
                     <addGeneratedAnnotation>false</addGeneratedAnnotation>
                     <vocabularies>
                         <vocabulary>
@@ -180,7 +179,7 @@
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
-                <version>${coveralls-maven.version}</version>
+                <version>${plugin.coveralls.version}</version>
                 <dependencies>
                     <!--
                     hardcoded dependency and version, 
@@ -210,6 +209,15 @@
                     <serverId>nexus</serverId>
                     <nexusUrl>https://toolshed.fair-dtls.surf-hosted.nl</nexusUrl>
                     <skipStaging>true</skipStaging>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${plugin.maven-compiler.version}</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>

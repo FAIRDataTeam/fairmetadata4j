@@ -27,62 +27,22 @@
  */
 package nl.dtls.fairmetadata4j.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.eclipse.rdf4j.model.IRI;
 
-/**
- * Metric object
- *
- * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
- * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2018-01-16
- * @version 0.1
- */
-public class Metric {  
-    
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class Metric {
+
     private IRI uri;
+
     private IRI value;
+
     private IRI metricType;
 
-    /**
-     * @return the uri
-     */
-    public IRI getUri() {
-        return uri;
-    }
-
-    /**
-     * @param uri the uri to set
-     */
-    public void setUri(IRI uri) {
-        this.uri = uri;
-    }
-
-    /**
-     * @return the value
-     */
-    public IRI getValue() {
-        return value;
-    }
-
-    /**
-     * @param value the value to set
-     */
-    public void setValue(IRI value) {
-        this.value = value;
-    }
-
-    /**
-     * @return the metricType
-     */
-    public IRI getMetricType() {
-        return metricType;
-    }
-
-    /**
-     * @param metricType the metricType to set
-     */
-    public void setMetricType(IRI metricType) {
-        this.metricType = metricType;
-    }
-    
 }
