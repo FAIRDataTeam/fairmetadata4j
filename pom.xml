@@ -41,7 +41,7 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <!-- Core -->
-        <rdf4j.version>3.0.0</rdf4j.version>
+        <rdf4j.version>3.0.1</rdf4j.version>
         <log4j.version>2.12.1</log4j.version>
         <jsr305.version>3.0.2</jsr305.version>
         <javax_xml_bind.version>2.3.1</javax_xml_bind.version>
