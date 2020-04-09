@@ -27,66 +27,23 @@
  */
 package nl.dtls.fairmetadata4j.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 
-/**
- * AccessRights object
- *
- * @author Rajaram Kaliyaperumal <rr.kaliyaperumal@gmail.com>
- * @author Kees Burger <kees.burger@dtls.nl>
- * @since 2017-02-22
- * @version 0.1
- */
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class AccessRights {
-    
+
     private IRI uri;
+
     private Authorization authorization;
+
     private Literal description;
-
-    /**
-     * @return the uri
-     */
-    public IRI getUri() {
-        return uri;
-    }
-
-    /**
-     * @param uri the uri to set
-     */
-    public void setUri(IRI uri) {
-        this.uri = uri;
-    }
-
-    /**
-     * @return the authorization
-     */
-    public Authorization getAuthorization() {
-        return authorization;
-    }
-
-    /**
-     * @param authorization the authorization to set
-     */
-    public void setAuthorization(Authorization authorization) {
-        this.authorization = authorization;
-    }
-    
-    
-
-    /**
-     * @return the description
-     */
-    public Literal getDescription() {
-        return description;
-    }
-
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(Literal description) {
-        this.description = description;
-    }
-
 
 }
