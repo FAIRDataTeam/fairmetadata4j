@@ -61,7 +61,7 @@
     <distributionManagement>
         <repository>
             <id>nexus-releases</id>
-            <url>https://toolshed.fair-dtls.surf-hosted.nl/repository/maven-releases/</url>
+            <url>https://nexus.internal.fairdatapoint.org/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 
@@ -207,7 +207,7 @@
                 </executions>
                 <configuration>
                     <serverId>nexus</serverId>
-                    <nexusUrl>https://toolshed.fair-dtls.surf-hosted.nl</nexusUrl>
+                    <nexusUrl>https://nexus.internal.fairdatapoint.org</nexusUrl>
                     <skipStaging>true</skipStaging>
                 </configuration>
             </plugin>
